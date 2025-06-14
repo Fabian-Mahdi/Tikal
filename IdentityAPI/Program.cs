@@ -2,7 +2,7 @@ using IdentityAPI.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddServices();
+builder.Services.AddAuthenticationDependencyGroup();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
