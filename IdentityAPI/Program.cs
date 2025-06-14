@@ -13,6 +13,8 @@ builder.Services.AddServices();
 
 builder.Services.AddAuthenticationDependencyGroup();
 
+builder.Services.AddExceptionHandler();
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -24,6 +26,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 

@@ -1,6 +1,7 @@
 ﻿using IdentityAPI.Configuration;
 using IdentityAPI.Database;
 using IdentityAPI.Database.Repositories.UserRepository;
+using IdentityAPI.ErrorHandling;
 using IdentityAPI.Services.TokenService;
 using IdentityAPI.Services.TokenService.Impl;
 using IdentityAPI.Services.UserService;
@@ -41,6 +42,21 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddScoped<IUserService, UserService>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddExceptionHandler(this IServiceCollection services)
+    {
+        services.AddProblemDetails(options =>
+        {
+            options.CustomizeProblemDetails = context =>
+            {
+                context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+            };
+        });
+
+        services.AddExceptionHandler<ProblemExceptionHandler>();
 
         return services;
     }

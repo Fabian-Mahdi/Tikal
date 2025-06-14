@@ -20,7 +20,7 @@ public class LoginController : ControllerBase
     }
 
     [HttpPost]
-    public TokenDto Post(string username, string password)
+    public TokenDto Post([FromBody] LoginDto loginDto)
     {
         TokenPair tokenPair = tokenService.GenerateTokenPair(Guid.NewGuid(), "username");
 
