@@ -22,8 +22,9 @@ public class ProblemExceptionHandler : IExceptionHandler
         ProblemDetails problemDetails = new()
         {
             Title = problemException.Error,
-            Detail = problemException.Message
         };
+
+        httpContext.Response.StatusCode = (int)problemException.Status;
 
         return await problemDetailsService.TryWriteAsync(
             new ProblemDetailsContext()
