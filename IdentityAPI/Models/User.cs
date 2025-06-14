@@ -1,0 +1,11 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace IdentityAPI.Models;
+
+public class User
+{
+    [Key]
+    public required Guid Id { get; init; }
+
+    public required string Username { get; init; }
+}

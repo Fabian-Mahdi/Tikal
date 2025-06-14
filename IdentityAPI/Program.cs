@@ -1,3 +1,4 @@
+using IdentityAPI.Database;
 using IdentityAPI.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddConfiguration(builder.Configuration);
 
 builder.Services.AddAuthenticationDependencyGroup();
+
+builder.Services.AddDbContext<IdentityDbContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

@@ -11,6 +11,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.Position));
+        services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.Position));
 
         return services;
     }
