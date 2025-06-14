@@ -29,9 +29,9 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddTransient<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
-        services.AddTransient<UnitOfWork>();
+        services.AddScoped<UnitOfWork>();
 
         return services;
     }
