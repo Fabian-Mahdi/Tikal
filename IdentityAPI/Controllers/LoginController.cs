@@ -20,8 +20,10 @@ public class LoginController : ControllerBase
     }
 
     [HttpPost]
-    public TokenDto Post([FromBody] LoginDto loginDto)
+    public async Task<TokenDto> Post([FromBody] LoginDto loginDto)
     {
+        User user = await userService.GetUser(loginDto.Username, loginDto.Password);
+
         TokenPair tokenPair = tokenService.GenerateTokenPair(Guid.NewGuid(), "username");
 
         HttpContext.Response.Cookies.Append("refreshToken", tokenPair.RefreshToken,
