@@ -3,6 +3,8 @@ using IdentityAPI.Database;
 using IdentityAPI.Database.Repositories.UserRepository;
 using IdentityAPI.Services.TokenService;
 using IdentityAPI.Services.TokenService.Impl;
+using IdentityAPI.Services.UserService;
+using IdentityAPI.Services.UserService.Impl;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -32,6 +34,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<UnitOfWork>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddServices(this IServiceCollection services)
+    {
+        services.AddScoped<IUserService, UserService>();
 
         return services;
     }

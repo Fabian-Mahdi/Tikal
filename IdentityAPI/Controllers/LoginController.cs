@@ -1,6 +1,7 @@
 ﻿using IdentityAPI.Dtos;
 using IdentityAPI.Models;
 using IdentityAPI.Services.TokenService;
+using IdentityAPI.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityAPI.Controllers;
@@ -10,14 +11,16 @@ namespace IdentityAPI.Controllers;
 public class LoginController : ControllerBase
 {
     private readonly ITokenService tokenService;
+    private readonly IUserService userService;
 
-    public LoginController(ITokenService tokenService)
+    public LoginController(ITokenService tokenService, IUserService userService)
     {
         this.tokenService = tokenService;
+        this.userService = userService;
     }
 
     [HttpPost]
-    public TokenDto Post()
+    public TokenDto Post(string username, string password)
     {
         TokenPair tokenPair = tokenService.GenerateTokenPair(Guid.NewGuid(), "username");
 

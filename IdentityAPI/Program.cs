@@ -9,6 +9,8 @@ builder.Services.AddDbContext<IdentityDbContext>();
 
 builder.Services.AddRepositories();
 
+builder.Services.AddServices();
+
 builder.Services.AddAuthenticationDependencyGroup();
 
 builder.Services.AddControllers();
