@@ -1,4 +1,5 @@
-﻿using IdentityAPI.Services.TokenService;
+﻿using IdentityAPI.Models;
+using IdentityAPI.Services.TokenService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityAPI.Controllers;

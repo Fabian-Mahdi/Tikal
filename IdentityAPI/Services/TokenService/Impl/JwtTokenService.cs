@@ -1,5 +1,5 @@
-﻿
-using IdentityAPI.Configuration;
+﻿using IdentityAPI.Configuration;
+using IdentityAPI.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;

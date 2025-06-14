@@ -1,4 +1,4 @@
-﻿namespace IdentityAPI.Services.TokenService;
+﻿namespace IdentityAPI.Models;
 
 public record TokenPair
 {

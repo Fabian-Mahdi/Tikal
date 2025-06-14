@@ -1,4 +1,6 @@
-﻿namespace IdentityAPI.Services.TokenService;
+﻿using IdentityAPI.Models;
+
+namespace IdentityAPI.Services.TokenService;
 
 public interface ITokenService
 {
