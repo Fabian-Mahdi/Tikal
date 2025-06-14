@@ -24,7 +24,7 @@ public class LoginController : ControllerBase
     {
         User user = await userService.GetUser(loginDto.Username, loginDto.Password);
 
-        TokenPair tokenPair = tokenService.GenerateTokenPair(Guid.NewGuid(), "username");
+        TokenPair tokenPair = tokenService.GenerateTokenPair(user);
 
         HttpContext.Response.Cookies.Append("refreshToken", tokenPair.RefreshToken,
             new CookieOptions

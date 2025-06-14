@@ -20,13 +20,13 @@ public class JwtTokenService : ITokenService
         this.options = options.Value;
     }
 
-    public TokenPair GenerateTokenPair(Guid userId, string username)
+    public TokenPair GenerateTokenPair(User user)
     {
         List<Claim> claims =
         [
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new(JwtRegisteredClaimNames.Name, username),
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Name, user.Username),
         ];
 
         SecurityTokenDescriptor accessTokenDescriptor = new()
