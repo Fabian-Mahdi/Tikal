@@ -18,10 +18,10 @@ public class IdentityDbContext : DbContext
     {
         optionsBuilder.UseNpgsql(
             $"Server={options.Host};" +
-            $"Port={options.Port}" +
-            $"Database={options.DatabaseName}" +
-            $"User ID={options.Username}" +
-            $"Password={options.Password}"
+            $"Port={options.Port};" +
+            $"Database={options.DatabaseName};" +
+            $"User ID={options.Username};" +
+            $"Password={options.Password};"
             );
     }
 
