@@ -2,6 +2,8 @@ using IdentityAPI.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddConfiguration(builder.Configuration);
+
 builder.Services.AddAuthenticationDependencyGroup();
 
 builder.Services.AddControllers();
