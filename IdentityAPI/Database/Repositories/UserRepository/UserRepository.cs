@@ -1,4 +1,5 @@
-﻿using IdentityAPI.Models;
+﻿using IdentityAPI.Database.Repositories.UserRepository.Exceptions;
+using IdentityAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IdentityAPI.Database.Repositories.UserRepository;
@@ -12,8 +13,9 @@ public class UserRepository : IUserRepository
         this.context = context;
     }
 
-    public async Task<User?> GetUser(string username, string password)
+    public async Task<User> GetUser(string username, string password)
     {
-        return await context.Users.FirstOrDefaultAsync(user => user.Username == username && user.Password == password);
+        return await context.Users.FirstOrDefaultAsync(user => user.Username == username && user.Password == password)
+            ?? throw new UserNotFoundException();
     }
 }
