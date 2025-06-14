@@ -5,9 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddConfiguration(builder.Configuration);
 
-builder.Services.AddAuthenticationDependencyGroup();
-
 builder.Services.AddDbContext<IdentityDbContext>();
+
+builder.Services.AddRepositories();
+
+builder.Services.AddAuthenticationDependencyGroup();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

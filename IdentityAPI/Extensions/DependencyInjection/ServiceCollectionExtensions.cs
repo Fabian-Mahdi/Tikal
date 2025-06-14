@@ -1,4 +1,6 @@
 ﻿using IdentityAPI.Configuration;
+using IdentityAPI.Database;
+using IdentityAPI.Database.Repositories.UserRepository;
 using IdentityAPI.Services.TokenService;
 using IdentityAPI.Services.TokenService.Impl;
 using Microsoft.IdentityModel.Tokens;
@@ -21,6 +23,15 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<SecurityTokenHandler, JwtSecurityTokenHandler>();
 
         services.AddSingleton<ITokenService, JwtTokenService>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        services.AddTransient<IUserRepository, UserRepository>();
+
+        services.AddTransient<UnitOfWork>();
 
         return services;
     }
