@@ -1,6 +1,31 @@
+using IdentityAPI.Database;
+using IdentityAPI.Extensions;
+using Microsoft.AspNetCore.HttpLogging;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Logging.ClearProviders();
+builder.Logging.ConfigureOpenTelemetry(builder.Configuration);
+
+builder.Services.AddHttpLogging(logging =>
+{
+    logging.LoggingFields = HttpLoggingFields.All;
+    logging.RequestBodyLogLimit = 4096;
+    logging.ResponseBodyLogLimit = 4096;
+    logging.CombineLogs = true;
+});
+
+builder.Services.AddConfiguration(builder.Configuration);
+
+builder.Services.AddDbContext<IdentityDbContext>();
+
+builder.Services.AddRepositories();
+
+builder.Services.AddServices();
+
+builder.Services.AddAuthenticationDependencyGroup();
+
+builder.Services.AddExceptionHandler();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -14,7 +39,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+app.UseHttpLogging();
+
+app.UseExceptionHandler();
 
 app.UseAuthorization();
 
