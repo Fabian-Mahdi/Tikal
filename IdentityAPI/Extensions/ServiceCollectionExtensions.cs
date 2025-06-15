@@ -9,7 +9,7 @@ using IdentityAPI.Services.UserService.Impl;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace IdentityAPI.Extensions.DependencyInjection;
+namespace IdentityAPI.Extensions;
 
 public static class ServiceCollectionExtensions
 {

@@ -1,6 +1,5 @@
 using IdentityAPI.Database;
 using IdentityAPI.Extensions;
-using IdentityAPI.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args);
