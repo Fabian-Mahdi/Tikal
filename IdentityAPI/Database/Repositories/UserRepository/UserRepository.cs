@@ -13,6 +13,13 @@ public class UserRepository : IUserRepository
         this.context = context;
     }
 
+    public async Task<User> CreateUser(User user)
+    {
+        await context.Users.AddAsync(user);
+
+        return user;
+    }
+
     public async Task<User> GetUser(string username, string password)
     {
         return await context.Users.FirstOrDefaultAsync(user => user.Username == username && user.Password == password)

@@ -14,6 +14,15 @@ public class UserService : IUserService
         this.unitOfWork = unitOfWork;
     }
 
+    public async Task<User> CreateUser(User user)
+    {
+        User createdUser = await unitOfWork.UserRepository.CreateUser(user);
+
+        await unitOfWork.Commit();
+
+        return createdUser;
+    }
+
     public async Task<User> GetUser(string username, string password)
     {
         try
