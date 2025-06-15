@@ -16,6 +16,13 @@ public class UserService : IUserService
 
     public async Task<User> CreateUser(User user)
     {
+        bool usernameAvailable = await unitOfWork.UserRepository.GetUsernameAvailability(user.Username);
+
+        if (!usernameAvailable)
+        {
+            throw new DuplicateUsernameException();
+        }
+
         User createdUser = await unitOfWork.UserRepository.CreateUser(user);
 
         await unitOfWork.Commit();

@@ -20,6 +20,11 @@ public class UserRepository : IUserRepository
         return user;
     }
 
+    public async Task<bool> GetUsernameAvailability(string username)
+    {
+        return await context.Users.FirstOrDefaultAsync(u => u.Username == username) is null;
+    }
+
     public async Task<User> GetUser(string username, string password)
     {
         return await context.Users.FirstOrDefaultAsync(user => user.Username == username && user.Password == password)
