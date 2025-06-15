@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace IdentityAPI.Models;
 
+[Index(nameof(Username), IsUnique = true)]
 public class User
 {
     [Key]
