@@ -14,6 +14,11 @@ public class UnitOfWork : IDisposable
         UserRepository = userRepository;
     }
 
+    public async Task Commit()
+    {
+        await context.SaveChangesAsync();
+    }
+
     private bool disposed = false;
 
     protected virtual void Dispose(bool disposing)
