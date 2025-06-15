@@ -6,7 +6,7 @@ namespace IdentityAPI.Database.Exceptions;
 public class UniqueConstraintViolationException : ProblemException
 {
     public UniqueConstraintViolationException()
-        : base("unique constraint violation", HttpStatusCode.Conflict)
+        : base(HttpStatusCode.Conflict)
     {
     }
 }
