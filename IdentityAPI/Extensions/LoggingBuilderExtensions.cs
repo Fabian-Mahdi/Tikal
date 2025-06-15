@@ -1,4 +1,5 @@
 ﻿using OpenTelemetry.Logs;
+using OpenTelemetry.Resources;
 
 namespace IdentityAPI.Extensions;
 
@@ -10,6 +11,11 @@ public static class LoggingBuilderExtensions
 
         builder.AddOpenTelemetry(configure =>
         {
+            configure.SetResourceBuilder(ResourceBuilder.CreateEmpty().AddService("IdentityAPI"));
+
+            configure.IncludeFormattedMessage = true;
+            configure.IncludeScopes = true;
+
             configure.AddOtlpExporter(configure =>
             {
                 configure.Endpoint = new Uri(openTelemetryConfig.GetValue<string>("location") ?? "");
