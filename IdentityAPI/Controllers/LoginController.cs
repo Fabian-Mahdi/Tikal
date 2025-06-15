@@ -1,4 +1,5 @@
 ﻿using IdentityAPI.Dtos;
+using IdentityAPI.Extensions;
 using IdentityAPI.Models;
 using IdentityAPI.Services.TokenService;
 using IdentityAPI.Services.UserService;
@@ -26,13 +27,7 @@ public class LoginController : ControllerBase
 
         TokenPair tokenPair = tokenService.GenerateTokenPair(user);
 
-        HttpContext.Response.Cookies.Append("refreshToken", tokenPair.RefreshToken,
-            new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.None,
-            });
+        HttpContext.Response.Cookies.AddToken("refreshToken", tokenPair.RefreshToken);
 
         return new TokenDto()
         {
