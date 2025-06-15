@@ -43,8 +43,6 @@ app.UseHttpLogging();
 
 app.UseExceptionHandler();
 
-app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
