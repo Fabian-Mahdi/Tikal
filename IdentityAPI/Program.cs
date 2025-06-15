@@ -1,8 +1,12 @@
 using IdentityAPI.Database;
+using IdentityAPI.Extensions;
 using IdentityAPI.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Logging.ConfigureOpenTelemetry(builder.Configuration);
 
 builder.Services.AddHttpLogging(logging =>
 {
