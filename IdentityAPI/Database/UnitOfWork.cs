@@ -1,4 +1,7 @@
-﻿using IdentityAPI.Database.Repositories.UserRepository;
+﻿using IdentityAPI.Database.Exceptions;
+using IdentityAPI.Database.Repositories.UserRepository;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace IdentityAPI.Database;
 
@@ -16,7 +19,24 @@ public class UnitOfWork : IDisposable
 
     public async Task Commit()
     {
-        await context.SaveChangesAsync();
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateException ex)
+        {
+            if (ex.InnerException is not PostgresException postgresException)
+            {
+                throw;
+            }
+
+            switch (postgresException.SqlState)
+            {
+                // for error codes see: https://www.postgresql.org/docs/current/errcodes-appendix.html
+                case "23505":
+                    throw new UniqueConstraintViolationException();
+            }
+        }
     }
 
     private bool disposed = false;
