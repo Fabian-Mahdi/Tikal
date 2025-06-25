@@ -74,7 +74,30 @@ resource "random_password" "db_admin_password" {
 
 resource "azurerm_key_vault_secret" "db_admin_password" {
   key_vault_id = azurerm_key_vault.current.id
-  name         = "dbpassword"
-  content_type = "text/plain"
+  name         = "Database--Password"
   value        = random_password.db_admin_password.result
+}
+
+resource "azurerm_key_vault_secret" "db_admin_username" {
+  key_vault_id = azurerm_key_vault.current.id
+  name         = "Database--Username"
+  value        = var.db_admin_login
+}
+
+resource "azurerm_key_vault_secret" "db_port" {
+  key_vault_id = azurerm_key_vault.current.id
+  name         = "Database--Port"
+  value        = 5432
+}
+
+resource "azurerm_key_vault_secret" "db_host" {
+  key_vault_id = azurerm_key_vault.current.id
+  name         = "Database--Host"
+  value        = azurerm_postgresql_flexible_server.db.fqdn
+}
+
+resource "azurerm_key_vault_secret" "db_namet" {
+  key_vault_id = azurerm_key_vault.current.id
+  name         = "Database--DatabaseName"
+  value        = var.identity_db_name
 }
