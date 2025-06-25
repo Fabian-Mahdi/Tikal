@@ -5,7 +5,16 @@ using Microsoft.AspNetCore.HttpLogging;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
-builder.Logging.ConfigureOpenTelemetry(builder.Configuration);
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Logging.ConfigureDevOpenTelemetry(builder.Configuration);
+}
+else
+{
+    builder.Configuration.ConfigureKeyVault();
+    builder.Services.AddAzureOpenTelemetry(builder.Configuration);
+}
 
 builder.Services.AddHttpLogging(logging =>
 {
@@ -27,6 +36,8 @@ builder.Services.AddAuthenticationDependencyGroup();
 
 builder.Services.AddExceptionHandler();
 
+builder.Services.AddHealthChecks();
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -44,6 +55,8 @@ app.UseHttpLogging();
 app.UseExceptionHandler();
 
 app.UseAuthorization();
+
+app.MapHealthChecks("/healthcheck");
 
 app.MapControllers();
 
