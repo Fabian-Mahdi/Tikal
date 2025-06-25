@@ -46,17 +46,27 @@ resource "azurerm_private_endpoint" "identity-api" {
 }
 
 resource "azurerm_linux_web_app" "identity-api" {
-  name                          = "${var.global_prefix}-${local.identity_prefix}"
-  resource_group_name           = azurerm_resource_group.current.name
-  location                      = azurerm_service_plan.current.location
-  service_plan_id               = azurerm_service_plan.current.id
-  virtual_network_subnet_id     = azurerm_subnet.identity-api.id
-  public_network_access_enabled = false
+  name                      = "${var.global_prefix}-${local.identity_prefix}"
+  resource_group_name       = azurerm_resource_group.current.name
+  location                  = azurerm_service_plan.current.location
+  service_plan_id           = azurerm_service_plan.current.id
+  virtual_network_subnet_id = azurerm_subnet.identity-api.id
 
   site_config {
+    ip_restriction_default_action = "Deny"
+
+    ip_restriction {
+      action = "Allow"
+
+      service_tag = "AzureContainerRegistry"
+    }
+
+    container_registry_use_managed_identity       = true
+    container_registry_managed_identity_client_id = azurerm_user_assigned_identity.identity-api.client_id
+
     application_stack {
       docker_image_name   = var.identity_api_image
-      docker_registry_url = "https://index.docker.io"
+      docker_registry_url = "https://${azurerm_container_registry.current.login_server}"
     }
   }
 
@@ -64,7 +74,6 @@ resource "azurerm_linux_web_app" "identity-api" {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.identity-api.id]
   }
-
 
   app_settings = {
     DOCKER_ENABLE_CI = "true"
@@ -87,4 +96,10 @@ resource "azurerm_key_vault_access_policy" "identity-api" {
     "Get",
     "List"
   ]
+}
+
+resource "azurerm_role_assignment" "identity-api-arc-pull" {
+  scope                = data.azurerm_subscription.current.id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_user_assigned_identity.identity-api.principal_id
 }
