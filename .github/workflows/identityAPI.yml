@@ -14,6 +14,7 @@ jobs:
     strategy:
       matrix:
         dotnet-version: ["9.0.X"]
+        project: ["IdentityAPI", "IdentityAPI.Tests"]
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
@@ -24,11 +25,12 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           cache: true
-          cache-dependency-path: '**/package-lock.json'
-      - name: Enforce main project formatting
-        run: dotnet format .\IdentityAPI\IdentityAPI.csproj whitespace --verify-no-changes --no-restore
-      - name: Enforce unit test project formatting
-        run: dotnet format .\IdentityAPI.Tests\IdentityAPI.Tests.csproj whitespace --verify-no-changes --no-restore
+          cache-dependency-path: './${{ matrix.project }}/packages.lock.json'
+
+      - name: Restore ${{ matrix.project }}
+        run: dotnet restore ./${{ matrix.project }}/${{ matrix.project }}.csproj --locked-mode
+      - name: Enforce formatting for ${{ matrix.project }}
+        run: dotnet format ./${{ matrix.project }}/${{ matrix.project }}.csproj whitespace --verify-no-changes --no-restore
 
   build:
     name: Build and analyze
