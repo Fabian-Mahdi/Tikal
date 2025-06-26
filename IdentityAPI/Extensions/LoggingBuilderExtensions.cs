@@ -5,7 +5,7 @@ namespace IdentityAPI.Extensions;
 
 public static class LoggingBuilderExtensions
 {
-    public static ILoggingBuilder ConfigureOpenTelemetry(this ILoggingBuilder builder, IConfiguration configuration)
+    public static ILoggingBuilder ConfigureDevOpenTelemetry(this ILoggingBuilder builder, IConfiguration configuration)
     {
         IConfigurationSection openTelemetryConfig = configuration.GetSection("Logging:OpenTelemetry");
 
