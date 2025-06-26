@@ -8,6 +8,18 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
+  format:
+    name: Enforce formatting
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        dotnet_version: ["9.0.X"]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Enforce formatting
+        run: dotnet format whitespace --verify-no-changes --no-restore
+
   build:
     name: Build and analyze
     runs-on: windows-latest
