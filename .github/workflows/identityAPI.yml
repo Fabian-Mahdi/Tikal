@@ -14,6 +14,8 @@ jobs:
     strategy:
       matrix:
         dotnet-version: ["9.0.X"]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,8 +23,12 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Enforce formatting
-        run: dotnet format whitespace --verify-no-changes --no-restore
+          cache: true
+          cache-dependency-path: '**/package-lock.json'
+      - name: Enforce main project formatting
+        run: dotnet format .\IdentityAPI\IdentityAPI.csproj whitespace --verify-no-changes --no-restore
+      - name: Enforce unit test project formatting
+        run: dotnet format .\IdentityAPI.Tests\IdentityAPI.Tests.csproj whitespace --verify-no-changes --no-restore
 
   build:
     name: Build and analyze
