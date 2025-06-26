@@ -32,6 +32,39 @@ jobs:
       - name: Enforce formatting for ${{ matrix.project }}
         run: dotnet format ./${{ matrix.project }}/${{ matrix.project }}.csproj whitespace --verify-no-changes --no-restore
 
+  unit-test:
+    name: Execute unit tests
+    needs: format
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        dotnet-version: ["9.0.X"]
+        project: ["IdentityAPI.Tests"]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          cache: true
+          cache-dependency-path: './${{ matrix.project }}/packages.lock.json'
+
+      - name: Restore ${{ matrix.project }}
+        run: dotnet restore ./${{ matrix.project }}/${{ matrix.project }}.csproj --locked-mode
+      - name: Build ${{ matrix.project }}
+        run: dotnet build ./${{ matrix.project }}/${{ matrix.project }}.csproj --configuration Release --no-restore
+      - name: Test ${{ matrix.project }}
+        run: dotnet test ./${{ matrix.project }}/${{ matrix.project }}.csproj --configuration Release --no-build --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-results-${{ matrix.dotnet-version }}
+          path: TestResults-${{ matrix.dotnet-version }}
+        if: ${{ always() }}
+  
   build:
     name: Build and analyze
     runs-on: windows-latest
