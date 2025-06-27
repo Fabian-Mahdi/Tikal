@@ -64,9 +64,10 @@ jobs:
           name: dotnet-results-${{ matrix.dotnet-version }}
           path: TestResults-${{ matrix.dotnet-version }}
         if: ${{ always() }}
-  
+
   build:
     name: Build and analyze
+    needs: unit-test
     runs-on: windows-latest
     steps:
       - name: Set up JDK 17
@@ -90,6 +91,13 @@ jobs:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
       - name: Install SonarQube Cloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
