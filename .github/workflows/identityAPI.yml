@@ -106,7 +106,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('.\IdentityAPI\IdentityAPI.csproj', '.\IdentityAPI.Tests\IdentityAPI.Tests.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
 
@@ -128,7 +128,8 @@ jobs:
         shell: powershell
         run: |
           dotnet build .\IdentityAPI\IdentityAPI.csproj
-          
+          dotnet build .\IdentityAPI.Tests\IdentityAPI.Tests.csproj
+
       - name: End SonarQube Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
