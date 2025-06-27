@@ -1,0 +1,146 @@
+name: IdentityAPI
+on:
+  push:
+    branches:
+      - master
+      - feature/*
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  format:
+    name: Enforce formatting
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        dotnet-version: ["9.0.X"]
+        project: ["IdentityAPI", "IdentityAPI.Tests"]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          cache: true
+          cache-dependency-path: './${{ matrix.project }}/packages.lock.json'
+
+      - name: Restore ${{ matrix.project }}
+        run: dotnet restore ./${{ matrix.project }}/${{ matrix.project }}.csproj --locked-mode
+
+      - name: Enforce formatting for ${{ matrix.project }}
+        run: dotnet format ./${{ matrix.project }}/${{ matrix.project }}.csproj whitespace --verify-no-changes --no-restore
+
+
+  unit-test:
+    name: Execute unit tests
+    needs: format
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        dotnet-version: ["9.0.X"]
+        project: ["IdentityAPI.Tests"]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          cache: true
+          cache-dependency-path: './${{ matrix.project }}/packages.lock.json'
+
+      - name: Restore ${{ matrix.project }}
+        run: dotnet restore ./${{ matrix.project }}/${{ matrix.project }}.csproj --locked-mode
+
+      - name: Build ${{ matrix.project }}
+        run: dotnet build ./${{ matrix.project }}/${{ matrix.project }}.csproj --configuration Release --no-restore
+
+      - name: Test ${{ matrix.project }}
+        run: dotnet test ./${{ matrix.project }}/${{ matrix.project }}.csproj --configuration Release --no-build --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+      
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-results-${{ matrix.dotnet-version }}
+          path: TestResults-${{ matrix.dotnet-version }}
+        if: ${{ always() }}
+
+
+  sonar:
+    name: Sonarqube scan
+    needs: unit-test
+    runs-on: windows-latest
+    steps:
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu'
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Cache SonarQube Cloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache SonarQube Cloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v4
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('.\IdentityAPI\packages.lock.json', '.\IdentityAPI.Tests\packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Install SonarQube Cloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+
+      - name: Install dotnet coverage tool
+        run: dotnet tool install --global dotnet-coverage
+
+      - name: Begin SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"tikal-identity-api" /o:"fmahdi09" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.scanner.scanAll=false /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+      
+      - name: Build Projects
+        shell: powershell
+        run: |
+          dotnet build .\IdentityAPI\IdentityAPI.csproj
+          dotnet build .\IdentityAPI.Tests\IdentityAPI.Tests.csproj
+      
+      - name: Run Tests
+        shell: powershell
+        run: |
+          dotnet-coverage collect "dotnet test .\IdentityAPI.Tests\IdentityAPI.Tests.csproj" -f xml -o "coverage.xml"
+
+      - name: End SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
