@@ -6,9 +6,9 @@ namespace IdentityAPI.Database.Repositories.UserRepository;
 
 public class UserRepository : IUserRepository
 {
-    private readonly IdentityDbContext context;
+    private readonly IDbContext context;
 
-    public UserRepository(IdentityDbContext context)
+    public UserRepository(IDbContext context)
     {
         this.context = context;
     }

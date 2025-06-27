@@ -7,11 +7,11 @@ namespace IdentityAPI.Database;
 
 public class UnitOfWork : IDisposable
 {
-    private readonly IdentityDbContext context;
+    private readonly IDbContext context;
 
     public IUserRepository UserRepository { get; private set; }
 
-    public UnitOfWork(IdentityDbContext context, IUserRepository userRepository)
+    public UnitOfWork(IDbContext context, IUserRepository userRepository)
     {
         this.context = context;
         UserRepository = userRepository;

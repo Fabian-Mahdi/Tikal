@@ -26,7 +26,7 @@ builder.Services.AddHttpLogging(logging =>
 
 builder.Services.AddConfiguration(builder.Configuration);
 
-builder.Services.AddDbContext<IdentityDbContext>();
+builder.Services.AddDbContext<IDbContext, IdentityDbContext>();
 
 builder.Services.AddRepositories();
 

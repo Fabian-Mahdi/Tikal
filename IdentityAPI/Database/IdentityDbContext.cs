@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace IdentityAPI.Database;
 
-public class IdentityDbContext : DbContext
+public class IdentityDbContext : DbContext, IDbContext
 {
     private readonly DatabaseOptions options;
 
