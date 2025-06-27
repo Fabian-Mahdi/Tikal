@@ -73,8 +73,8 @@ jobs:
         if: ${{ always() }}
 
 
-  build:
-    name: Build and analyze
+  sonar:
+    name: Sonarqube scan
     needs: unit-test
     runs-on: windows-latest
     steps:
@@ -117,18 +117,26 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
 
+      - name: Install dotnet coverage tool
+        run: dotnet tool install --global dotnet-coverage
+
       - name: Begin SonarQube Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"tikal-identity-api" /o:"fmahdi09" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.scanner.scanAll=false
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"tikal-identity-api" /o:"fmahdi09" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.scanner.scanAll=false /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
       
       - name: Build Projects
         shell: powershell
         run: |
           dotnet build .\IdentityAPI\IdentityAPI.csproj
           dotnet build .\IdentityAPI.Tests\IdentityAPI.Tests.csproj
+      
+      - name: Run Tests
+        shell: powershell
+        run: |
+          dotnet-coverage collect "dotnet test .\IdentityAPI.Tests\IdentityAPI.Tests.csproj" -f xml -o "coverage.xml"
 
       - name: End SonarQube Analysis
         env:
