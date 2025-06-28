@@ -1,15 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace IdentityAPI.Models;
 
-[Index(nameof(Username), IsUnique = true)]
-public class User
+public class User : IdentityUser
 {
-    [Key]
-    public required Guid Id { get; init; }
-
-    public required string Username { get; init; }
-
-    public required string Password { get; init; }
 }

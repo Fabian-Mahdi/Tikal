@@ -1,15 +1,17 @@
 ﻿using IdentityAPI.Configuration;
 using IdentityAPI.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace IdentityAPI.Database;
 
-public class IdentityDbContext : DbContext, IDbContext
+public class ApplicationDbContext : IdentityDbContext<User>
 {
     private readonly DatabaseOptions options;
 
-    public IdentityDbContext(IOptions<DatabaseOptions> options, DbContextOptions<IdentityDbContext> contextOptions) : base(contextOptions)
+    public ApplicationDbContext(IOptions<DatabaseOptions> options, DbContextOptions<ApplicationDbContext> contextOptions)
+        : base(contextOptions)
     {
         this.options = options.Value;
     }
@@ -24,6 +26,4 @@ public class IdentityDbContext : DbContext, IDbContext
             $"Password={options.Password};"
             );
     }
-
-    public DbSet<User> Users { get; set; }
 }
