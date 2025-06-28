@@ -1,7 +1,12 @@
-﻿namespace IdentityAPI.Dtos;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace IdentityAPI.Dtos;
 
 public record RegisterDto
 {
-    public required string Username { get; init; }
-    public required string Password { get; init; }
+    [Required]
+    public string Username { get; set; } = string.Empty;
+
+    [Required]
+    public string Password { get; set; } = string.Empty;
 }

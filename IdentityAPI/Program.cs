@@ -1,6 +1,8 @@
 using IdentityAPI.Database;
 using IdentityAPI.Extensions;
+using IdentityAPI.Models;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,37 +26,30 @@ builder.Services.AddHttpLogging(logging =>
     logging.CombineLogs = true;
 });
 
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddConfiguration(builder.Configuration);
 
-builder.Services.AddDbContext<IdentityDbContext>();
+builder.Services.AddDbContext<ApplicationDbContext>();
 
-builder.Services.AddRepositories();
-
-builder.Services.AddServices();
-
-builder.Services.AddAuthenticationDependencyGroup();
+builder.Services.AddControllers();
 
 builder.Services.AddExceptionHandler();
 
 builder.Services.AddHealthChecks();
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// seed identity data
+using (var scope = app.Services.CreateScope())
 {
-    app.MapOpenApi();
+    await IdentitySeedData.InitializeAsync(scope.ServiceProvider);
 }
 
 app.UseHttpLogging();
 
 app.UseExceptionHandler();
-
-app.UseAuthorization();
 
 app.MapHealthChecks("/healthcheck");
 

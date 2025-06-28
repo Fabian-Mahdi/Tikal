@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityAPI.ErrorHandling;
+
 
 public class ProblemExceptionHandler : IExceptionHandler
 {
@@ -18,12 +20,23 @@ public class ProblemExceptionHandler : IExceptionHandler
             return true;
         }
 
+        ProblemDetails problemDetails = new()
+        {
+            Title = problemException.Title,
+            Status = problemException.Status,
+            Extensions = new Dictionary<string, object?>()
+            {
+                { "errors", problemException.Errors },
+            }
+        };
+
         httpContext.Response.StatusCode = (int)problemException.Status;
 
         return await problemDetailsService.TryWriteAsync(
             new ProblemDetailsContext()
             {
                 HttpContext = httpContext,
+                ProblemDetails = problemDetails
             });
     }
 }
