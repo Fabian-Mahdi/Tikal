@@ -1,0 +1,15 @@
+services:
+  identityapi:
+    image: ${DOCKER_REGISTRY-}identityapi
+    build:
+      context: .
+      dockerfile: IdentityAPI/Dockerfile
+
+  identitydb:
+    image: postgres:17.5
+
+  pgadmin:
+    image: dpage/pgadmin4
+
+  seq:
+    image: datalust/seq

@@ -7,6 +7,7 @@
     <UserSecretsId>976e23f3-aabe-4819-8875-710c55dfbd4e</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+	<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,10 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<InternalsVisibleTo Include="IdentityAPI.Integration" />
   </ItemGroup>
 
 </Project>

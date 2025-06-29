@@ -1,0 +1,43 @@
+services:
+  identityapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+  identitydb:
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: identitydb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${IDENTITY_DB_PASSWORD:-password}
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data 
+
+  pgadmin:
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dev@domain.com
+      PGADMIN_DEFAULT_PASSWORD: ${PG_ADMIN_DEFAULT_PASSWORD:-password} 
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+  seq:
+    ports:
+      - "5341:80"
+    environment:
+      ACCEPT_EULA: Y
+      SEQ_FIRSTRUN_ADMINPASSWORD: ${SEQ_DEFAULT_PASSWORD:-password}
+    volumes:
+      - seq_data:/data
+
+volumes:
+  local_pgdata:
+  pgadmin-data:
+  seq_data:

@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         dotnet-version: ["9.0.X"]
-        project: ["IdentityAPI", "IdentityAPI.Tests"]
+        project: ["IdentityAPI", "IdentityAPI.Tests", "IdentityAPI.Integration"]
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
@@ -68,14 +68,50 @@ jobs:
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:
-          name: dotnet-results-${{ matrix.dotnet-version }}
+          name: unit-test-results-${{ matrix.dotnet-version }}
           path: TestResults-${{ matrix.dotnet-version }}
         if: ${{ always() }}
 
+  integration-test:
+    name: Execute integration tests
+    needs: unit-test
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        dotnet-version: ["9.0.X"]
+        project: ["IdentityAPI.Integration"]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          cache: true
+          cache-dependency-path: './${{ matrix.project }}/packages.lock.json'
+
+      - name: Restore ${{ matrix.project }}
+        run: dotnet restore ./${{ matrix.project }}/${{ matrix.project }}.csproj --locked-mode
+
+      - name: Build ${{ matrix.project }}
+        run: dotnet build ./${{ matrix.project }}/${{ matrix.project }}.csproj --configuration Release --no-restore
+
+      - name: Test ${{ matrix.project }}
+        run: dotnet test ./${{ matrix.project }}/${{ matrix.project }}.csproj --configuration Release --no-build --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+      
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-results-${{ matrix.dotnet-version }}
+          path: TestResults-${{ matrix.dotnet-version }}
+        if: ${{ always() }}
 
   sonar:
     name: Sonarqube scan
-    needs: unit-test
+    needs: integration-test
     runs-on: windows-latest
     steps:
       - name: Set up JDK 17
@@ -106,7 +142,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('.\IdentityAPI\packages.lock.json', '.\IdentityAPI.Tests\packages.lock.json') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('.\IdentityAPI\packages.lock.json', '.\IdentityAPI.Tests\packages.lock.json', '.\IdentityAPI.Integration\packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
 
@@ -132,6 +168,7 @@ jobs:
         run: |
           dotnet build .\IdentityAPI\IdentityAPI.csproj
           dotnet build .\IdentityAPI.Tests\IdentityAPI.Tests.csproj
+          dotnet build .\IdentityAPI.Integration\IdentityAPI.Integration.csproj
       
       - name: Run Tests
         shell: powershell
