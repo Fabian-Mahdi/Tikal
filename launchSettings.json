@@ -4,7 +4,10 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "identityapi": "StartDebugging"
+        "identityapi": "StartDebugging",
+        "identitydb": "StartWithoutDebugging",
+        "pgadmin": "StartWithoutDebugging",
+        "seq": "StartWithoutDebugging"
       }
     }
   }
