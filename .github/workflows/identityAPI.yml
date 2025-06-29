@@ -73,7 +73,7 @@ jobs:
         if: ${{ always() }}
 
   integration-test:
-    name: Execute unit tests
+    name: Execute integration tests
     needs: unit-test
     runs-on: ubuntu-24.04
     strategy:
@@ -142,7 +142,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('.\IdentityAPI\packages.lock.json', '.\IdentityAPI.Tests\packages.lock.json') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('.\IdentityAPI\packages.lock.json', '.\IdentityAPI.Tests\packages.lock.json', '.\IdentityAPI.Integration\packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
 
@@ -168,6 +168,7 @@ jobs:
         run: |
           dotnet build .\IdentityAPI\IdentityAPI.csproj
           dotnet build .\IdentityAPI.Tests\IdentityAPI.Tests.csproj
+          dotnet build .\IdentityAPI.Integration\IdentityAPI.Integration.csproj
       
       - name: Run Tests
         shell: powershell
