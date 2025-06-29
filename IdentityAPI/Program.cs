@@ -39,6 +39,11 @@ builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.ApplyMigrations();
+}
+
 // seed identity data
 using (var scope = app.Services.CreateScope())
 {
