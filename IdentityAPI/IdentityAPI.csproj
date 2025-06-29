@@ -25,4 +25,8 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />
   </ItemGroup>
 
+  <ItemGroup>
+	<InternalsVisibleTo Include="IdentityAPI.Integration" />
+  </ItemGroup>
+
 </Project>

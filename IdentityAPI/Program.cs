@@ -29,9 +29,7 @@ builder.Services.AddHttpLogging(logging =>
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddConfiguration(builder.Configuration);
-
-builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddDbContext(builder.Configuration);
 
 builder.Services.AddControllers();
 
