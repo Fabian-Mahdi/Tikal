@@ -11,7 +11,7 @@
 
 This repository contains all projects related to the Tikal project. An attempt to implement the classic game [Tikal](https://en.wikipedia.org/wiki/Tikal_(board_game)) as a browser game.
 
-The game can be found under <a>tikalonline.com</a> (WIP).
+The game can be found under <a>https://tikalonline.com</a> (WIP).
 
 # Projects
 
