@@ -1,5 +1,8 @@
 # Table of Contents
 - [Summary](#summary)
+- [Start Developing](#start-developing)
+    - [Configuration](#configuration)
+    - [Run the project](#run-the-project)
 
 # Summary
 
