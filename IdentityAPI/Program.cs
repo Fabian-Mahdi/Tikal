@@ -28,6 +28,8 @@ builder.Services.AddHttpLogging(logging =>
 
 builder.Services.AddConfiguration(builder.Configuration);
 
+builder.Services.AddJwtDependencyGroup();
+
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 

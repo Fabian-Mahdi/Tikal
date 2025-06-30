@@ -2,8 +2,12 @@
 using IdentityAPI.Configuration;
 using IdentityAPI.Database;
 using IdentityAPI.ErrorHandling;
+using IdentityAPI.Services.TokenService;
+using IdentityAPI.Services.TokenService.Impl;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Resources;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace IdentityAPI.Extensions;
 
@@ -60,6 +64,15 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.Position));
+
+        return services;
+    }
+
+    public static IServiceCollection AddJwtDependencyGroup(this IServiceCollection services)
+    {
+        services.AddSingleton<SecurityTokenHandler, JwtSecurityTokenHandler>();
+
+        services.AddSingleton<ITokenService, JwtTokenService>();
 
         return services;
     }
