@@ -13,7 +13,7 @@ internal class RegisterControllerTests
     // constants
     private readonly IdentityResult successfullResult = IdentityResult.Success;
 
-    private readonly IdentityResult failedResult = IdentityResult.Failed();
+    private readonly IdentityResult failedResult = IdentityResult.Failed(new IdentityError());
 
     // dependencies
     private Mock<UserManager<User>> userManager;
