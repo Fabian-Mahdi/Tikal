@@ -2,18 +2,13 @@ name: IdentityAPI
 on:
   push:
     paths:
+      - .github/workflows/**
       - IdentityAPI/**
       - IdentityAPI.Tests/**
-      - IdentityAPI.integration/**
+      - IdentityAPI.Integration/**
     branches:
       - master
       - feature/*
-  pull_request:
-    paths:
-      - IdentityAPI/**
-      - IdentityAPI.Tests/**
-      - IdentityAPI.integration/**
-    types: [opened, synchronize, reopened]
 
 jobs:
   format:
