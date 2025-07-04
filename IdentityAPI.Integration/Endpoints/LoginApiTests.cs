@@ -39,7 +39,7 @@ public class LoginApiTests : TestContainerFixture
         HttpResponseMessage response = await client.PostAsJsonAsync(loginUri, loginDto);
 
         // then
-        Assert.That(response.IsSuccessStatusCode, Is.True);
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 
     [TestCaseSource(typeof(ValidRegisterDtoSource), nameof(ValidRegisterDtoSource.TestCases))]
