@@ -1,11 +1,9 @@
 ﻿using IdentityAPI.Controllers.Login.Errors;
 using IdentityAPI.Dtos;
-using IdentityAPI.Extensions;
 using IdentityAPI.Models;
 using IdentityAPI.Services.TokenService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace IdentityAPI.Controllers.Login;
 
@@ -33,7 +31,7 @@ public class LoginController : ControllerBase
     [HttpPost]
     public async Task<TokenDto> Login(LoginDto loginDto)
     {
-        User user = await userManager.Users.FirstOrDefaultAsync(user => user.UserName == loginDto.Username)
+        User user = await userManager.FindByNameAsync(loginDto.Username)
             ?? throw new InvalidCredentialsException();
 
         var result = await signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
@@ -45,11 +43,10 @@ public class LoginController : ControllerBase
 
         TokenPair tokenPair = tokenService.GenerateTokenPair(user);
 
-        HttpContext.Response.Cookies.AddRefreshToken(tokenPair.RefreshToken);
-
         return new TokenDto()
         {
             AccessToken = tokenPair.AccessToken,
+            RefreshToken = tokenPair.RefreshToken,
         };
     }
 }

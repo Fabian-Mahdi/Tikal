@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace IdentityAPI.Dtos;
+﻿namespace IdentityAPI.Dtos;
 
 public record TokenDto
 {
-    [Required]
     public string AccessToken { get; set; } = string.Empty;
+
+    public string RefreshToken { get; set; } = string.Empty;
 }
