@@ -47,3 +47,8 @@ variable "vpn_application_id" {
   type        = string
   description = "The application id of the Azure VPN Enterprise application"
 }
+
+variable "github_database_id" {
+  type        = string
+  description = "The database id of your github organization"
+}
