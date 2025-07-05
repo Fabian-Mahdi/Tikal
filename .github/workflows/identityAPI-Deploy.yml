@@ -1,7 +1,9 @@
 name: IdentityAPI-Deploy
 
 on:
-  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/**
 
 jobs:
   test:
