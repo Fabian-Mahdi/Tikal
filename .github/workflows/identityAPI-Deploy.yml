@@ -1,0 +1,14 @@
+name: IdentityAPI-Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: workflow test
+    runs-on: tikal-azure-runner
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
