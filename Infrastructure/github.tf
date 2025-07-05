@@ -37,3 +37,9 @@ resource "azapi_resource" "github_network_settings" {
     ignore_changes = [tags]
   }
 }
+
+resource "azurerm_user_assigned_identity" "github" {
+  resource_group_name = azurerm_resource_group.current.name
+  location            = azurerm_resource_group.current.location
+  name                = "${var.global_prefix}-${local.github_prefix}-identity"
+}
