@@ -16,6 +16,11 @@ internal class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        builder.ConfigureAppConfiguration(configuration =>
+        {
+            configuration.AddEnvironmentVariables();
+        });
+
         builder.ConfigureServices(services =>
         {
             ServiceDescriptor? dbContextDescriptor = services.SingleOrDefault(

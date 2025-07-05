@@ -28,7 +28,7 @@ public class RegisterApiTests : TestContainerFixture
         HttpResponseMessage response = await client.PostAsJsonAsync(uri, registerDto);
 
         // then
-        Assert.That(response.IsSuccessStatusCode, Is.True);
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 
     [TestCaseSource(typeof(InvalidRegisterDtoSource), nameof(InvalidRegisterDtoSource.TestCases))]

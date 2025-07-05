@@ -26,6 +26,10 @@ builder.Services.AddHttpLogging(logging =>
     logging.CombineLogs = true;
 });
 
+builder.Services.AddConfiguration(builder.Configuration);
+
+builder.Services.AddJwtDependencyGroup();
+
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 

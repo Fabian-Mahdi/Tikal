@@ -2,18 +2,13 @@ name: IdentityAPI
 on:
   push:
     paths:
+      - .github/workflows/**
       - IdentityAPI/**
       - IdentityAPI.Tests/**
-      - IdentityAPI.integration/**
+      - IdentityAPI.Integration/**
     branches:
       - master
       - feature/*
-  pull_request:
-    paths:
-      - IdentityAPI/**
-      - IdentityAPI.Tests/**
-      - IdentityAPI.integration/**
-    types: [opened, synchronize, reopened]
 
 jobs:
   format:
@@ -108,8 +103,10 @@ jobs:
         run: dotnet build ./${{ matrix.project }}/${{ matrix.project }}.csproj --configuration Release --no-restore
 
       - name: Test ${{ matrix.project }}
+        env:
+          "Jwt:SigningKey" : ${{ secrets.TEST_SIGNING_KEY }}
         run: dotnet test ./${{ matrix.project }}/${{ matrix.project }}.csproj --configuration Release --no-build --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
-      
+
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:
