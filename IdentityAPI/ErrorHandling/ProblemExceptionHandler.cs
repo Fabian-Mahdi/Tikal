@@ -23,7 +23,7 @@ public class ProblemExceptionHandler : IExceptionHandler
         ProblemDetails problemDetails = new()
         {
             Title = problemException.Title,
-            Status = problemException.Status,
+            Status = (int)problemException.Status,
             Extensions = new Dictionary<string, object?>()
             {
                 { "errors", problemException.Errors },

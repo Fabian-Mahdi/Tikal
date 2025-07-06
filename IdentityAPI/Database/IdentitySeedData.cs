@@ -2,7 +2,7 @@
 
 namespace IdentityAPI.Database;
 
-public class IdentitySeedData
+public static class IdentitySeedData
 {
     private static readonly string[] roleNames = ["Admin", "User"];
 

@@ -62,4 +62,4 @@ app.MapHealthChecks("/healthcheck");
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
