@@ -38,8 +38,34 @@ resource "azapi_resource" "github_network_settings" {
   }
 }
 
-resource "azurerm_user_assigned_identity" "github" {
-  resource_group_name = azurerm_resource_group.current.name
-  location            = azurerm_resource_group.current.location
-  name                = "${var.global_prefix}-${local.github_prefix}-identity"
+resource "azuread_application" "github" {
+  display_name = "${var.global_prefix}-${local.github_prefix}-application"
+  owners       = [data.azuread_client_config.current.object_id]
+}
+
+resource "azuread_service_principal" "github" {
+  client_id                    = azuread_application.github.client_id
+  app_role_assignment_required = false
+  owners                       = [data.azuread_client_config.current.object_id]
+}
+
+resource "azuread_application_password" "github" {
+  application_id = azuread_application.github.id
+}
+
+resource "azurerm_key_vault_access_policy" "github" {
+  key_vault_id = azurerm_key_vault.current.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azuread_service_principal.github.object_id
+
+  secret_permissions = [
+    "Get",
+    "List",
+  ]
+}
+
+resource "azurerm_role_assignment" "github" {
+  scope                = data.azurerm_subscription.current.id
+  role_definition_name = "Contributor"
+  principal_id         = azuread_service_principal.github.object_id
 }
