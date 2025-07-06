@@ -2,17 +2,22 @@ name: IdentityAPI-Deploy
 
 on:
   push:
-    paths:
-      - .github/workflows/**
+    tags:
+      - identity-v(.*)
 
 permissions:
   id-token: write
   contents: read
 
+env:
+  IMAGE_NAME: "identity-api"
+  AZ_REGISTRY: "tikalcontainerregistry.azurecr.io"
+
 jobs:
-  test:
+  migration:
     name: Migrate database
     runs-on: tikal-azure-runner
+    if: false
     strategy:
       matrix:
         dotnet-version: ["9.0.X"]
@@ -73,3 +78,36 @@ jobs:
         run: |
           cd ./IdentityAPI
           ./efbundle --connection "Server=${{ env.DB_HOST }};Database=${{ env.DB_NAME }};Port=${{ env.DB_PORT }};User Id=${{ env.DB_USERNAME }};Password=${{ env.DB_PASSWORD }};Ssl Mode=Require;"
+
+  deliver:
+    name: Deliver docker image
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+    
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the Azure Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.AZ_REGISTRY }}
+          username: ${{ secrets.AZ_SP_CLIENT_ID }}
+          password: ${{ secrets.AZ_SP_CLIENT_SECRET }}
+    
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.AZ_REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=match,pattern=identity-v(.*),group=1
+
+      - name: Build and Push Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./IdentityAPI/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
