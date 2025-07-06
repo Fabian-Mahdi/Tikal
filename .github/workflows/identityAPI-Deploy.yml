@@ -3,7 +3,7 @@ name: IdentityAPI-Deploy
 on:
   push:
     tags:
-      - identity-v(.*)
+      - identity-v*.*.*
 
 permissions:
   id-token: write
