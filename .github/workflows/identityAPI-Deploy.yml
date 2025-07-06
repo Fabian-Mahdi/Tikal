@@ -17,7 +17,6 @@ jobs:
   migration:
     name: Migrate database
     runs-on: tikal-azure-runner
-    if: false
     strategy:
       matrix:
         dotnet-version: ["9.0.X"]
@@ -82,6 +81,7 @@ jobs:
   deliver:
     name: Deliver docker image
     runs-on: ubuntu-24.04
+    needs: migration
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
