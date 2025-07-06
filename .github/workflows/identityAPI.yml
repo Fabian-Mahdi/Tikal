@@ -2,7 +2,6 @@ name: IdentityAPI
 on:
   push:
     paths:
-      - .github/workflows/**
       - IdentityAPI/**
       - IdentityAPI.Tests/**
       - IdentityAPI.Integration/**

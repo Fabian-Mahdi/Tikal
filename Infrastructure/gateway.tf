@@ -26,6 +26,8 @@ resource "azurerm_public_ip" "application-gateway" {
   resource_group_name = azurerm_resource_group.current.name
   location            = azurerm_resource_group.current.location
   allocation_method   = "Static"
+
+  zones = ["1"]
 }
 
 resource "azurerm_user_assigned_identity" "application-gateway" {
@@ -59,6 +61,8 @@ resource "azurerm_application_gateway" "this" {
   name                = "${var.global_prefix}-${local.gateway_prefix}"
   resource_group_name = azurerm_resource_group.current.name
   location            = azurerm_resource_group.current.location
+
+  zones = ["1"]
 
   sku {
     name     = "Basic"

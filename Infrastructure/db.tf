@@ -70,6 +70,14 @@ resource "random_password" "db_admin_password" {
   override_special = "!#"
 }
 
+resource "random_password" "jwt_signing_key" {
+  length           = 100
+  special          = true
+  lower            = true
+  upper            = true
+  override_special = "!#"
+}
+
 # Secrets
 
 resource "azurerm_key_vault_secret" "db_admin_password" {
@@ -96,8 +104,14 @@ resource "azurerm_key_vault_secret" "db_host" {
   value        = azurerm_postgresql_flexible_server.db.fqdn
 }
 
-resource "azurerm_key_vault_secret" "db_namet" {
+resource "azurerm_key_vault_secret" "db_name" {
   key_vault_id = azurerm_key_vault.current.id
   name         = "Database--DatabaseName"
   value        = var.identity_db_name
+}
+
+resource "azurerm_key_vault_secret" "jwt_signing_key" {
+  key_vault_id = azurerm_key_vault.current.id
+  name         = "Jwt--SigningKey"
+  value        = random_password.jwt_signing_key.result
 }
