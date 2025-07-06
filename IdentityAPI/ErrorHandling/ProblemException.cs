@@ -1,12 +1,14 @@
-﻿namespace IdentityAPI.ErrorHandling;
+﻿using System.Net;
+
+namespace IdentityAPI.ErrorHandling;
 
 public class ProblemException : Exception
 {
     public string Title { get; }
-    public int Status { get; }
+    public HttpStatusCode Status { get; }
     public IEnumerable<ProblemError> Errors { get; }
 
-    public ProblemException(string title, int status, IEnumerable<ProblemError> errors)
+    public ProblemException(string title, HttpStatusCode status, IEnumerable<ProblemError> errors)
     {
         Title = title;
         Status = status;
