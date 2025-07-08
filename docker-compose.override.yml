@@ -12,6 +12,12 @@ services:
       - identitydb
       - seq
 
+  frontend:
+    ports:
+      - "80:80"
+    depends_on:
+      - identityapi
+
   identitydb:
     ports:
       - "5432:5432"

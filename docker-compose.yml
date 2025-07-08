@@ -5,6 +5,11 @@ services:
       context: .
       dockerfile: IdentityAPI/Dockerfile
 
+  frontend:
+    image: ${DOCKER_REGISTRY-}frontend
+    build:
+      context: ./Frontend
+
   identitydb:
     image: postgres:17.5
 
