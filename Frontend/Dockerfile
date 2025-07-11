@@ -12,8 +12,6 @@ COPY . .
 
 RUN ng build --configuration=production
 
-RUN ls
-
 FROM nginx:1.29.0-alpine
 
 COPY --from=build app/dist/Frontend/browser /usr/share/nginx/html
