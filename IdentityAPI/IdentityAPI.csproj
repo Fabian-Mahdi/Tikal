@@ -29,9 +29,5 @@
     <ItemGroup>
         <InternalsVisibleTo Include="IdentityAPI.Integration"/>
     </ItemGroup>
-
-    <ItemGroup>
-        <EditorConfigFiles Remove=".editorconfig"/>
-    </ItemGroup>
-
+    
 </Project>

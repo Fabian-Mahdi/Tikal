@@ -34,8 +34,4 @@
         <ProjectReference Include="..\IdentityAPI\IdentityAPI.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <EditorConfigFiles Remove=".editorconfig"/>
-    </ItemGroup>
-
 </Project>
