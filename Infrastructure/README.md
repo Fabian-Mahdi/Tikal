@@ -1,4 +1,5 @@
 # Table of Contents
+
 - [Summary](#summary)
 - [Start Developing](#start-developing)
     - [Building From Scratch](#building-from-scratch)
@@ -6,7 +7,8 @@
 
 # Summary
 
-The complete Infrastructure for this project is currenty deployed in the azure cloud using Terraform. There is only one (production) environment.
+The complete Infrastructure for this project is currenty deployed in the azure cloud using Terraform. There is only
+one (production) environment.
 
 Here is a rough overview of the current architecture:
 
@@ -28,9 +30,10 @@ terraform init
 
 ## Building From Scratch
 
-When building up the infrastructure from scratch one manual step is needed. 
+When building up the infrastructure from scratch one manual step is needed.
 
-To authorize the vpn for Microsoft Entry ID Authentication, it needs to be registered. There are multiple way to do this. Here are instructions on how to do it manually:
+To authorize the vpn for Microsoft Entry ID Authentication, it needs to be registered. There are multiple way to do
+this. Here are instructions on how to do it manually:
 
 - https://learn.microsoft.com/en-us/azure/vpn-gateway/openvpn-azure-ad-tenant
 

@@ -1,30 +1,30 @@
-﻿using IdentityAPI.Dtos;
+﻿using System.Net;
+using IdentityAPI.Dtos;
 using IdentityAPI.Integration.Base;
 using IdentityAPI.Integration.Data.Dtos.Login;
 using IdentityAPI.Integration.Data.Dtos.Register;
-using System.Net;
 
 namespace IdentityAPI.Integration.Endpoints;
 
 public class LoginApiTests : TestContainerFixture
 {
-    private CustomWebApplicationFactory factory;
-
-    private HttpClient client;
-
     // constants
     private const string loginUri = "/login";
     private const string registerUri = "/register";
 
+    private HttpClient client;
+    private CustomWebApplicationFactory factory;
+
     [SetUp]
     public void SetUp()
     {
-        factory = new(DatabaseContainer.GetConnectionString());
+        factory = new CustomWebApplicationFactory(DatabaseContainer.GetConnectionString());
         client = factory.CreateClient();
     }
 
     [TestCaseSource(typeof(ValidRegisterDtoSource), nameof(ValidRegisterDtoSource.TestCases))]
-    public async Task Given_Existing_User_When_Login_With_Correct_Credentials_Then_Returns_Success(RegisterDto registerDto)
+    public async Task Given_Existing_User_When_Login_With_Correct_Credentials_Then_Returns_Success(
+        RegisterDto registerDto)
     {
         // given
         await client.PostAsJsonAsync(registerUri, registerDto);
@@ -32,7 +32,7 @@ public class LoginApiTests : TestContainerFixture
         LoginDto loginDto = new()
         {
             Username = registerDto.Username,
-            Password = registerDto.Password,
+            Password = registerDto.Password
         };
 
         // when
@@ -43,7 +43,8 @@ public class LoginApiTests : TestContainerFixture
     }
 
     [TestCaseSource(typeof(ValidRegisterDtoSource), nameof(ValidRegisterDtoSource.TestCases))]
-    public async Task Given_Existing_User_When_Login_With_Incorrect_Credentials_Then_Returns_Unauthorized(RegisterDto registerDto)
+    public async Task Given_Existing_User_When_Login_With_Incorrect_Credentials_Then_Returns_Unauthorized(
+        RegisterDto registerDto)
     {
         // given
         await client.PostAsJsonAsync(registerUri, registerDto);
@@ -51,7 +52,7 @@ public class LoginApiTests : TestContainerFixture
         LoginDto loginDto = new()
         {
             Username = registerDto.Username,
-            Password = "wrong password",
+            Password = "wrong password"
         };
 
         // when

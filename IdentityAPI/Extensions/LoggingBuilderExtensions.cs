@@ -1,4 +1,5 @@
-﻿using OpenTelemetry.Logs;
+﻿using OpenTelemetry.Exporter;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
 
 namespace IdentityAPI.Extensions;
@@ -16,11 +17,11 @@ public static class LoggingBuilderExtensions
             configure.IncludeFormattedMessage = true;
             configure.IncludeScopes = true;
 
-            configure.AddOtlpExporter(configure =>
+            configure.AddOtlpExporter(otlpExporterOptions =>
             {
-                configure.Endpoint = new Uri(openTelemetryConfig.GetValue<string>("location") ?? "");
-                configure.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
-                configure.Headers = $"X-Seq-ApiKey={openTelemetryConfig.GetValue<string>("ApiKey")}";
+                otlpExporterOptions.Endpoint = new Uri(openTelemetryConfig.GetValue<string>("location") ?? "");
+                otlpExporterOptions.Protocol = OtlpExportProtocol.HttpProtobuf;
+                otlpExporterOptions.Headers = $"X-Seq-ApiKey={openTelemetryConfig.GetValue<string>("ApiKey")}";
             });
         });
 

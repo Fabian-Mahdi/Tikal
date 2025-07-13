@@ -11,18 +11,18 @@ namespace IdentityAPI.Tests.Controllers.Login;
 
 internal class LoginControllerTests
 {
-    // constants
-    private readonly User defaultUser = new();
-
     private readonly TokenPair defaultTokenPair = new()
     {
         AccessToken = "accessToken",
         RefreshToken = "refreshToken"
     };
 
-    private readonly SignInResult successfullResult = SignInResult.Success;
+    // constants
+    private readonly User defaultUser = new();
 
     private readonly SignInResult failedResult = SignInResult.Failed;
+
+    private readonly SignInResult successfulResult = SignInResult.Success;
 
     // dependencies
     private Mock<ITokenService> tokenService;
@@ -32,7 +32,7 @@ internal class LoginControllerTests
     private Mock<SignInManager<User>> signInManager;
 
     // under test
-    LoginController loginController;
+    private LoginController loginController;
 
     [SetUp]
     public void SetUp()
@@ -53,9 +53,9 @@ internal class LoginControllerTests
 
         signInManager
             .Setup(s => s.CheckPasswordSignInAsync(defaultUser, It.IsAny<string>(), false))
-            .ReturnsAsync(successfullResult);
+            .ReturnsAsync(successfulResult);
 
-        loginController = new(userManager.Object, signInManager.Object, tokenService.Object);
+        loginController = new LoginController(userManager.Object, signInManager.Object, tokenService.Object);
     }
 
     [TestCaseSource(typeof(LoginDtoSource), nameof(LoginDtoSource.TestCases))]
@@ -77,8 +77,7 @@ internal class LoginControllerTests
             .ReturnsAsync((User?)null);
 
         // when & then
-        Assert.ThrowsAsync<InvalidCredentialsException>(
-            async () => await loginController.Login(loginDto)
+        Assert.ThrowsAsync<InvalidCredentialsException>(async () => await loginController.Login(loginDto)
         );
     }
 
@@ -101,8 +100,7 @@ internal class LoginControllerTests
             .ReturnsAsync(failedResult);
 
         // when & then
-        Assert.ThrowsAsync<InvalidCredentialsException>(
-            async () => await loginController.Login(loginDto)
+        Assert.ThrowsAsync<InvalidCredentialsException>(async () => await loginController.Login(loginDto)
         );
     }
 

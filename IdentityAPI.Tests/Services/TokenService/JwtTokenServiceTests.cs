@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Moq;
 
 namespace IdentityAPI.Tests.Services.TokenService;
+
 internal class JwtTokenServiceTests
 {
     // constants
@@ -25,7 +26,7 @@ internal class JwtTokenServiceTests
     private Mock<IOptions<JwtOptions>> options;
 
     // under test
-    JwtTokenService jwtTokenService;
+    private JwtTokenService jwtTokenService;
 
     [SetUp]
     public void SetUp()
@@ -44,7 +45,7 @@ internal class JwtTokenServiceTests
             .Setup(o => o.Value)
             .Returns(jwtOptions);
 
-        jwtTokenService = new(securityTokenHandler.Object, options.Object);
+        jwtTokenService = new JwtTokenService(securityTokenHandler.Object, options.Object);
     }
 
     [TestCaseSource(typeof(UserSource), nameof(UserSource.TestCases))]
@@ -90,7 +91,7 @@ internal class JwtTokenServiceTests
                 Assert.That(descriptor.Issuer, Is.EqualTo(jwtOptions.Issuer));
                 Assert.That(descriptor.Audience, Is.EqualTo(jwtOptions.Audience));
 
-                Assert.That(descriptor.Subject.FindFirst("Sub")?.Value, Is.EqualTo(user.Id.ToString()));
+                Assert.That(descriptor.Subject.FindFirst("Sub")?.Value, Is.EqualTo(user.Id));
                 Assert.That(descriptor.Subject.FindFirst("Name")?.Value, Is.EqualTo(user.UserName));
             }
         }
