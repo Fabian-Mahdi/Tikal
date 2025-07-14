@@ -1,0 +1,24 @@
+services:
+  devcontainer:
+    image: devcontainer
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ..:/workspaces:cached
+    command: sleep infinity
+
+  identityapi:
+    image: identityapi
+    build:
+      context: ../
+      dockerfile: IdentityAPI/Dockerfile
+
+  identitydb:
+    image: postgres:17.5
+
+  pgadmin:
+    image: dpage/pgadmin4
+
+  seq:
+    image: datalust/seq
