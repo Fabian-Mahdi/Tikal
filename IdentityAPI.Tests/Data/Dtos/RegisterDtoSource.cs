@@ -6,20 +6,22 @@ internal static class RegisterDtoSource
 {
     public static IEnumerable<RegisterDto> TestCases()
     {
-        yield return new RegisterDto()
+        yield return new RegisterDto
         {
             Username = "username",
-            Password = "password",
+            Password = "password"
         };
-        yield return new RegisterDto()
+        yield return new RegisterDto
         {
             Username = "",
-            Password = "",
+            Password = ""
         };
-        yield return new RegisterDto()
+        yield return new RegisterDto
         {
-            Username = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
-            Password = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
+            Username =
+                "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
+            Password =
+                "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"
         };
     }
 }

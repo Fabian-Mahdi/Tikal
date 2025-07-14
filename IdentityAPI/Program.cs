@@ -4,7 +4,7 @@ using IdentityAPI.Models;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Identity;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
 
@@ -41,7 +41,7 @@ builder.Services.AddExceptionHandler();
 
 builder.Services.AddHealthChecks();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
@@ -49,7 +49,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // seed identity data
-using (var scope = app.Services.CreateScope())
+using (IServiceScope scope = app.Services.CreateScope())
 {
     await IdentitySeedData.InitializeAsync(scope.ServiceProvider);
 }

@@ -1,17 +1,16 @@
-﻿using IdentityAPI.ErrorHandling;
+﻿using System.Net;
+using IdentityAPI.ErrorHandling;
 using Microsoft.AspNetCore.Identity;
-using System.Net;
 
 namespace IdentityAPI.Controllers.Register.Errors;
 
 public class RoleAssignmentFailedException : ProblemException
 {
     public RoleAssignmentFailedException(IEnumerable<IdentityError> errors)
-        : base
-        (
+        : base(
             "Failed to assign role to created user",
             HttpStatusCode.InternalServerError,
-            [.. errors.Select(error => new ProblemError() { Detail = error.Description })]
+            [.. errors.Select(error => new ProblemError { Detail = error.Description })]
         )
     {
     }

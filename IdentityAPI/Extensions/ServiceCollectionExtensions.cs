@@ -1,4 +1,5 @@
-﻿using Azure.Monitor.OpenTelemetry.AspNetCore;
+﻿using System.IdentityModel.Tokens.Jwt;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using IdentityAPI.Configuration;
 using IdentityAPI.Database;
 using IdentityAPI.ErrorHandling;
@@ -7,7 +8,6 @@ using IdentityAPI.Services.TokenService.Impl;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Resources;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace IdentityAPI.Extensions;
 
@@ -19,7 +19,8 @@ public static class ServiceCollectionExtensions
         {
             options.CustomizeProblemDetails = context =>
             {
-                context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+                context.ProblemDetails.Instance =
+                    $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
             };
         });
 
@@ -28,7 +29,8 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddAzureOpenTelemetry(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddAzureOpenTelemetry(this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddOpenTelemetry().UseAzureMonitor(options =>
         {
@@ -55,7 +57,7 @@ public static class ServiceCollectionExtensions
                 $"Database={options.DatabaseName};" +
                 $"User ID={options.Username};" +
                 $"Password={options.Password};"
-                );
+            );
         });
 
         return services;

@@ -1,18 +1,17 @@
-﻿using IdentityAPI.Configuration;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using IdentityAPI.Configuration;
 using IdentityAPI.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace IdentityAPI.Services.TokenService.Impl;
 
 public class JwtTokenService : ITokenService
 {
-    private readonly SecurityTokenHandler securityTokenHandler;
-
     private readonly JwtOptions options;
+    private readonly SecurityTokenHandler securityTokenHandler;
 
     private readonly byte[] signingKey;
 
@@ -29,8 +28,8 @@ public class JwtTokenService : ITokenService
         List<Claim> claims =
         [
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new(JwtRegisteredClaimNames.Name, user.UserName!),
+            new(JwtRegisteredClaimNames.Sub, user.Id),
+            new(JwtRegisteredClaimNames.Name, user.UserName!)
         ];
 
         SecurityTokenDescriptor accessTokenDescriptor = new()
@@ -40,7 +39,8 @@ public class JwtTokenService : ITokenService
             IssuedAt = DateTime.UtcNow,
             Issuer = options.Issuer,
             Audience = options.Audience,
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(signingKey), SecurityAlgorithms.HmacSha256Signature)
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(signingKey),
+                SecurityAlgorithms.HmacSha256Signature)
         };
 
         SecurityTokenDescriptor refreshTokenDescriptor = new()
@@ -50,7 +50,8 @@ public class JwtTokenService : ITokenService
             IssuedAt = DateTime.UtcNow,
             Issuer = options.Issuer,
             Audience = options.Audience,
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(signingKey), SecurityAlgorithms.HmacSha256Signature)
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(signingKey),
+                SecurityAlgorithms.HmacSha256Signature)
         };
 
         SecurityToken accessToken = securityTokenHandler.CreateToken(accessTokenDescriptor);
@@ -59,7 +60,7 @@ public class JwtTokenService : ITokenService
         TokenPair tokenPair = new()
         {
             AccessToken = securityTokenHandler.WriteToken(accessToken),
-            RefreshToken = securityTokenHandler.WriteToken(refreshToken),
+            RefreshToken = securityTokenHandler.WriteToken(refreshToken)
         };
 
         return tokenPair;

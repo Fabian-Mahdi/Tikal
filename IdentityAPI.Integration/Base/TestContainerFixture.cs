@@ -4,7 +4,7 @@ namespace IdentityAPI.Integration.Base;
 
 public abstract class TestContainerFixture
 {
-    public PostgreSqlContainer DatabaseContainer { get; private set; }
+    protected PostgreSqlContainer DatabaseContainer { get; private set; }
 
     [OneTimeSetUp]
     public async Task OneTimeSetup()
