@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        dotnet-version: ["9.0.X"]
-        project: ["IdentityAPI", "IdentityAPI.Tests", "IdentityAPI.Integration"]
+        dotnet-version: [ "9.0.X" ]
+        project: [ "IdentityAPI", "IdentityAPI.Tests", "IdentityAPI.Integration" ]
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
@@ -43,8 +43,8 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        dotnet-version: ["9.0.X"]
-        project: ["IdentityAPI.Tests"]
+        dotnet-version: [ "9.0.X" ]
+        project: [ "IdentityAPI.Tests" ]
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
@@ -66,7 +66,7 @@ jobs:
 
       - name: Test ${{ matrix.project }}
         run: dotnet test ./${{ matrix.project }}/${{ matrix.project }}.csproj --configuration Release --no-build --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
-      
+
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:
@@ -80,8 +80,8 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        dotnet-version: ["9.0.X"]
-        project: ["IdentityAPI.Integration"]
+        dotnet-version: [ "9.0.X" ]
+        project: [ "IdentityAPI.Integration" ]
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
@@ -103,7 +103,7 @@ jobs:
 
       - name: Test ${{ matrix.project }}
         env:
-          "Jwt:SigningKey" : ${{ secrets.TEST_SIGNING_KEY }}
+          "Jwt:SigningKey": ${{ secrets.TEST_SIGNING_KEY }}
         run: dotnet test ./${{ matrix.project }}/${{ matrix.project }}.csproj --configuration Release --no-build --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
 
       - name: Upload dotnet test results
@@ -166,14 +166,14 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"tikal-identity-api" /o:"fmahdi09" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.scanner.scanAll=false /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
-      
+
       - name: Build Projects
         shell: powershell
         run: |
           dotnet build .\IdentityAPI\IdentityAPI.csproj
           dotnet build .\IdentityAPI.Tests\IdentityAPI.Tests.csproj
           dotnet build .\IdentityAPI.Integration\IdentityAPI.Integration.csproj
-      
+
       - name: Run Tests
         shell: powershell
         run: |

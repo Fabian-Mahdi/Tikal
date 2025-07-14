@@ -1,4 +1,5 @@
 # Table of Contents
+
 - [Summary](#summary)
 - [Start Developing](#start-developing)
     - [Configuration](#configuration)
@@ -6,13 +7,16 @@
 
 # Summary
 
-This project contains the Api exclusively responsible for the authentication of users. It provides jwt tokens which are used for authorization in the other parts of the system.
+This project contains the Api exclusively responsible for the authentication of users. It provides jwt tokens which are
+used for authorization in the other parts of the system.
 
 # Start Developing
 
 ## Configuration
 
-All sensetive configuration values during development are stored using **dotnet user-secrets**. To find out more about it see: [Safe storage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows)
+All sensetive configuration values during development are stored using **dotnet user-secrets**. To find out more about
+it
+see: [Safe storage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows)
 
 Before running anything you will need to provide the following configuration:
 
@@ -36,4 +40,5 @@ dotnet user-secrets set "Logging:OpenTelemetry:ApiKey" "{your api key goes here}
 
 ## Run the project
 
-For information on how to run/debug the project please refer to the README in the root. Do not try to run this project locally.
+For information on how to run/debug the project please refer to the README in the root. Do not try to run this project
+locally.

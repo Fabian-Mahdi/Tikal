@@ -16,24 +16,20 @@ internal class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureAppConfiguration(configuration =>
-        {
-            configuration.AddEnvironmentVariables();
-        });
+        builder.ConfigureAppConfiguration(configuration => { configuration.AddEnvironmentVariables(); });
 
         builder.ConfigureServices(services =>
         {
-            ServiceDescriptor? dbContextDescriptor = services.SingleOrDefault(
-                d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>)
-            );
+            ServiceDescriptor? dbContextDescriptor =
+                services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>)
+                );
 
             if (dbContextDescriptor != null)
-                services.Remove(dbContextDescriptor);
-
-            services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseNpgsql(connectionString);
-            });
+                services.Remove(dbContextDescriptor);
+            }
+
+            services.AddDbContext<ApplicationDbContext>(options => { options.UseNpgsql(connectionString); });
 
             // we want to recreate the db for every test
             using IServiceScope scope = services.BuildServiceProvider().CreateScope();

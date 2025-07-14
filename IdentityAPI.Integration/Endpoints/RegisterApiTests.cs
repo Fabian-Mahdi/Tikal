@@ -1,23 +1,22 @@
-﻿using IdentityAPI.Dtos;
+﻿using System.Net;
+using IdentityAPI.Dtos;
 using IdentityAPI.Integration.Base;
 using IdentityAPI.Integration.Data.Dtos.Register;
-using System.Net;
 
 namespace IdentityAPI.Integration.Endpoints;
 
 public class RegisterApiTests : TestContainerFixture
 {
-    private CustomWebApplicationFactory factory;
-
-    private HttpClient client;
-
     // constants
     private const string uri = "/register";
+
+    private HttpClient client;
+    private CustomWebApplicationFactory factory;
 
     [SetUp]
     public void SetUp()
     {
-        factory = new(DatabaseContainer.GetConnectionString());
+        factory = new CustomWebApplicationFactory(DatabaseContainer.GetConnectionString());
         client = factory.CreateClient();
     }
 

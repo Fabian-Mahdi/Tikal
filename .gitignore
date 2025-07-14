@@ -416,5 +416,5 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
-# docker env files
-*/.env
+# Rider generated files
+.idea/*

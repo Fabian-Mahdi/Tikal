@@ -11,7 +11,7 @@ namespace IdentityAPI.Tests.Controllers.Register;
 internal class RegisterControllerTests
 {
     // constants
-    private readonly IdentityResult successfullResult = IdentityResult.Success;
+    private readonly IdentityResult successfulResult = IdentityResult.Success;
 
     private readonly IdentityResult failedResult = IdentityResult.Failed(new IdentityError());
 
@@ -19,7 +19,7 @@ internal class RegisterControllerTests
     private Mock<UserManager<User>> userManager;
 
     // under test
-    RegisterController registerController;
+    private RegisterController registerController;
 
     [SetUp]
     public void Setup()
@@ -28,13 +28,13 @@ internal class RegisterControllerTests
 
         userManager
             .Setup(m => m.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
-            .ReturnsAsync(successfullResult);
+            .ReturnsAsync(successfulResult);
 
         userManager
             .Setup(m => m.AddToRoleAsync(It.IsAny<User>(), "User"))
-            .ReturnsAsync(successfullResult);
+            .ReturnsAsync(successfulResult);
 
-        registerController = new(userManager.Object);
+        registerController = new RegisterController(userManager.Object);
     }
 
     [TestCaseSource(typeof(RegisterDtoSource), nameof(RegisterDtoSource.TestCases))]
@@ -66,8 +66,7 @@ internal class RegisterControllerTests
             .ReturnsAsync(failedResult);
 
         // when & then
-        Assert.ThrowsAsync<UserCreationFailedException>(
-            async () => await registerController.Register(registerDto)
+        Assert.ThrowsAsync<UserCreationFailedException>(async () => await registerController.Register(registerDto)
         );
     }
 
@@ -80,8 +79,7 @@ internal class RegisterControllerTests
             .ReturnsAsync(failedResult);
 
         // when & then
-        Assert.ThrowsAsync<RoleAssignmentFailedException>(
-            async () => await registerController.Register(registerDto)
+        Assert.ThrowsAsync<RoleAssignmentFailedException>(async () => await registerController.Register(registerDto)
         );
     }
 }
