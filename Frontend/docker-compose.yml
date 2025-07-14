@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     volumes:
-      - ../..:/workspaces:cached
+      - ..:/workspaces:cached
     command: sleep infinity
 
   identityapi:
