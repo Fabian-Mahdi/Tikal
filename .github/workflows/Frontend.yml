@@ -1,0 +1,78 @@
+name: Frontend
+on:
+  push:
+    paths:
+      - Frontend/**
+    branches:
+      - master
+      - feature/*
+
+jobs:
+  static-code-analysis:
+    name: Static code analysis
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        node-version: [22.x]
+    defaults:
+      run:
+        working-directory: ./Frontend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ./Frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply linter
+        run: npm run lint
+
+  test:
+    name: Unit tests
+    needs: static-code-analysis
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        node-version: [22.x]
+    defaults:
+      run:
+        working-directory: ./Frontend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ./Frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run test:ci
+
+  sonarqube:
+    name: SonarQube scan
+    needs: test
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        with:
+          projectBaseDir:
+            Frontend
+        env:
+          SONAR_TOKEN: ${{ secrets.FRONTEND_SONAR_TOKEN }}
