@@ -3,7 +3,6 @@ on:
   push:
     paths:
       - Frontend/**
-      - .github/**
     branches:
       - master
       - feature/*
