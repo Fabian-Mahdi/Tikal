@@ -3,6 +3,7 @@
 - [Summary](#summary)
 - [Start Developing](#start-developing)
     - [Run the project](#run-the-project)
+    - [Run unit tests](#run-unit-tests)
     - [Linting](#linting)
 
 # Summary
@@ -40,6 +41,16 @@ npm start
 ```
 
 How reload is enabled.
+
+## Run unit tests
+
+You can run the unit tests witht he following command:
+
+```
+npm run test
+```
+
+By default the test use Firefox. You can run the tests on a browser of you choice by opening the following url: http://localhost:9876.
 
 ## Linting
 
