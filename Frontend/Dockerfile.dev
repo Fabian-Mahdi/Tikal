@@ -1,3 +1,10 @@
 FROM  mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm
 
+# Install Firefox
+RUN apt-get update && \
+    apt-get install -y firefox-esr && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN npm install -g npm@11.4.2
+RUN sudo npm install -g @angular/cli@20.1.0
