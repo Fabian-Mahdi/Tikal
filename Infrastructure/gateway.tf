@@ -129,6 +129,7 @@ resource "azurerm_application_gateway" "this" {
     frontend_port_name             = local.frontend_port_name
     protocol                       = "Https"
     ssl_certificate_name           = local.certificate_name
+    host_name                      = "auth.${var.domain_name}"
   }
 
   request_routing_rule {
