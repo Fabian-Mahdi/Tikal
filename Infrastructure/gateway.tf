@@ -4,12 +4,17 @@ locals {
   gateway_ip_configuration_name  = "${var.global_prefix}-${local.gateway_prefix}-ip-configuration"
   frontend_port_name             = "${var.global_prefix}-${local.gateway_prefix}-frontend.port"
   frontend_ip_configuration_name = "${var.global_prefix}-${local.gateway_prefix}-frontend-ip-configuration"
-  backend_address_pool_name      = "${var.global_prefix}-${local.gateway_prefix}-backend-address-pool"
   probe_name                     = "${var.global_prefix}-${local.gateway_prefix}-probe"
   backend_http_settings_name     = "${var.global_prefix}-${local.gateway_prefix}-backend-http-settings"
-  http_listener_name             = "${var.global_prefix}-${local.gateway_prefix}-http-listener"
-  routing_rule_name              = "${var.global_prefix}-${local.gateway_prefix}-routing_rule"
   certificate_name               = "${var.global_prefix}-${local.gateway_prefix}-certificate"
+
+  identity_backend_address_pool_name = "${var.global_prefix}-${local.gateway_prefix}-identity-backend-address-pool"
+  identity_routing_rule_name         = "${var.global_prefix}-${local.gateway_prefix}-identity-api-routing_rule"
+  identity_http_listener_name        = "${var.global_prefix}-${local.gateway_prefix}-identity-api-http-listener"
+
+  frontend_backend_address_pool_name = "${var.global_prefix}-${local.gateway_prefix}-frontend-backend-address-pool"
+  frontend_routing_rule_name         = "${var.global_prefix}-${local.gateway_prefix}-frontend-routing_rule"
+  frontend_http_listener_name        = "${var.global_prefix}-${local.gateway_prefix}-frontend-http-listener"
 }
 
 resource "azurerm_subnet" "application-gateway" {
@@ -95,11 +100,6 @@ resource "azurerm_application_gateway" "this" {
     public_ip_address_id = azurerm_public_ip.application-gateway.id
   }
 
-  backend_address_pool {
-    name  = local.backend_address_pool_name
-    fqdns = [azurerm_linux_web_app.identity-api.default_hostname]
-  }
-
   probe {
     name                                      = local.probe_name
     protocol                                  = "Http"
@@ -123,20 +123,51 @@ resource "azurerm_application_gateway" "this" {
     pick_host_name_from_backend_address = true
   }
 
+  # identity-api
   http_listener {
-    name                           = local.http_listener_name
+    name                           = local.identity_http_listener_name
     frontend_ip_configuration_name = local.frontend_ip_configuration_name
     frontend_port_name             = local.frontend_port_name
     protocol                       = "Https"
     ssl_certificate_name           = local.certificate_name
+    host_name                      = "auth.${var.domain_name}"
   }
 
   request_routing_rule {
-    name                       = local.routing_rule_name
+    name                       = local.identity_routing_rule_name
     priority                   = 9
     rule_type                  = "Basic"
-    http_listener_name         = local.http_listener_name
-    backend_address_pool_name  = local.backend_address_pool_name
+    http_listener_name         = local.identity_http_listener_name
+    backend_address_pool_name  = local.identity_backend_address_pool_name
     backend_http_settings_name = local.backend_http_settings_name
+  }
+
+  backend_address_pool {
+    name  = local.identity_backend_address_pool_name
+    fqdns = [azurerm_linux_web_app.identity-api.default_hostname]
+  }
+
+  # frontend
+  http_listener {
+    name                           = local.frontend_http_listener_name
+    frontend_ip_configuration_name = local.frontend_ip_configuration_name
+    frontend_port_name             = local.frontend_port_name
+    protocol                       = "Https"
+    ssl_certificate_name           = local.certificate_name
+    host_name                      = var.domain_name
+  }
+
+  request_routing_rule {
+    name                       = local.frontend_routing_rule_name
+    priority                   = 8
+    rule_type                  = "Basic"
+    http_listener_name         = local.frontend_http_listener_name
+    backend_address_pool_name  = local.frontend_backend_address_pool_name
+    backend_http_settings_name = local.backend_http_settings_name
+  }
+
+  backend_address_pool {
+    name  = local.frontend_backend_address_pool_name
+    fqdns = [azurerm_linux_web_app.frontend.default_hostname]
   }
 }

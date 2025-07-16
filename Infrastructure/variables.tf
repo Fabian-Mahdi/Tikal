@@ -43,6 +43,11 @@ variable "identity_api_image" {
   description = "The docker image (including tag) which is to be deployed in the identity api app service"
 }
 
+variable "frontend_image" {
+  type        = string
+  description = "The docker image (including tag) which is to be deployed in the frontend app service"
+}
+
 variable "vpn_application_id" {
   type        = string
   description = "The application id of the Azure VPN Enterprise application"

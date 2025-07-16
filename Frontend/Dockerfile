@@ -14,6 +14,8 @@ RUN ng build --configuration=production
 
 FROM nginx:1.29.0-alpine
 
-COPY --from=build app/dist/Frontend/browser /usr/share/nginx/html
+COPY .nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=build app/dist/Frontend/browser /var/www
 
 EXPOSE 80
