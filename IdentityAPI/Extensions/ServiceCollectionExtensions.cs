@@ -1,6 +1,10 @@
 ﻿using Azure.Monitor.OpenTelemetry.AspNetCore;
+using IdentityAPI.Authentication.Domain.DataAccess;
+using IdentityAPI.Authentication.Domain.UseCases;
+using IdentityAPI.Authentication.Infrastructure.Identity;
 using IdentityAPI.Configuration;
 using IdentityAPI.Database;
+using IdentityAPI.ErrorHandling;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Resources;
 
@@ -8,6 +12,31 @@ namespace IdentityAPI.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    public static IServiceCollection AddExceptionHandler(this IServiceCollection services)
+    {
+        services.AddProblemDetails(options =>
+        {
+            options.CustomizeProblemDetails = context =>
+            {
+                context.ProblemDetails.Instance =
+                    $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+            };
+        });
+
+        services.AddExceptionHandler<ProblemExceptionHandler>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddAuthenticationDependencyGroup(this IServiceCollection services)
+    {
+        services.AddScoped<UserCreationDataAccess, IdentityUserCreation>();
+
+        services.AddScoped<RegisterUser>();
+
+        return services;
+    }
+
     public static IServiceCollection AddAzureOpenTelemetry(this IServiceCollection services,
         IConfiguration configuration)
     {
