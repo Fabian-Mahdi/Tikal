@@ -29,5 +29,5 @@
     <ItemGroup>
         <InternalsVisibleTo Include="IdentityAPI.Integration"/>
     </ItemGroup>
-    
+
 </Project>

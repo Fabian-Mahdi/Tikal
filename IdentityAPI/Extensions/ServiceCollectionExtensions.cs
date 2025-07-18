@@ -1,34 +1,13 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using Azure.Monitor.OpenTelemetry.AspNetCore;
+﻿using Azure.Monitor.OpenTelemetry.AspNetCore;
 using IdentityAPI.Configuration;
 using IdentityAPI.Database;
-using IdentityAPI.ErrorHandling;
-using IdentityAPI.Services.TokenService;
-using IdentityAPI.Services.TokenService.Impl;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Resources;
 
 namespace IdentityAPI.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddExceptionHandler(this IServiceCollection services)
-    {
-        services.AddProblemDetails(options =>
-        {
-            options.CustomizeProblemDetails = context =>
-            {
-                context.ProblemDetails.Instance =
-                    $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
-            };
-        });
-
-        services.AddExceptionHandler<ProblemExceptionHandler>();
-
-        return services;
-    }
-
     public static IServiceCollection AddAzureOpenTelemetry(this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -66,15 +45,6 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.Position));
-
-        return services;
-    }
-
-    public static IServiceCollection AddJwtDependencyGroup(this IServiceCollection services)
-    {
-        services.AddSingleton<SecurityTokenHandler, JwtSecurityTokenHandler>();
-
-        services.AddSingleton<ITokenService, JwtTokenService>();
 
         return services;
     }

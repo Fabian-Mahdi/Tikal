@@ -28,16 +28,12 @@ builder.Services.AddHttpLogging(logging =>
 
 builder.Services.AddConfiguration(builder.Configuration);
 
-builder.Services.AddJwtDependencyGroup();
-
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddDbContext(builder.Configuration);
 
 builder.Services.AddControllers();
-
-builder.Services.AddExceptionHandler();
 
 builder.Services.AddHealthChecks();
 
