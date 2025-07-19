@@ -1,10 +1,11 @@
 using IdentityAPI.Authentication.Domain.Models;
 using IdentityAPI.Authentication.Infrastructure.Entities;
+using IdentityAPI.Authentication.Infrastructure.Mappers.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace IdentityAPI.Authentication.Infrastructure.Mappers;
 
-public class UserMapper
+public class UserMapper : IUserMapper
 {
     private readonly UserManager<ApplicationUser> userManager;
 

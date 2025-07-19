@@ -1,7 +1,7 @@
 using IdentityAPI.Authentication.Domain.DataAccess;
 using IdentityAPI.Authentication.Domain.Models;
 using IdentityAPI.Authentication.Infrastructure.Entities;
-using IdentityAPI.Authentication.Infrastructure.Mappers;
+using IdentityAPI.Authentication.Infrastructure.Mappers.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace IdentityAPI.Authentication.Infrastructure.Identity;
@@ -10,9 +10,9 @@ public class IdentityUserService : UserDataAccess
 {
     private readonly UserManager<ApplicationUser> userManager;
 
-    private readonly UserMapper userMapper;
+    private readonly IUserMapper userMapper;
 
-    public IdentityUserService(UserManager<ApplicationUser> userManager, UserMapper userMapper)
+    public IdentityUserService(UserManager<ApplicationUser> userManager, IUserMapper userMapper)
     {
         this.userManager = userManager;
         this.userMapper = userMapper;

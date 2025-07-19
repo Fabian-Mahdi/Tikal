@@ -4,6 +4,7 @@ using IdentityAPI.Authentication.Domain.DataAccess;
 using IdentityAPI.Authentication.Domain.UseCases;
 using IdentityAPI.Authentication.Infrastructure.Identity;
 using IdentityAPI.Authentication.Infrastructure.Mappers;
+using IdentityAPI.Authentication.Infrastructure.Mappers.Interfaces;
 using IdentityAPI.Authentication.Infrastructure.Services;
 using IdentityAPI.Configuration;
 using IdentityAPI.Database;
@@ -40,7 +41,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<TokenDataAccess, JwtTokenService>();
         services.AddScoped<CredentialsDataAccess, IdentityCredentialsService>();
 
-        services.AddScoped<UserMapper>();
+        services.AddScoped<IUserMapper, UserMapper>();
 
         services.AddScoped<RegisterUser>();
         services.AddScoped<LoginUser>();
