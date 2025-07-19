@@ -96,7 +96,7 @@ public class LoginUserTests
             .ReturnsAsync(false);
 
         // when & then
-        Assert.ThrowsAsync<InvalidCredentials>(async () => await loginUser.Login(username, password));
+        Assert.ThrowsAsync<InvalidCredentialsException>(async () => await loginUser.Login(username, password));
     }
 
     [TestCaseSource(typeof(UsernamePasswordSource), nameof(UsernamePasswordSource.TestCases))]
@@ -110,6 +110,6 @@ public class LoginUserTests
             .Setup(u => u.FindByName(username));
 
         // when & then
-        Assert.ThrowsAsync<InvalidCredentials>(async () => await loginUser.Login(username, password));
+        Assert.ThrowsAsync<InvalidCredentialsException>(async () => await loginUser.Login(username, password));
     }
 }

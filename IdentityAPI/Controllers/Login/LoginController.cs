@@ -1,9 +1,9 @@
-using IdentityAPI.Authentication.Domain.Errors;
 using IdentityAPI.Authentication.Domain.Models;
 using IdentityAPI.Authentication.Domain.UseCases;
 using IdentityAPI.Controllers.Login.Dtos;
 using IdentityAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using InvalidCredentialsException = IdentityAPI.Authentication.Domain.Errors.InvalidCredentialsException;
 
 namespace IdentityAPI.Controllers.Login;
 
@@ -32,9 +32,9 @@ public class LoginController : ControllerBase
                 AccessToken = accessToken.Value
             };
         }
-        catch (InvalidCredentials)
+        catch (InvalidCredentialsException)
         {
-            throw new Errors.InvalidCredentials();
+            throw new Errors.InvalidCredentialsException();
         }
     }
 }

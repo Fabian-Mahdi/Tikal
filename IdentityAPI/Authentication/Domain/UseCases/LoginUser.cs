@@ -29,14 +29,14 @@ public class LoginUser
 
         if (!validCredentials)
         {
-            throw new InvalidCredentials();
+            throw new InvalidCredentialsException();
         }
 
         User? user = await userDataAccess.FindByName(username);
 
         if (user == null)
         {
-            throw new InvalidCredentials();
+            throw new InvalidCredentialsException();
         }
 
         return tokenDataAccess.GenerateTokenPair(user);

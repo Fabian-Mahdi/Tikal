@@ -3,9 +3,9 @@ using IdentityAPI.ErrorHandling;
 
 namespace IdentityAPI.Controllers.Register.Errors;
 
-public class RegistrationFailed : ProblemException
+public class RegistrationFailedException : ProblemException
 {
-    public RegistrationFailed(IEnumerable<string> errors)
+    public RegistrationFailedException(IEnumerable<string> errors)
         : base(
             "User registration failed",
             HttpStatusCode.BadRequest,

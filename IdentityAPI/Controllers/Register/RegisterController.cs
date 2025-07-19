@@ -26,7 +26,7 @@ public class RegisterController : ControllerBase
 
         if (!result.Succeeded)
         {
-            throw new RegistrationFailed(result.Errors);
+            throw new RegistrationFailedException(result.Errors);
         }
     }
 }
