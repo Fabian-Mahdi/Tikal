@@ -32,8 +32,9 @@ public class IdentityUserService : UserDataAccess
             return UserCreationResult.Failed(userCreation.Errors.Select(error => error.Description));
         }
 
-        IdentityResult roleAssignment =
-            await userManager.AddToRolesAsync(appUser, user.Roles.Select(role => role.Type.ToString()));
+        IEnumerable<string> roles = user.Roles.Select(role => role.Type.ToString());
+
+        IdentityResult roleAssignment = await userManager.AddToRolesAsync(appUser, roles);
 
         if (!roleAssignment.Succeeded)
         {
