@@ -1,11 +1,15 @@
-﻿using Azure.Monitor.OpenTelemetry.AspNetCore;
+﻿using System.IdentityModel.Tokens.Jwt;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using IdentityAPI.Authentication.Domain.DataAccess;
 using IdentityAPI.Authentication.Domain.UseCases;
 using IdentityAPI.Authentication.Infrastructure.Identity;
+using IdentityAPI.Authentication.Infrastructure.Mappers;
+using IdentityAPI.Authentication.Infrastructure.Services;
 using IdentityAPI.Configuration;
 using IdentityAPI.Database;
 using IdentityAPI.ErrorHandling;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Resources;
 
 namespace IdentityAPI.Extensions;
@@ -30,9 +34,16 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddAuthenticationDependencyGroup(this IServiceCollection services)
     {
-        services.AddScoped<UserCreationDataAccess, IdentityUserCreation>();
+        services.AddSingleton<SecurityTokenHandler, JwtSecurityTokenHandler>();
+
+        services.AddScoped<UserDataAccess, IdentityUserService>();
+        services.AddScoped<TokenDataAccess, JwtTokenService>();
+        services.AddScoped<CredentialsDataAccess, IdentityCredentialsService>();
+
+        services.AddScoped<UserMapper>();
 
         services.AddScoped<RegisterUser>();
+        services.AddScoped<LoginUser>();
 
         return services;
     }

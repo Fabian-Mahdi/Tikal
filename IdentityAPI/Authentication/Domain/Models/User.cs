@@ -2,18 +2,23 @@ namespace IdentityAPI.Authentication.Domain.Models;
 
 public class User
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     public string Username { get; set; }
 
-    public string Password { get; set; }
-
     public List<Role> Roles { get; }
 
-    public User(string username, string password)
+    public User(string username)
     {
+        Id = string.Empty;
         Username = username;
-        Password = password;
+        Roles = [];
+    }
+
+    public User(string id, string username)
+    {
+        Id = id;
+        Username = username;
         Roles = [];
     }
 

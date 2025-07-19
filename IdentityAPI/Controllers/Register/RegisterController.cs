@@ -20,9 +20,9 @@ public class RegisterController : ControllerBase
     [HttpPost]
     public async Task Register(RegisterDto registerDto)
     {
-        User user = new(registerDto.Username, registerDto.Password);
+        User user = new(registerDto.Username);
 
-        RegisterResult result = await registerUser.Register(user);
+        RegisterResult result = await registerUser.Register(user, registerDto.Password);
 
         if (!result.Succeeded)
         {

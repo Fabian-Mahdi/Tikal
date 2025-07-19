@@ -34,18 +34,18 @@ public class RegisterResult
 
 public class RegisterUser
 {
-    private readonly UserCreationDataAccess userCreationDataAccess;
+    private readonly UserDataAccess _userDataAccess;
 
-    public RegisterUser(UserCreationDataAccess userCreationDataAccess)
+    public RegisterUser(UserDataAccess userDataAccess)
     {
-        this.userCreationDataAccess = userCreationDataAccess;
+        _userDataAccess = userDataAccess;
     }
 
-    public async Task<RegisterResult> Register(User user)
+    public async Task<RegisterResult> Register(User user, string password)
     {
         user.AddRole(RoleType.User);
 
-        UserCreationResult userCreationResult = await userCreationDataAccess.CreateUser(user);
+        UserCreationResult userCreationResult = await _userDataAccess.CreateUser(user, password);
 
         return userCreationResult.Succeeded
             ? RegisterResult.Success()

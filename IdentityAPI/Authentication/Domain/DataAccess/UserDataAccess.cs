@@ -31,7 +31,9 @@ public class UserCreationResult
     }
 }
 
-public interface UserCreationDataAccess
+public interface UserDataAccess
 {
-    Task<UserCreationResult> CreateUser(User user);
+    Task<UserCreationResult> CreateUser(User user, string password);
+
+    Task<User?> FindByName(string name);
 }
