@@ -2,6 +2,7 @@ using IdentityAPI.Authentication.Domain.Errors;
 using IdentityAPI.Authentication.Domain.Models;
 using IdentityAPI.Authentication.Domain.UseCases;
 using IdentityAPI.Controllers.Login.Dtos;
+using IdentityAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityAPI.Controllers.Login;
@@ -22,12 +23,13 @@ public class LoginController : ControllerBase
     {
         try
         {
-            (RefreshToken, AccessToken) tokenPair = await loginUser.Login(dto.Username, dto.Password);
+            (RefreshToken refreshToken, AccessToken accessToken) = await loginUser.Login(dto.Username, dto.Password);
+
+            Response.Cookies.AddRefreshToken(refreshToken.Value);
 
             return new TokenDto
             {
-                RefreshToken = tokenPair.Item1.Value,
-                AccessToken = tokenPair.Item2.Value
+                AccessToken = accessToken.Value
             };
         }
         catch (InvalidCredentials)
