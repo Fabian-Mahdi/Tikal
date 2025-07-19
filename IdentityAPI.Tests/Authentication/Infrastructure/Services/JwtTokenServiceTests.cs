@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using IdentityAPI.Authentication.Domain.Models;
 using IdentityAPI.Authentication.Infrastructure.Services;
 using IdentityAPI.Configuration;
@@ -20,6 +21,13 @@ public class JwtTokenServiceTests
         SigningKey = "MyVeryVerySecureJwtSigningKey"
     };
 
+    private readonly TokenValidationResult successfulResult = new()
+    {
+        IsValid = true
+    };
+
+    private const string testToken = "token";
+
     // dependencies
     private Mock<SecurityTokenHandler> securityTokenHandler;
 
@@ -38,6 +46,10 @@ public class JwtTokenServiceTests
 
         securityTokenHandler
             .Setup(s => s.WriteToken(It.IsAny<SecurityToken>()));
+
+        securityTokenHandler
+            .Setup(s => s.ValidateTokenAsync(It.IsAny<string>(), It.IsAny<TokenValidationParameters>()))
+            .ReturnsAsync(successfulResult);
 
         options = new Mock<IOptions<JwtOptions>>();
 
@@ -69,7 +81,7 @@ public class JwtTokenServiceTests
     }
 
     [TestCaseSource(typeof(UserSource), nameof(UserSource.TestCases))]
-    public void Given_User_When_GenerateTokenPain_Then_Sets_Correct_Claims_And_Issuer(User user)
+    public void Given_User_When_GenerateTokenPair_Then_Sets_Correct_Claims_And_Issuer(User user)
     {
         // given
         List<SecurityTokenDescriptor> descriptors = [];
@@ -95,5 +107,97 @@ public class JwtTokenServiceTests
                 Assert.That(descriptor.Subject.FindFirst("Name")?.Value, Is.EqualTo(user.Username));
             }
         }
+    }
+
+    [Test]
+    public async Task Given_Token_When_ValidateToken_Then_Calls_SecurityTokenHandler_ValidateTokenAsync()
+    {
+        // when
+        await jwtTokenService.ValidateToken(testToken);
+
+        // then
+        securityTokenHandler.Verify(s => s.ValidateTokenAsync(testToken, It.IsAny<TokenValidationParameters>()));
+    }
+
+    [Test]
+    public async Task Given_Valid_Token_When_ValidateToken_Then_Returns_True()
+    {
+        // when
+        bool result = await jwtTokenService.ValidateToken(testToken);
+
+        // then
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public async Task Given_Invalid_Token_When_ValidateToken_Then_Returns_False()
+    {
+        // given
+        TokenValidationResult unsuccessfulResult = new()
+        {
+            IsValid = false
+        };
+
+        securityTokenHandler
+            .Setup(s => s.ValidateTokenAsync(testToken, It.IsAny<TokenValidationParameters>()))
+            .ReturnsAsync(unsuccessfulResult);
+
+        // when
+        bool result = await jwtTokenService.ValidateToken(testToken);
+
+        // then
+        Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public async Task Given_Existing_Claim_When_ExtractClaim_Then_Returns_Value()
+    {
+        // given
+        const string claimKey = "key";
+        const string claimValue = "value";
+
+        ClaimsIdentity identity = new();
+        identity.AddClaim(new Claim(claimKey, claimValue));
+
+        TokenValidationResult claimsResult = new()
+        {
+            ClaimsIdentity = identity
+        };
+
+        securityTokenHandler
+            .Setup(s => s.ValidateTokenAsync(testToken, It.IsAny<TokenValidationParameters>()))
+            .ReturnsAsync(claimsResult);
+
+        // when
+        string? value = await jwtTokenService.ExtractClaim<string>(testToken, claimKey);
+
+        // then
+        Assert.That(value, Is.EqualTo(claimValue));
+    }
+
+    [Test]
+    public async Task Given_NonExisting_Claim_When_ExtractClaim_Then_Returns_Null()
+    {
+        // given
+        const string claimKey = "key";
+        const string claimValue = "value";
+
+        ClaimsIdentity identity = new();
+        identity.AddClaim(new Claim(claimKey, claimValue));
+
+        TokenValidationResult claimsResult = new()
+        {
+            ClaimsIdentity = identity
+        };
+
+        securityTokenHandler
+            .Setup(s => s.ValidateTokenAsync(testToken, It.IsAny<TokenValidationParameters>()))
+            .ReturnsAsync(claimsResult);
+
+        // when
+        string? value = await jwtTokenService.ExtractClaim<string>(testToken, "nonExistingKey");
+
+        // then
+        Assert.That(value, Is.Null);
     }
 }
