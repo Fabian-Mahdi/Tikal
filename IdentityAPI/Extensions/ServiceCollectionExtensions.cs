@@ -45,6 +45,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<RegisterUser>();
         services.AddScoped<LoginUser>();
+        services.AddScoped<RefreshTokens>();
 
         return services;
     }
