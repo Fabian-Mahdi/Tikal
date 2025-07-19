@@ -1,4 +1,4 @@
-﻿using IdentityAPI.Dtos;
+using IdentityAPI.Controllers.Register.Dtos;
 
 namespace IdentityAPI.Integration.Data.Dtos.Register;
 
@@ -14,7 +14,7 @@ public static class InvalidRegisterDtoSource
         yield return new RegisterDto
         {
             Username = "username",
-            Password = "This password doesnt contain a number"
+            Password = "This password does not contain a number"
         };
         yield return new RegisterDto
         {

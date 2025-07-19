@@ -1,27 +1,29 @@
-﻿using IdentityAPI.Models;
+using IdentityAPI.Authentication.Domain.Models;
 
 namespace IdentityAPI.Tests.Data.Models;
 
-internal static class UserSource
+public static class UserSource
 {
     public static IEnumerable<User> TestCases()
     {
-        yield return new User
-        {
-            Id = "id",
-            UserName = "username"
-        };
-        yield return new User
-        {
-            Id = "",
-            UserName = ""
-        };
-        yield return new User
-        {
-            Id =
-                "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam",
-            UserName =
-                "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam"
-        };
+        yield return new User(
+            "id",
+            "username",
+            [
+                new Role(RoleType.User)
+            ]
+        );
+        yield return new User(
+            "203849028340234820934820",
+            "fdiaospivuhcjpwaeoifj",
+            [
+                new Role(RoleType.Admin)
+            ]
+        );
+        yield return new User(
+            "",
+            "",
+            []
+        );
     }
 }

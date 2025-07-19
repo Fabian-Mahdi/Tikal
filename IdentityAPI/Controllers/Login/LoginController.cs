@@ -1,10 +1,9 @@
-﻿using IdentityAPI.Controllers.Login.Errors;
-using IdentityAPI.Dtos;
-using IdentityAPI.Models;
-using IdentityAPI.Services.TokenService;
-using Microsoft.AspNetCore.Identity;
+using IdentityAPI.Authentication.Domain.Models;
+using IdentityAPI.Authentication.Domain.UseCases;
+using IdentityAPI.Controllers.Login.Dtos;
+using IdentityAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+using InvalidCredentialsException = IdentityAPI.Authentication.Domain.Errors.InvalidCredentialsException;
 
 namespace IdentityAPI.Controllers.Login;
 
@@ -12,42 +11,30 @@ namespace IdentityAPI.Controllers.Login;
 [Route("[controller]")]
 public class LoginController : ControllerBase
 {
-    private readonly SignInManager<User> signInManager;
+    private readonly LoginUser loginUser;
 
-    private readonly ITokenService tokenService;
-
-    private readonly UserManager<User> userManager;
-
-    public LoginController(
-        UserManager<User> userManager,
-        SignInManager<User> signInManager,
-        ITokenService tokenService
-    )
+    public LoginController(LoginUser loginUser)
     {
-        this.userManager = userManager;
-        this.signInManager = signInManager;
-        this.tokenService = tokenService;
+        this.loginUser = loginUser;
     }
 
     [HttpPost]
-    public async Task<TokenDto> Login(LoginDto loginDto)
+    public async Task<TokenDto> Login(LoginDto dto)
     {
-        User user = await userManager.FindByNameAsync(loginDto.Username)
-                    ?? throw new InvalidCredentialsException();
-
-        SignInResult result = await signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-
-        if (!result.Succeeded)
+        try
         {
-            throw new InvalidCredentialsException();
+            (RefreshToken refreshToken, AccessToken accessToken) = await loginUser.Login(dto.Username, dto.Password);
+
+            Response.Cookies.AddRefreshToken(refreshToken.Value);
+
+            return new TokenDto
+            {
+                AccessToken = accessToken.Value
+            };
         }
-
-        TokenPair tokenPair = tokenService.GenerateTokenPair(user);
-
-        return new TokenDto
+        catch (InvalidCredentialsException)
         {
-            AccessToken = tokenPair.AccessToken,
-            RefreshToken = tokenPair.RefreshToken
-        };
+            throw new Errors.InvalidCredentialsException();
+        }
     }
 }

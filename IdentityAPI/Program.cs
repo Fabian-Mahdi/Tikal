@@ -1,6 +1,6 @@
+using IdentityAPI.Authentication.Infrastructure.Entities;
 using IdentityAPI.Database;
 using IdentityAPI.Extensions;
-using IdentityAPI.Models;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Identity;
 
@@ -28,16 +28,16 @@ builder.Services.AddHttpLogging(logging =>
 
 builder.Services.AddConfiguration(builder.Configuration);
 
-builder.Services.AddJwtDependencyGroup();
+builder.Services.AddExceptionHandler();
 
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddDbContext(builder.Configuration);
 
-builder.Services.AddControllers();
+builder.Services.AddAuthenticationDependencyGroup();
 
-builder.Services.AddExceptionHandler();
+builder.Services.AddControllers();
 
 builder.Services.AddHealthChecks();
 

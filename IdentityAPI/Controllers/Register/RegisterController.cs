@@ -1,7 +1,7 @@
-﻿using IdentityAPI.Controllers.Register.Errors;
-using IdentityAPI.Dtos;
-using IdentityAPI.Models;
-using Microsoft.AspNetCore.Identity;
+using IdentityAPI.Authentication.Domain.Models;
+using IdentityAPI.Authentication.Domain.UseCases;
+using IdentityAPI.Controllers.Register.Dtos;
+using IdentityAPI.Controllers.Register.Errors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityAPI.Controllers.Register;
@@ -10,33 +10,23 @@ namespace IdentityAPI.Controllers.Register;
 [Route("[controller]")]
 public class RegisterController : ControllerBase
 {
-    private readonly UserManager<User> userManager;
+    private readonly RegisterUser registerUser;
 
-    public RegisterController(UserManager<User> userManager)
+    public RegisterController(RegisterUser registerUser)
     {
-        this.userManager = userManager;
+        this.registerUser = registerUser;
     }
 
     [HttpPost]
     public async Task Register(RegisterDto registerDto)
     {
-        User user = new()
+        User user = new(registerDto.Username);
+
+        RegisterResult result = await registerUser.Register(user, registerDto.Password);
+
+        if (!result.Succeeded)
         {
-            UserName = registerDto.Username
-        };
-
-        IdentityResult userCreation = await userManager.CreateAsync(user, registerDto.Password);
-
-        if (!userCreation.Succeeded)
-        {
-            throw new UserCreationFailedException(userCreation.Errors);
-        }
-
-        IdentityResult roleAssignment = await userManager.AddToRoleAsync(user, "User");
-
-        if (!roleAssignment.Succeeded)
-        {
-            throw new RoleAssignmentFailedException(roleAssignment.Errors);
+            throw new RegistrationFailedException(result.Errors);
         }
     }
 }

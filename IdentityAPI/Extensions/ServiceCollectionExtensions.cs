@@ -1,10 +1,14 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
+using IdentityAPI.Authentication.Domain.DataAccess;
+using IdentityAPI.Authentication.Domain.UseCases;
+using IdentityAPI.Authentication.Infrastructure.Identity;
+using IdentityAPI.Authentication.Infrastructure.Mappers;
+using IdentityAPI.Authentication.Infrastructure.Mappers.Interfaces;
+using IdentityAPI.Authentication.Infrastructure.Services;
 using IdentityAPI.Configuration;
 using IdentityAPI.Database;
 using IdentityAPI.ErrorHandling;
-using IdentityAPI.Services.TokenService;
-using IdentityAPI.Services.TokenService.Impl;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Resources;
@@ -25,6 +29,22 @@ public static class ServiceCollectionExtensions
         });
 
         services.AddExceptionHandler<ProblemExceptionHandler>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddAuthenticationDependencyGroup(this IServiceCollection services)
+    {
+        services.AddSingleton<SecurityTokenHandler, JwtSecurityTokenHandler>();
+
+        services.AddScoped<UserDataAccess, IdentityUserService>();
+        services.AddScoped<TokenDataAccess, JwtTokenService>();
+        services.AddScoped<CredentialsDataAccess, IdentityCredentialsService>();
+
+        services.AddScoped<IUserMapper, UserMapper>();
+
+        services.AddScoped<RegisterUser>();
+        services.AddScoped<LoginUser>();
 
         return services;
     }
@@ -66,15 +86,6 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.Position));
-
-        return services;
-    }
-
-    public static IServiceCollection AddJwtDependencyGroup(this IServiceCollection services)
-    {
-        services.AddSingleton<SecurityTokenHandler, JwtSecurityTokenHandler>();
-
-        services.AddSingleton<ITokenService, JwtTokenService>();
 
         return services;
     }

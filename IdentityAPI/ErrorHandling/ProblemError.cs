@@ -1,4 +1,4 @@
-﻿namespace IdentityAPI.ErrorHandling;
+namespace IdentityAPI.ErrorHandling;
 
 public record ProblemError
 {

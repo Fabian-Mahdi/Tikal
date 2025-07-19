@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityAPI.ErrorHandling;
@@ -12,8 +12,11 @@ public class ProblemExceptionHandler : IExceptionHandler
         this.problemDetailsService = problemDetailsService;
     }
 
-    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
-        CancellationToken cancellationToken)
+    public async ValueTask<bool> TryHandleAsync(
+        HttpContext httpContext,
+        Exception exception,
+        CancellationToken cancellationToken
+    )
     {
         if (exception is not ProblemException problemException)
         {
