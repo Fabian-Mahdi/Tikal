@@ -22,6 +22,13 @@ public class User
         Roles = [];
     }
 
+    public User(string id, string username, List<Role> roles)
+    {
+        Id = id;
+        Username = username;
+        Roles = roles;
+    }
+
     public void AddRole(RoleType roleType)
     {
         Role role = new(roleType);
