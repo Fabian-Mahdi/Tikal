@@ -4,6 +4,7 @@ using IdentityAPI.Authentication.Infrastructure.Entities;
 using IdentityAPI.Authentication.Infrastructure.Identity;
 using IdentityAPI.Authentication.Infrastructure.Mappers.Interfaces;
 using IdentityAPI.Tests.Data.Models;
+using IdentityAPI.Tests.Data.Other;
 using IdentityAPI.Tests.MockHelpers;
 using Microsoft.AspNetCore.Identity;
 using Moq;
@@ -16,6 +17,10 @@ public class IdentityUserServiceTests
     private readonly IdentityResult successfulResult = IdentityResult.Success;
 
     private readonly IdentityResult failedResult = IdentityResult.Failed(new IdentityError());
+
+    private readonly ApplicationUser defaultAppUser = new();
+
+    private readonly User defaultUser = new("username");
 
     private const string testPassword = "password";
 
@@ -40,7 +45,15 @@ public class IdentityUserServiceTests
             .Setup(u => u.AddToRolesAsync(It.IsAny<ApplicationUser>(), It.IsAny<IEnumerable<string>>()))
             .ReturnsAsync(successfulResult);
 
+        userManager
+            .Setup(u => u.FindByNameAsync(It.IsAny<string>()))
+            .ReturnsAsync(defaultAppUser);
+
         userMapper = new Mock<IUserMapper>();
+
+        userMapper
+            .Setup(u => u.FromEntity(It.IsAny<ApplicationUser>()))
+            .ReturnsAsync(defaultUser);
 
         identityUserService = new IdentityUserService(userManager.Object, userMapper.Object);
     }
@@ -109,5 +122,39 @@ public class IdentityUserServiceTests
 
         // then
         Assert.That(result.Succeeded, Is.False);
+    }
+
+    [TestCaseSource(typeof(UsernameSource), nameof(UsernameSource.TestCases))]
+    public async Task Given_Username_When_FindByName_Then_Calls_UserManager_FindByNameAsync(string username)
+    {
+        // when
+        await identityUserService.FindByName(username);
+
+        // then
+        userManager.Verify(u => u.FindByNameAsync(username), Times.Once);
+    }
+
+    [TestCaseSource(typeof(UsernameSource), nameof(UsernameSource.TestCases))]
+    public async Task Given_No_User_Found_When_FindByName_Then_Returns_Null(string username)
+    {
+        // given
+        userManager
+            .Setup(u => u.FindByNameAsync(username));
+
+        // when
+        User? user = await identityUserService.FindByName(username);
+
+        // then
+        Assert.That(user, Is.Null);
+    }
+
+    [TestCaseSource(typeof(UsernameSource), nameof(UsernameSource.TestCases))]
+    public async Task Given_User_Found_When_FindByName_Then_Calls_UserMapper_FromEntity(string username)
+    {
+        // when
+        await identityUserService.FindByName(username);
+
+        // then
+        userMapper.Verify(u => u.FromEntity(It.IsAny<ApplicationUser>()), Times.Once);
     }
 }
