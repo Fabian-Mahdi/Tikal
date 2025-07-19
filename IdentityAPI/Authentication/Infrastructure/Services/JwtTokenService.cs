@@ -30,6 +30,8 @@ public class JwtTokenService : TokenDataAccess
         {
             ValidateIssuer = true,
             ValidIssuer = this.options.Issuer,
+            ValidateAudience = true,
+            ValidAudience = this.options.Audience,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(signingKey),
             ValidateLifetime = true
