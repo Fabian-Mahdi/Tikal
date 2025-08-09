@@ -13,6 +13,5 @@ export class Background {
 
   constructor() {
     this.scene = new THREE.Scene();
-    console.log(this.scene);
   }
 }
