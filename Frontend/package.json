@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test --browsers=FirefoxHeadless",
     "test:ci": "ng test --no-watch --no-progress --browsers=FirefoxHeadless",
-    "lint": "ng lint"
+    "lint": "ng lint --fix",
+    "verify": "ng lint"
   },
   "prettier": {
     "overrides": [
