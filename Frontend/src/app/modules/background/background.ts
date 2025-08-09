@@ -1,20 +1,18 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import * as THREE from "three";
 
 @Component({
-  selector: 'app-background',
+  selector: "app-background",
   imports: [],
-  templateUrl: './background.html',
-  styleUrl: './background.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: "./background.html",
+  styleUrl: "./background.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Background
-{
-  private scene: THREE.Scene
+export class Background {
+  private scene: THREE.Scene;
 
-  constructor()
-  {
+  constructor() {
     this.scene = new THREE.Scene();
-    console.log(this.scene)
+    console.log(this.scene);
   }
 }
