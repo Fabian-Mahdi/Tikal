@@ -11,9 +11,11 @@ builder.Logging.ClearProviders();
 if (builder.Environment.IsDevelopment())
 {
     builder.Logging.ConfigureDevOpenTelemetry(builder.Configuration);
+    builder.Services.AddDevCorsPolicy();
 }
 else
 {
+    builder.Services.AddProdCorsPolicy();
     builder.Configuration.ConfigureKeyVault();
     builder.Services.AddAzureOpenTelemetry(builder.Configuration);
 }
@@ -45,7 +47,12 @@ WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseCors("development");
     app.ApplyMigrations();
+}
+else
+{
+    app.UseCors("production");
 }
 
 // seed identity data

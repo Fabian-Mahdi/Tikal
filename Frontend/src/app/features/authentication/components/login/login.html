@@ -1,0 +1,25 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="username">Username</label>
+    <input formControlName="username" id="username" type="text" />
+  </div>
+  @if (username.invalid && (username.touched || username.dirty)) {
+    <div>
+      @if (username.errors?.["required"]) {
+        Username is required
+      }
+    </div>
+  }
+  <div>
+    <label for="password">Password</label>
+    <input formControlName="password" id="password" type="password" />
+  </div>
+  @if (password.invalid && (password.touched || password.dirty)) {
+    <div>
+      @if (password.errors?.["required"]) {
+        Password is required
+      }
+    </div>
+  }
+  <button type="submit">Login</button>
+</form>

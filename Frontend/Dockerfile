@@ -10,7 +10,9 @@ RUN npm install -g @angular/cli
 
 COPY . .
 
-RUN ng build --configuration=production
+ARG ENV=production
+
+RUN ng build --configuration=${ENV}
 
 FROM nginx:1.29.0-alpine
 

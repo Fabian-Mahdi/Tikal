@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host=0.0.0.0 --poll 2000",
+    "start": "ng serve --host=0.0.0.0 --poll 2000 --configuration development",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --browsers=FirefoxHeadless",
     "test:ci": "ng test --no-watch --no-progress --browsers=FirefoxHeadless",
-    "lint": "ng lint"
+    "lint": "ng lint --fix",
+    "verify": "ng lint"
   },
   "prettier": {
     "overrides": [
@@ -28,7 +29,9 @@
     "@angular/forms": "^20.0.0",
     "@angular/platform-browser": "^20.0.0",
     "@angular/router": "^20.0.0",
+    "@types/three": "^0.178.1",
     "rxjs": "~7.8.0",
+    "three": "^0.178.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
