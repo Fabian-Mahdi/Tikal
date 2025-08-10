@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Identity;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
+builder.Logging.ConfigureOpenTelemetry();
 
 if (builder.Environment.IsDevelopment())
 {
-    builder.Logging.ConfigureDevOpenTelemetry(builder.Configuration);
+    builder.Services.AddDevOpenTelemetry();
     builder.Services.AddDevCorsPolicy();
 }
 else
@@ -35,7 +36,7 @@ builder.Services.AddExceptionHandler();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddDbContext(builder.Configuration);
+builder.Services.AddDbContext(builder);
 
 builder.Services.AddAuthenticationDependencyGroup();
 

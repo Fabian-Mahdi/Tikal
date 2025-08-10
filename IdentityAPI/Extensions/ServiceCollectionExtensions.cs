@@ -11,7 +11,9 @@ using IdentityAPI.Database;
 using IdentityAPI.ErrorHandling;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace IdentityAPI.Extensions;
 
@@ -65,21 +67,30 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddDevOpenTelemetry(this IServiceCollection services)
     {
-        DatabaseOptions options = new();
-        configuration.GetSection(DatabaseOptions.Position).Bind(options);
+        services.AddOpenTelemetry()
+            .WithTracing(tracing =>
+            {
+                tracing
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddOtlpExporter();
+            })
+            .WithLogging(logging =>
+            {
+                logging
+                    .AddOtlpExporter();
+            });
 
-        services.AddDbContext<ApplicationDbContext>(optionsBuilder =>
-        {
-            optionsBuilder.UseNpgsql(
-                $"Server={options.Host};" +
-                $"Port={options.Port};" +
-                $"Database={options.DatabaseName};" +
-                $"User ID={options.Username};" +
-                $"Password={options.Password};"
-            );
-        });
+        return services;
+    }
+
+    public static IServiceCollection AddDbContext(this IServiceCollection services, WebApplicationBuilder builder)
+    {
+        string connectionString = builder.Configuration.GetConnectionString("identitydb")!;
+
+        services.AddDbContext<ApplicationDbContext>(optionsBuilder => { optionsBuilder.UseNpgsql(connectionString); });
 
         return services;
     }
