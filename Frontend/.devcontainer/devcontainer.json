@@ -11,7 +11,6 @@
 	// "features": {},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-	"postStartCommand": "npm ci",
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
