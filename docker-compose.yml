@@ -9,6 +9,8 @@ services:
     image: ${DOCKER_REGISTRY-}frontend
     build:
       context: ./Frontend
+      args:
+        ENV: development
 
   identitydb:
     image: postgres:17.5
