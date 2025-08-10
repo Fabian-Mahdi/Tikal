@@ -1,9 +1,9 @@
-import { Routes } from '@angular/router';
-import { Background } from './modules/background/background';
+import { Routes } from "@angular/router";
+import { Login } from "./features/authentication/components/login/login";
 
 export const routes: Routes = [
-    {
-        path: "",
-        component: Background
-    }
+  {
+    path: "",
+    component: Login,
+  },
 ];
