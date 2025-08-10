@@ -49,6 +49,10 @@ if (app.Environment.IsDevelopment())
     app.UseCors("development");
     app.ApplyMigrations();
 }
+else
+{
+    app.UseCors("production");
+}
 
 // seed identity data
 using (IServiceScope scope = app.Services.CreateScope())

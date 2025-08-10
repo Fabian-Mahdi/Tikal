@@ -103,4 +103,17 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+    public static IServiceCollection AddProdCorsPolicy(this IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("production",
+                builder => builder.WithOrigins("https://tikalonline.com")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+        });
+
+        return services;
+    }
 }
