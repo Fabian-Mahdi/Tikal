@@ -2,9 +2,9 @@
 
 - [Summary](#summary)
 - [Start Developing](#start-developing)
-    - [Run the project](#run-the-project)
-    - [Run unit tests](#run-unit-tests)
-    - [Linting](#linting)
+  - [Run the project](#run-the-project)
+  - [Run unit tests](#run-unit-tests)
+  - [Linting](#linting)
 
 # Summary
 
@@ -12,35 +12,17 @@ This project contains the frontend for the Tikal project.
 
 # Start Developing
 
-This project is made to run using devcontainers. See [devcontainers](https://containers.dev/) for more information.
-
-For devcontainer configuration see the following file:
-
-```
-.devcontainer/devcontainer.json
-```
-
-If you run this project via devcontainers it will automatically spin up the whole development environment.
-
-The development environment is defined in the following files:
-
-```
-docker-compose.yml
-```
-
-```
-docker-compose.override.yml
-```
-
 ## Run the project
 
-You can run the project using the following command:
+The frontend is automatically run using Aspire. It is not recommended to run the project directly.
 
-```
-npm start
-```
+## Debug
 
-How reload is enabled.
+To be able to debug you need to setup your favourite IDE to attach itselft to the browser in which you are running the frontend.
+
+A configuration to enable vs code to attach itself to firefox is provided in ".vscode/launch.json".
+
+To configure firefox to enable remote debugging see [here](https://marketplace.visualstudio.com/items?itemName=firefox-devtools.vscode-firefox-debug).
 
 ## Run unit tests
 
@@ -61,4 +43,3 @@ npm run lint
 ```
 
 The configuration is defined in **eslint.config.js**
-
