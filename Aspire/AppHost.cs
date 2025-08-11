@@ -13,4 +13,8 @@ IResourceBuilder<PostgresDatabaseResource> postgresdb = postgres.AddDatabase("id
 IResourceBuilder<ProjectResource> identityapi = builder.AddProject<IdentityAPI>("IdentityAPI")
     .WithReference(postgresdb);
 
+// frontend
+builder.AddNpmApp("frontend", "../Frontend")
+    .WithReference(identityapi);
+
 builder.Build().Run();
