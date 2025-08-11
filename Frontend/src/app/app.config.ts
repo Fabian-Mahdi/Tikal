@@ -13,9 +13,11 @@ import {
 } from "@angular/common/http";
 import { baseUrlInterceptor } from "./core/interceptors/base-url/base-url-interceptor";
 import { authenticationInterceptor } from "./core/interceptors/authentication/authentication-interceptor";
+import { provideInstrumentation } from "./core/telemetry/otel-instrumentation";
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideInstrumentation(),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
