@@ -12,7 +12,6 @@ builder.Logging.ConfigureOpenTelemetry();
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDevOpenTelemetry();
-    builder.Services.AddDevCorsPolicy();
 }
 else
 {
@@ -48,7 +47,6 @@ WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseCors("development");
     app.ApplyMigrations();
 }
 else

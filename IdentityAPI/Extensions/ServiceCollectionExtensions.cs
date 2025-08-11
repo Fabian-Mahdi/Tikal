@@ -102,19 +102,6 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddDevCorsPolicy(this IServiceCollection services)
-    {
-        services.AddCors(options =>
-        {
-            options.AddPolicy("development",
-                builder => builder.AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod());
-        });
-
-        return services;
-    }
-
     public static IServiceCollection AddProdCorsPolicy(this IServiceCollection services)
     {
         services.AddCors(options =>
