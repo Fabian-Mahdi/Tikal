@@ -28,7 +28,7 @@ export function provideInstrumentation(): EnvironmentProviders {
       instrumentations: [
         getWebAutoInstrumentations({
           "@opentelemetry/instrumentation-document-load": {},
-          "@opentelemetry/instrumentation-user-interaction": {},
+          "@opentelemetry/instrumentation-user-interaction": { enabled: false },
           "@opentelemetry/instrumentation-fetch": {},
           "@opentelemetry/instrumentation-xml-http-request": {},
         }),
