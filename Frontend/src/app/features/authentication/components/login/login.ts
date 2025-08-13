@@ -6,9 +6,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { LoginService } from "../../services/login/login-service";
 import { User } from "../../models/user";
-import { firstValueFrom } from "rxjs";
+import { Router } from "@angular/router";
+import { LoginUseCase } from "../../usecases/login/login-usecase";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,11 +18,13 @@ import { firstValueFrom } from "rxjs";
   styleUrl: "./login.scss",
 })
 export class Login {
+  private readonly router: Router = inject(Router);
+
   private readonly formBuilder: NonNullableFormBuilder = inject(
     NonNullableFormBuilder,
   );
 
-  private readonly loginService: LoginService = inject(LoginService);
+  private readonly login: LoginUseCase = inject(LoginUseCase);
 
   readonly loginForm: FormGroup = this.formBuilder.group({
     username: ["", [Validators.required]],
@@ -40,15 +42,15 @@ export class Login {
 
     const user: User = { username: username };
 
-    const result = await firstValueFrom(
-      this.loginService.login(user, password),
-    );
+    const result = await this.login.call(user, password);
 
-    if (result.isSuccess) {
+    if (result.isOk()) {
       console.log("success");
     } else {
       console.log("failure");
     }
+
+    this.router.navigate(["register"]);
   }
 
   get username(): FormControl<string> {
