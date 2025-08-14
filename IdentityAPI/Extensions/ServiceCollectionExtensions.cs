@@ -1,5 +1,4 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using Azure.Monitor.OpenTelemetry.AspNetCore;
 using IdentityAPI.Authentication.Domain.DataAccess;
 using IdentityAPI.Authentication.Domain.UseCases;
 using IdentityAPI.Authentication.Infrastructure.Identity;
@@ -13,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using OpenTelemetry.Logs;
-using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
 namespace IdentityAPI.Extensions;
@@ -49,21 +47,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<RegisterUser>();
         services.AddScoped<LoginUser>();
         services.AddScoped<RefreshTokens>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddAzureOpenTelemetry(this IServiceCollection services,
-        IConfiguration configuration)
-    {
-        services.AddOpenTelemetry().UseAzureMonitor(options =>
-        {
-            options.ConnectionString = configuration.GetValue<string>("AzureInsightsConnectionString");
-        }).ConfigureResource(resourceBuilder =>
-        {
-            resourceBuilder.Clear();
-            resourceBuilder.AddService("IdentityApi");
-        });
 
         return services;
     }

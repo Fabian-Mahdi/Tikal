@@ -17,7 +17,6 @@ else
 {
     builder.Services.AddProdCorsPolicy();
     builder.Configuration.ConfigureKeyVault();
-    builder.Services.AddAzureOpenTelemetry(builder.Configuration);
 }
 
 builder.Services.AddHttpLogging(logging =>

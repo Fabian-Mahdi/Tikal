@@ -25,19 +25,6 @@
           "System.Memory": "4.5.5"
         }
       },
-      "Azure.Monitor.OpenTelemetry.AspNetCore": {
-        "type": "Direct",
-        "requested": "[1.3.0, )",
-        "resolved": "1.3.0",
-        "contentHash": "OMWHBFq5n5xqEE0xUSpNejipgvzjIaQTdbDLVEtV7EwuUMe3AJvkoNqO0Lkcdzv9sYk6R50PrmEfVBzAMrHhFA==",
-        "dependencies": {
-          "Azure.Core": "1.46.1",
-          "Azure.Monitor.OpenTelemetry.Exporter": "1.4.0",
-          "OpenTelemetry.Extensions.Hosting": "1.12.0",
-          "OpenTelemetry.Instrumentation.AspNetCore": "1.12.0",
-          "OpenTelemetry.Instrumentation.Http": "1.12.0"
-        }
-      },
       "Microsoft.AspNetCore.Authentication.JwtBearer": {
         "type": "Direct",
         "requested": "[9.0.6, )",
@@ -114,12 +101,33 @@
           "OpenTelemetry": "1.12.0"
         }
       },
+      "OpenTelemetry.Extensions.Hosting": {
+        "type": "Direct",
+        "requested": "[1.12.0, )",
+        "resolved": "1.12.0",
+        "contentHash": "6/8O6rsJRwslg5/Fm3bscBelw4Yh9T9CN24p7cAsuEFkrmmeSO9gkYUCK02Qi+CmPM2KHYTLjKi0lJaCsDMWQA==",
+        "dependencies": {
+          "Microsoft.Extensions.Hosting.Abstractions": "9.0.0",
+          "OpenTelemetry": "1.12.0"
+        }
+      },
       "OpenTelemetry.Instrumentation.AspNetCore": {
         "type": "Direct",
         "requested": "[1.12.0, )",
         "resolved": "1.12.0",
         "contentHash": "r+Mzggd2P4N0Y34QIO6kakVPBOKFYSHnLkTrXXM+r37ABp+iaUvVUe+u/uxszsi5f7P5mrG0uYYaJ1QGHvzo3A==",
         "dependencies": {
+          "OpenTelemetry.Api.ProviderBuilderExtensions": "[1.12.0, 2.0.0)"
+        }
+      },
+      "OpenTelemetry.Instrumentation.Http": {
+        "type": "Direct",
+        "requested": "[1.12.0, )",
+        "resolved": "1.12.0",
+        "contentHash": "0rW+MbHgUQAdbvBtRxPYoQBosbNdWegL7cYkRlxq+KQ/VFyU8itt4pWTccmu1/FWmTgqJyT3LaujyDZoRrm8Yg==",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "9.0.0",
+          "Microsoft.Extensions.Options": "9.0.0",
           "OpenTelemetry.Api.ProviderBuilderExtensions": "[1.12.0, 2.0.0)"
         }
       },
@@ -131,17 +139,6 @@
           "Microsoft.Bcl.AsyncInterfaces": "8.0.0",
           "System.ClientModel": "1.4.1",
           "System.Memory.Data": "6.0.1"
-        }
-      },
-      "Azure.Monitor.OpenTelemetry.Exporter": {
-        "type": "Transitive",
-        "resolved": "1.4.0",
-        "contentHash": "oG4JO4uvtTibh83syZFgBCbWyKbbhrmGyyFnmzUMO7tmgrRdSdD4PHe8+TKdPZ7hNAVjySuColO6aJzbncZ02w==",
-        "dependencies": {
-          "Azure.Core": "1.46.0",
-          "OpenTelemetry": "1.12.0",
-          "OpenTelemetry.Extensions.Hosting": "1.12.0",
-          "OpenTelemetry.PersistentStorage.FileSystem": "1.0.1"
         }
       },
       "Azure.Security.KeyVault.Secrets": {
@@ -555,38 +552,6 @@
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
           "OpenTelemetry.Api": "1.12.0"
-        }
-      },
-      "OpenTelemetry.Extensions.Hosting": {
-        "type": "Transitive",
-        "resolved": "1.12.0",
-        "contentHash": "6/8O6rsJRwslg5/Fm3bscBelw4Yh9T9CN24p7cAsuEFkrmmeSO9gkYUCK02Qi+CmPM2KHYTLjKi0lJaCsDMWQA==",
-        "dependencies": {
-          "Microsoft.Extensions.Hosting.Abstractions": "9.0.0",
-          "OpenTelemetry": "1.12.0"
-        }
-      },
-      "OpenTelemetry.Instrumentation.Http": {
-        "type": "Transitive",
-        "resolved": "1.12.0",
-        "contentHash": "0rW+MbHgUQAdbvBtRxPYoQBosbNdWegL7cYkRlxq+KQ/VFyU8itt4pWTccmu1/FWmTgqJyT3LaujyDZoRrm8Yg==",
-        "dependencies": {
-          "Microsoft.Extensions.Configuration": "9.0.0",
-          "Microsoft.Extensions.Options": "9.0.0",
-          "OpenTelemetry.Api.ProviderBuilderExtensions": "[1.12.0, 2.0.0)"
-        }
-      },
-      "OpenTelemetry.PersistentStorage.Abstractions": {
-        "type": "Transitive",
-        "resolved": "1.0.1",
-        "contentHash": "LfXI2EoO7t2ku3hN6rIcUgqrdmNxKPG4pkgVa7Cakb9rlkmHYcqzMavLU5vy+G/txT+ZmLW9Z7TlptTqnrGEXg=="
-      },
-      "OpenTelemetry.PersistentStorage.FileSystem": {
-        "type": "Transitive",
-        "resolved": "1.0.1",
-        "contentHash": "RR1UziU+PYWYe+cwGZtSpdF43zv60GPP+WU0epR8xzZuA5FoxceCa+tYTh8iDqTYvy6F+jUzRe74dg/YAZ437Q==",
-        "dependencies": {
-          "OpenTelemetry.PersistentStorage.Abstractions": "1.0.1"
         }
       },
       "System.ClientModel": {
