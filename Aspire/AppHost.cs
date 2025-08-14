@@ -11,10 +11,12 @@ IResourceBuilder<PostgresDatabaseResource> postgresdb = postgres.AddDatabase("id
 
 // identity api
 IResourceBuilder<ProjectResource> identityapi = builder.AddProject<IdentityAPI>("IdentityAPI")
-    .WithReference(postgresdb);
+    .WithReference(postgresdb)
+    .WaitFor(postgresdb);
 
 // frontend
 builder.AddNpmApp("frontend", "../Frontend")
-    .WithReference(identityapi);
+    .WithReference(identityapi)
+    .WaitFor(identityapi);
 
 builder.Build().Run();

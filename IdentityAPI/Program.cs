@@ -3,6 +3,7 @@ using IdentityAPI.Database;
 using IdentityAPI.Extensions;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Identity;
+using Sentry.OpenTelemetry;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +16,10 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
+    builder.WebHost.UseSentry(options => { options.UseOpenTelemetry(); });
+    builder.Services.AddProdOpenTelemetry();
     builder.Services.AddProdCorsPolicy();
     builder.Configuration.ConfigureKeyVault();
-    builder.Services.AddAzureOpenTelemetry(builder.Configuration);
 }
 
 builder.Services.AddHttpLogging(logging =>
