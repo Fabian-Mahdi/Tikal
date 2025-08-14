@@ -11,6 +11,7 @@ using IdentityAPI.Database;
 using IdentityAPI.ErrorHandling;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -75,6 +76,7 @@ public static class ServiceCollectionExtensions
                 tracing
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
+                    .AddNpgsql()
                     .AddOtlpExporter();
             })
             .WithLogging(logging =>
