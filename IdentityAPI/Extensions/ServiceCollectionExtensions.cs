@@ -11,8 +11,8 @@ using IdentityAPI.ErrorHandling;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
-using OpenTelemetry.Logs;
 using OpenTelemetry.Trace;
+using Sentry.OpenTelemetry;
 
 namespace IdentityAPI.Extensions;
 
@@ -61,15 +61,25 @@ public static class ServiceCollectionExtensions
                     .AddHttpClientInstrumentation()
                     .AddNpgsql()
                     .AddOtlpExporter();
-            })
-            .WithLogging(logging =>
-            {
-                logging
-                    .AddOtlpExporter();
             });
 
         return services;
     }
+
+    public static IServiceCollection AddProdOpenTelemetry(this IServiceCollection services)
+    {
+        services.AddOpenTelemetry()
+            .WithTracing(tracing =>
+            {
+                tracing
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddSentry();
+            });
+
+        return services;
+    }
+
 
     public static IServiceCollection AddDbContext(this IServiceCollection services, WebApplicationBuilder builder)
     {
