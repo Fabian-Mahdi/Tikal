@@ -1,16 +1,20 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using IdentityAPI.Authentication.Domain.DataAccess;
-using IdentityAPI.Authentication.Domain.UseCases;
-using IdentityAPI.Authentication.Infrastructure.Identity;
-using IdentityAPI.Authentication.Infrastructure.Mappers;
-using IdentityAPI.Authentication.Infrastructure.Mappers.Interfaces;
-using IdentityAPI.Authentication.Infrastructure.Services;
+using FluentValidation;
 using IdentityAPI.Configuration;
 using IdentityAPI.Database;
-using IdentityAPI.ErrorHandling;
+using IdentityAPI.Identity.Domain.DataAccess.Tokens;
+using IdentityAPI.Identity.Domain.DataAccess.Users;
+using IdentityAPI.Identity.Domain.Models;
+using IdentityAPI.Identity.Domain.UseCases.Login;
+using IdentityAPI.Identity.Domain.UseCases.Refresh;
+using IdentityAPI.Identity.Domain.UseCases.Register;
+using IdentityAPI.Identity.Domain.Validators;
+using IdentityAPI.Identity.Infrastructure.Database;
+using IdentityAPI.Identity.Infrastructure.Mappers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Trace;
 using Sentry.OpenTelemetry;
 
@@ -18,7 +22,7 @@ namespace IdentityAPI.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddExceptionHandler(this IServiceCollection services)
+    public static IServiceCollection AddCustomProblemDetails(this IServiceCollection services)
     {
         services.AddProblemDetails(options =>
         {
@@ -29,8 +33,6 @@ public static class ServiceCollectionExtensions
             };
         });
 
-        services.AddExceptionHandler<ProblemExceptionHandler>();
-
         return services;
     }
 
@@ -38,12 +40,20 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<SecurityTokenHandler, JwtSecurityTokenHandler>();
 
-        services.AddScoped<UserDataAccess, IdentityUserService>();
-        services.AddScoped<TokenDataAccess, JwtTokenService>();
-        services.AddScoped<CredentialsDataAccess, IdentityCredentialsService>();
+        // Identity
 
-        services.AddScoped<IUserMapper, UserMapper>();
+        // data access
+        services.AddScoped<UserDataAccess, IdentityUserDatabase>();
+        services.AddScoped<TokenDataAccess, JwtTokenDatabase>();
 
+        // mappers
+        services.AddScoped<UserMapper, UserMapperImpl>();
+
+        // validators
+        services.AddScoped<IValidator<User>, UserValidator>();
+        services.AddScoped<IValidator<string>, PasswordValidator>();
+
+        // use cases
         services.AddScoped<RegisterUser>();
         services.AddScoped<LoginUser>();
         services.AddScoped<RefreshTokens>();
@@ -60,6 +70,11 @@ public static class ServiceCollectionExtensions
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddNpgsql()
+                    .AddOtlpExporter();
+            })
+            .WithLogging(logging =>
+            {
+                logging
                     .AddOtlpExporter();
             });
 

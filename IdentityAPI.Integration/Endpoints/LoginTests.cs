@@ -1,6 +1,5 @@
 using System.Net;
-using IdentityAPI.Controllers.Login.Dtos;
-using IdentityAPI.Controllers.Register.Dtos;
+using IdentityAPI.Identity.Presentation.Dtos;
 using IdentityAPI.Integration.Base;
 using IdentityAPI.Integration.Data.Dtos.Login;
 using IdentityAPI.Integration.Data.Dtos.Register;

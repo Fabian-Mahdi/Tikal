@@ -1,4 +1,4 @@
-﻿using IdentityAPI.Authentication.Infrastructure.Entities;
+﻿using IdentityAPI.Identity.Infrastructure.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
