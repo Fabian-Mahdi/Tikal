@@ -1,5 +1,5 @@
 using System.Net;
-using IdentityAPI.Controllers.Register.Dtos;
+using IdentityAPI.Identity.Presentation.Dtos;
 using IdentityAPI.Integration.Base;
 using IdentityAPI.Integration.Data.Dtos.Register;
 
@@ -41,7 +41,7 @@ public class RegisterTests : TestContainerFixture
     }
 
     [TestCaseSource(typeof(ValidRegisterDtoSource), nameof(ValidRegisterDtoSource.TestCases))]
-    public async Task Given_Existing_Username_When_Register_Then_Returns_Error(RegisterDto registerDto)
+    public async Task Given_Existing_Username_When_Register_Then_Returns_409(RegisterDto registerDto)
     {
         // given
         await client.PostAsJsonAsync(uri, registerDto);
@@ -50,7 +50,7 @@ public class RegisterTests : TestContainerFixture
         HttpResponseMessage response = await client.PostAsJsonAsync(uri, registerDto);
 
         // then
-        Assert.That(response.IsSuccessStatusCode, Is.False);
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Conflict));
     }
 
     [TearDown]

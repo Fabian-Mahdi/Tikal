@@ -1,4 +1,4 @@
-using IdentityAPI.Controllers.Register.Dtos;
+using IdentityAPI.Identity.Presentation.Dtos;
 
 namespace IdentityAPI.Integration.Data.Dtos.Register;
 
