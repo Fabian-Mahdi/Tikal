@@ -49,7 +49,7 @@ public class RegisterUserTests
             .ReturnsAsync(Result.Ok());
     }
 
-    [TestCaseSource(typeof(UserSource), nameof(UserSource.TestCases))]
+    [TestCaseSource(typeof(ValidUserSource), nameof(ValidUserSource.TestCases))]
     public async Task Given_User_When_Register_Then_Calls_UserValidator_Validate(User user)
     {
         // given
@@ -62,7 +62,7 @@ public class RegisterUserTests
         userValidator.Verify(v => v.ValidateAsync(user, It.IsAny<CancellationToken>()), Times.Once);
     }
 
-    [TestCaseSource(typeof(UserSource), nameof(UserSource.TestCases))]
+    [TestCaseSource(typeof(ValidUserSource), nameof(ValidUserSource.TestCases))]
     public async Task Given_Invalid_User_When_Register_Then_Returns_InvalidUsername(User user)
     {
         // given
@@ -79,7 +79,7 @@ public class RegisterUserTests
         Assert.That(result.HasError<InvalidUsername>());
     }
 
-    [TestCaseSource(typeof(UserSource), nameof(UserSource.TestCases))]
+    [TestCaseSource(typeof(ValidUserSource), nameof(ValidUserSource.TestCases))]
     public async Task Given_User_When_Register_Then_Calls_PasswordValidator_Validate(User user)
     {
         // given
@@ -92,7 +92,7 @@ public class RegisterUserTests
         passwordValidator.Verify(v => v.ValidateAsync(password, It.IsAny<CancellationToken>()), Times.Once);
     }
 
-    [TestCaseSource(typeof(UserSource), nameof(UserSource.TestCases))]
+    [TestCaseSource(typeof(ValidUserSource), nameof(ValidUserSource.TestCases))]
     public async Task Given_Invalid_Password_When_Register_Then_Returns_InvalidPassword(User user)
     {
         // given
@@ -109,7 +109,7 @@ public class RegisterUserTests
         Assert.That(result.HasError<InvalidPassword>());
     }
 
-    [TestCaseSource(typeof(UserSource), nameof(UserSource.TestCases))]
+    [TestCaseSource(typeof(ValidUserSource), nameof(ValidUserSource.TestCases))]
     public async Task Given_User_When_Register_Then_Calls_UserDataAccess_CreateUser(User user)
     {
         // given
@@ -122,7 +122,7 @@ public class RegisterUserTests
         userDataAccess.Verify(u => u.CreateUser(user, password), Times.Once);
     }
 
-    [TestCaseSource(typeof(UserSource), nameof(UserSource.TestCases))]
+    [TestCaseSource(typeof(ValidUserSource), nameof(ValidUserSource.TestCases))]
     public async Task Given_UsernameUniqueConstraint_Error_When_CreateUser_Then_Returns_DuplicateUsername(User user)
     {
         // given

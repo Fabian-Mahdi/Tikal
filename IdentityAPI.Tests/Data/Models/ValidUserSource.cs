@@ -2,21 +2,21 @@ using IdentityAPI.Identity.Domain.Models;
 
 namespace IdentityAPI.Tests.Data.Models;
 
-public static class UserSource
+public static class ValidUserSource
 {
     public static IEnumerable<User> TestCases()
     {
         yield return new User(
-            "id",
-            "username"
+            "username",
+            "id"
         );
         yield return new User(
-            "203849028340234820934820",
-            "fdiaospivuhcjpwaeoifj"
+            "20938429034234",
+            "23940234892034"
         );
         yield return new User(
-            "",
-            ""
+            "with symbols!/§%/()=",
+            "(%)=§/=)(§=$()"
         );
     }
 }
