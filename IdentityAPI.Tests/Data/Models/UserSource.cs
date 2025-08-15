@@ -1,4 +1,4 @@
-using IdentityAPI.Authentication.Domain.Models;
+using IdentityAPI.Identity.Domain.Models;
 
 namespace IdentityAPI.Tests.Data.Models;
 
@@ -8,22 +8,15 @@ public static class UserSource
     {
         yield return new User(
             "id",
-            "username",
-            [
-                new Role(RoleType.User)
-            ]
+            "username"
         );
         yield return new User(
             "203849028340234820934820",
-            "fdiaospivuhcjpwaeoifj",
-            [
-                new Role(RoleType.Admin)
-            ]
+            "fdiaospivuhcjpwaeoifj"
         );
         yield return new User(
             "",
-            "",
-            []
+            ""
         );
     }
 }
