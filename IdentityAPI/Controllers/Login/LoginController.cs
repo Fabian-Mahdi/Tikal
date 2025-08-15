@@ -7,8 +7,6 @@ using InvalidCredentialsException = IdentityAPI.Authentication.Domain.Errors.Inv
 
 namespace IdentityAPI.Controllers.Login;
 
-[ApiController]
-[Route("[controller]")]
 public class LoginController : ControllerBase
 {
     private readonly LoginUser loginUser;

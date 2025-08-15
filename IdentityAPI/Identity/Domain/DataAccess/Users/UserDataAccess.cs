@@ -15,4 +15,19 @@ public interface UserDataAccess
     /// <param name="password">The password to assign</param>
     /// <returns>Void in case of success otherwise <see cref="UserError" /></returns>
     Task<Result> CreateUser(User user, string password);
+
+    /// <summary>
+    ///     Validates a password for a given user
+    /// </summary>
+    /// <param name="user">The user for which to validate the password</param>
+    /// <param name="password">The password to validate</param>
+    /// <returns>True if the password is valid, otherwise False</returns>
+    Task<bool> ValidatePassword(User user, string password);
+
+    /// <summary>
+    ///     Retrieves a user with a given username
+    /// </summary>
+    /// <param name="username">The username for which to search for</param>
+    /// <returns>The found user, null if no user is found</returns>
+    Task<User?> FindByName(string username);
 }

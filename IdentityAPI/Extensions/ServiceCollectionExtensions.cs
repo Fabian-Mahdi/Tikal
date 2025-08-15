@@ -55,6 +55,7 @@ public static class ServiceCollectionExtensions
 
         // data access
         services.AddScoped<Identity.Domain.DataAccess.Users.UserDataAccess, IdentityUserDatabase>();
+        services.AddScoped<Identity.Domain.DataAccess.Tokens.TokenDataAccess, JwtTokenDatabase>();
 
         // mappers
         services.AddScoped<Identity.Infrastructure.Mappers.UserMapper, UserMapperImpl>();
@@ -65,6 +66,7 @@ public static class ServiceCollectionExtensions
 
         // use cases
         services.AddScoped<Identity.Domain.UseCases.Register.RegisterUser>();
+        services.AddScoped<Identity.Domain.UseCases.Login.LoginUser>();
 
         return services;
     }

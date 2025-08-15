@@ -33,7 +33,7 @@ public partial class RegisterController : ControllerBase
         return Ok();
     }
 
-    private ObjectResult handleRegisterError(Result result)
+    private ActionResult handleRegisterError(Result result)
     {
         IError? error = result.Errors.OfType<RegisterError>().FirstOrDefault();
 
