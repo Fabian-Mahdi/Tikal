@@ -10,16 +10,20 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.ConfigureOpenTelemetry();
 
+builder.Services.AddConfiguration(builder.Configuration);
+
 if (builder.Environment.IsDevelopment())
 {
+    builder.Services.AddDevDbContext(builder);
     builder.Services.AddDevOpenTelemetry();
 }
 else
 {
+    builder.Configuration.ConfigureKeyVault();
     builder.WebHost.UseSentry(options => { options.UseOpenTelemetry(); });
+    builder.Services.AddProdDbContext(builder.Configuration);
     builder.Services.AddProdOpenTelemetry();
     builder.Services.AddProdCorsPolicy();
-    builder.Configuration.ConfigureKeyVault();
 }
 
 builder.Services.AddHttpLogging(logging =>
@@ -30,14 +34,10 @@ builder.Services.AddHttpLogging(logging =>
     logging.CombineLogs = true;
 });
 
-builder.Services.AddConfiguration(builder.Configuration);
-
 builder.Services.AddCustomProblemDetails();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
-builder.Services.AddDbContext(builder);
 
 builder.Services.AddAuthenticationDependencyGroup();
 

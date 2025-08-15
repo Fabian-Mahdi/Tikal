@@ -95,12 +95,30 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-
-    public static IServiceCollection AddDbContext(this IServiceCollection services, WebApplicationBuilder builder)
+    public static IServiceCollection AddDevDbContext(this IServiceCollection services, WebApplicationBuilder builder)
     {
         string connectionString = builder.Configuration.GetConnectionString("identitydb")!;
 
         services.AddDbContext<ApplicationDbContext>(optionsBuilder => { optionsBuilder.UseNpgsql(connectionString); });
+
+        return services;
+    }
+
+    public static IServiceCollection AddProdDbContext(this IServiceCollection services, IConfiguration configuration)
+    {
+        DatabaseOptions options = new();
+        configuration.GetSection(DatabaseOptions.Position).Bind(options);
+
+        services.AddDbContext<ApplicationDbContext>(optionsBuilder =>
+        {
+            optionsBuilder.UseNpgsql(
+                $"Server={options.Host};" +
+                $"Port={options.Port};" +
+                $"Database={options.DatabaseName};" +
+                $"User ID={options.Username};" +
+                $"Password={options.Password};"
+            );
+        });
 
         return services;
     }
