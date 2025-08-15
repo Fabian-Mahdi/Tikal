@@ -20,12 +20,25 @@ public class JwtTokenDatabase : TokenDataAccess
 
     private readonly byte[] signingKey;
 
+    private readonly TokenValidationParameters tokenValidationParameters;
+
     public JwtTokenDatabase(IOptions<JwtOptions> options, SecurityTokenHandler securityTokenHandler)
     {
         this.options = options.Value;
         this.securityTokenHandler = securityTokenHandler;
 
         signingKey = Encoding.UTF8.GetBytes(this.options.SigningKey);
+
+        tokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = this.options.Issuer,
+            ValidateAudience = true,
+            ValidAudience = this.options.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(signingKey),
+            ValidateLifetime = true
+        };
     }
 
     public TokenPair GenerateTokenPair(User user)
@@ -70,5 +83,24 @@ public class JwtTokenDatabase : TokenDataAccess
         );
 
         return tokenPair;
+    }
+
+    public async Task<bool> ValidateToken(string token)
+    {
+        TokenValidationResult result = await securityTokenHandler.ValidateTokenAsync(token, tokenValidationParameters);
+
+        return result.IsValid;
+    }
+
+    public async Task<T?> ExtractClaim<T>(string token, string claimName)
+    {
+        TokenValidationResult result = await securityTokenHandler.ValidateTokenAsync(token, tokenValidationParameters);
+
+        if (result.Claims.TryGetValue(claimName, out object? claim))
+        {
+            return (T)claim;
+        }
+
+        return default;
     }
 }

@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityAPI.Controllers.Refresh;
 
-[ApiController]
-[Route("[controller]")]
 public class RefreshController : ControllerBase
 {
     private readonly RefreshTokens refreshTokens;

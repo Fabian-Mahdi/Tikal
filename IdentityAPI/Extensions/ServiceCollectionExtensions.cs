@@ -67,6 +67,7 @@ public static class ServiceCollectionExtensions
         // use cases
         services.AddScoped<Identity.Domain.UseCases.Register.RegisterUser>();
         services.AddScoped<Identity.Domain.UseCases.Login.LoginUser>();
+        services.AddScoped<Identity.Domain.UseCases.Refresh.RefreshTokens>();
 
         return services;
     }
