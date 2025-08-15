@@ -1,13 +1,13 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using FluentValidation;
-using IdentityAPI.Authentication.Domain.DataAccess;
-using IdentityAPI.Authentication.Domain.UseCases;
-using IdentityAPI.Authentication.Infrastructure.Identity;
-using IdentityAPI.Authentication.Infrastructure.Mappers.Interfaces;
-using IdentityAPI.Authentication.Infrastructure.Services;
 using IdentityAPI.Configuration;
 using IdentityAPI.Database;
+using IdentityAPI.Identity.Domain.DataAccess.Tokens;
+using IdentityAPI.Identity.Domain.DataAccess.Users;
 using IdentityAPI.Identity.Domain.Models;
+using IdentityAPI.Identity.Domain.UseCases.Login;
+using IdentityAPI.Identity.Domain.UseCases.Refresh;
+using IdentityAPI.Identity.Domain.UseCases.Register;
 using IdentityAPI.Identity.Domain.Validators;
 using IdentityAPI.Identity.Infrastructure.Database;
 using IdentityAPI.Identity.Infrastructure.Mappers;
@@ -17,7 +17,6 @@ using Npgsql;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Trace;
 using Sentry.OpenTelemetry;
-using UserMapper = IdentityAPI.Authentication.Infrastructure.Mappers.UserMapper;
 
 namespace IdentityAPI.Extensions;
 
@@ -41,33 +40,23 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<SecurityTokenHandler, JwtSecurityTokenHandler>();
 
-        services.AddScoped<UserDataAccess, IdentityUserService>();
-        services.AddScoped<TokenDataAccess, JwtTokenService>();
-        services.AddScoped<CredentialsDataAccess, IdentityCredentialsService>();
-
-        services.AddScoped<IUserMapper, UserMapper>();
-
-        services.AddScoped<RegisterUser>();
-        services.AddScoped<LoginUser>();
-        services.AddScoped<RefreshTokens>();
-
         // Identity
 
         // data access
-        services.AddScoped<Identity.Domain.DataAccess.Users.UserDataAccess, IdentityUserDatabase>();
-        services.AddScoped<Identity.Domain.DataAccess.Tokens.TokenDataAccess, JwtTokenDatabase>();
+        services.AddScoped<UserDataAccess, IdentityUserDatabase>();
+        services.AddScoped<TokenDataAccess, JwtTokenDatabase>();
 
         // mappers
-        services.AddScoped<Identity.Infrastructure.Mappers.UserMapper, UserMapperImpl>();
+        services.AddScoped<UserMapper, UserMapperImpl>();
 
         // validators
         services.AddScoped<IValidator<User>, UserValidator>();
         services.AddScoped<IValidator<string>, PasswordValidator>();
 
         // use cases
-        services.AddScoped<Identity.Domain.UseCases.Register.RegisterUser>();
-        services.AddScoped<Identity.Domain.UseCases.Login.LoginUser>();
-        services.AddScoped<Identity.Domain.UseCases.Refresh.RefreshTokens>();
+        services.AddScoped<RegisterUser>();
+        services.AddScoped<LoginUser>();
+        services.AddScoped<RefreshTokens>();
 
         return services;
     }
