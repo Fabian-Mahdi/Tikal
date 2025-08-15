@@ -1,5 +1,5 @@
 using IdentityAPI.Authentication.Domain.Models;
-using IdentityAPI.Authentication.Infrastructure.Entities;
+using IdentityAPI.Identity.Infrastructure.Entities;
 
 namespace IdentityAPI.Authentication.Infrastructure.Mappers.Interfaces;
 

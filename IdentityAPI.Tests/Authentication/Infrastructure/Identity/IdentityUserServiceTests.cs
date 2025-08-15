@@ -1,8 +1,8 @@
 using IdentityAPI.Authentication.Domain.DataAccess;
 using IdentityAPI.Authentication.Domain.Models;
-using IdentityAPI.Authentication.Infrastructure.Entities;
 using IdentityAPI.Authentication.Infrastructure.Identity;
 using IdentityAPI.Authentication.Infrastructure.Mappers.Interfaces;
+using IdentityAPI.Identity.Infrastructure.Entities;
 using IdentityAPI.Tests.Data.Models;
 using IdentityAPI.Tests.Data.Other;
 using IdentityAPI.Tests.MockHelpers;

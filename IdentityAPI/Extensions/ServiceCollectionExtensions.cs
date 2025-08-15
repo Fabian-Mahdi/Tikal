@@ -1,24 +1,29 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using FluentValidation;
 using IdentityAPI.Authentication.Domain.DataAccess;
 using IdentityAPI.Authentication.Domain.UseCases;
 using IdentityAPI.Authentication.Infrastructure.Identity;
-using IdentityAPI.Authentication.Infrastructure.Mappers;
 using IdentityAPI.Authentication.Infrastructure.Mappers.Interfaces;
 using IdentityAPI.Authentication.Infrastructure.Services;
 using IdentityAPI.Configuration;
 using IdentityAPI.Database;
-using IdentityAPI.ErrorHandling;
+using IdentityAPI.Identity.Domain.Models;
+using IdentityAPI.Identity.Domain.Validators;
+using IdentityAPI.Identity.Infrastructure.Database;
+using IdentityAPI.Identity.Infrastructure.Mappers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Trace;
 using Sentry.OpenTelemetry;
+using UserMapper = IdentityAPI.Authentication.Infrastructure.Mappers.UserMapper;
 
 namespace IdentityAPI.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddExceptionHandler(this IServiceCollection services)
+    public static IServiceCollection AddCustomProblemDetails(this IServiceCollection services)
     {
         services.AddProblemDetails(options =>
         {
@@ -28,8 +33,6 @@ public static class ServiceCollectionExtensions
                     $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
             };
         });
-
-        services.AddExceptionHandler<ProblemExceptionHandler>();
 
         return services;
     }
@@ -48,6 +51,21 @@ public static class ServiceCollectionExtensions
         services.AddScoped<LoginUser>();
         services.AddScoped<RefreshTokens>();
 
+        // Identity
+
+        // data access
+        services.AddScoped<Identity.Domain.DataAccess.Users.UserDataAccess, IdentityUserDatabase>();
+
+        // mappers
+        services.AddScoped<Identity.Infrastructure.Mappers.UserMapper, UserMapperImpl>();
+
+        // validators
+        services.AddScoped<IValidator<User>, UserValidator>();
+        services.AddScoped<IValidator<string>, PasswordValidator>();
+
+        // use cases
+        services.AddScoped<Identity.Domain.UseCases.Register.RegisterUser>();
+
         return services;
     }
 
@@ -60,6 +78,11 @@ public static class ServiceCollectionExtensions
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddNpgsql()
+                    .AddOtlpExporter();
+            })
+            .WithLogging(logging =>
+            {
+                logging
                     .AddOtlpExporter();
             });
 

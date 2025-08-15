@@ -1,5 +1,5 @@
-using IdentityAPI.Authentication.Infrastructure.Entities;
 using IdentityAPI.Authentication.Infrastructure.Identity;
+using IdentityAPI.Identity.Infrastructure.Entities;
 using IdentityAPI.Tests.Data.Other;
 using IdentityAPI.Tests.MockHelpers;
 using Microsoft.AspNetCore.Identity;

@@ -1,6 +1,6 @@
-using IdentityAPI.Authentication.Infrastructure.Entities;
 using IdentityAPI.Database;
 using IdentityAPI.Extensions;
+using IdentityAPI.Identity.Infrastructure.Entities;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Identity;
 using Sentry.OpenTelemetry;
@@ -32,7 +32,7 @@ builder.Services.AddHttpLogging(logging =>
 
 builder.Services.AddConfiguration(builder.Configuration);
 
-builder.Services.AddExceptionHandler();
+builder.Services.AddCustomProblemDetails();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();

@@ -1,5 +1,5 @@
 using IdentityAPI.Authentication.Domain.DataAccess;
-using IdentityAPI.Authentication.Infrastructure.Entities;
+using IdentityAPI.Identity.Infrastructure.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace IdentityAPI.Authentication.Infrastructure.Identity;

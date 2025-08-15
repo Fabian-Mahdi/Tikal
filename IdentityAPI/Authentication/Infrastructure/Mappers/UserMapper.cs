@@ -1,6 +1,6 @@
 using IdentityAPI.Authentication.Domain.Models;
-using IdentityAPI.Authentication.Infrastructure.Entities;
 using IdentityAPI.Authentication.Infrastructure.Mappers.Interfaces;
+using IdentityAPI.Identity.Infrastructure.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace IdentityAPI.Authentication.Infrastructure.Mappers;

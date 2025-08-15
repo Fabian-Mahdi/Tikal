@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityAPI.Controllers.Register;
 
-[ApiController]
-[Route("[controller]")]
 public class RegisterController : ControllerBase
 {
     private readonly RegisterUser registerUser;
