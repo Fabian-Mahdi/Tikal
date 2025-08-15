@@ -11,15 +11,12 @@ public partial class LoginController
     ///     The provided credentials are invalid
     /// </summary>
     /// <returns>StatusCode: 401</returns>
-    private static ObjectResult InvalidCredentials()
+    private ObjectResult InvalidCredentials()
     {
-        ProblemDetails problemDetails = new()
-        {
-            Title = "Invalid credentials",
-            Detail = "Invalid password or username provided",
-            Status = StatusCodes.Status401Unauthorized
-        };
-
-        return new ObjectResult(problemDetails);
+        return Problem(
+            title: "Invalid credentials",
+            detail: "Invalid username or password provided",
+            statusCode: StatusCodes.Status401Unauthorized
+        );
     }
 }
