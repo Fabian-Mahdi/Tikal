@@ -11,12 +11,20 @@ public static class ConfigureWebHostBuilderExtensions_
             options.UseOpenTelemetry();
             options.SetBeforeSendTransaction(sentryTransaction =>
             {
+                // preflight options requests
                 if (sentryTransaction.Request.Method == "OPTIONS")
                 {
                     return null;
                 }
 
+                // health checks
                 if (sentryTransaction.Request.Url?.Contains("healthcheck") ?? false)
+                {
+                    return null;
+                }
+
+                // app service always on pings
+                if (sentryTransaction.Request.Headers["User-Agent"] == "AlwaysOn")
                 {
                     return null;
                 }
