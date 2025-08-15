@@ -1,5 +1,6 @@
 using FluentResults;
 using IdentityAPI.Core.Exceptions;
+using IdentityAPI.Extensions;
 using IdentityAPI.Identity.Domain.Models;
 using IdentityAPI.Identity.Domain.UseCases.Login;
 using IdentityAPI.Identity.Presentation.Dtos;
@@ -30,10 +31,11 @@ public partial class LoginController : ControllerBase
 
         TokenPair tokenPair = result.Value;
 
+        Response.Cookies.AddRefreshToken(tokenPair.RefreshToken);
+
         TokenDto tokenDto = new()
         {
-            AccessToken = tokenPair.AccessToken,
-            RefreshToken = tokenPair.RefreshToken
+            AccessToken = tokenPair.AccessToken
         };
 
         return Ok(tokenDto);
