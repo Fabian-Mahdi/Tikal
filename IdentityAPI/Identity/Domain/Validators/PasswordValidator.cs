@@ -9,6 +9,11 @@ public class PasswordValidator : AbstractValidator<string>
 {
     public PasswordValidator()
     {
-        RuleFor(password => password).MinimumLength(8);
+        RuleFor(password => password)
+            .MinimumLength(8)
+            .Matches("[a-z]+")
+            .Matches("[A-Z]+")
+            .Matches("\\d+")
+            .Matches("\\W+");
     }
 }
