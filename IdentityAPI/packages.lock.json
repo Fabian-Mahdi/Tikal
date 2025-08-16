@@ -80,12 +80,6 @@
           "System.Text.Json": "9.0.8"
         }
       },
-      "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
-        "type": "Direct",
-        "requested": "[1.22.1, )",
-        "resolved": "1.22.1",
-        "contentHash": "EfYANhAWqmWKoLwN6bxoiPZSOfJSO9lzX+UrU6GVhLhPub1Hd+5f0zL0/tggIA6mRz6Ebw2xCNcIsM4k+7NPng=="
-      },
       "Npgsql.EntityFrameworkCore.PostgreSQL": {
         "type": "Direct",
         "requested": "[9.0.4, )",
