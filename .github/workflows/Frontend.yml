@@ -20,12 +20,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Checkout LFS objects
+        run: git lfs checkout
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: ./Frontend/package-lock.json
 
       - name: Install dependencies
@@ -52,7 +57,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: ./Frontend/package-lock.json
 
       - name: Install dependencies
@@ -72,7 +77,6 @@ jobs:
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         with:
-          projectBaseDir:
-            Frontend
+          projectBaseDir: Frontend
         env:
           SONAR_TOKEN: ${{ secrets.FRONTEND_SONAR_TOKEN }}
