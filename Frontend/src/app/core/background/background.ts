@@ -6,11 +6,12 @@ import {
   AfterViewInit,
 } from "@angular/core";
 import { NgOptimizedImage } from "@angular/common";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: "app-background",
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, RouterOutlet],
   templateUrl: "./background.html",
   styleUrl: "./background.scss",
 })
