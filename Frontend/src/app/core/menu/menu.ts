@@ -1,4 +1,10 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  OnInit,
+} from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -7,4 +13,19 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
   templateUrl: "./menu.html",
   styleUrl: "./menu.scss",
 })
-export class Menu {}
+export class Menu implements OnInit {
+  show = false;
+
+  private readonly router: Router = inject(Router);
+
+  ngOnInit(): void {
+    this.show = true;
+  }
+
+  leave(): void {
+    this.show = false;
+    setTimeout(() => {
+      this.router.navigate(["/"]);
+    }, 200);
+  }
+}

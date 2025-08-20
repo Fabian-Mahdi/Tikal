@@ -8,80 +8,6 @@
   background-color: rgb(255, 255, 255, 0.2);
 }
 
-.main-container {
-  position: absolute;
-  opacity: 0.3;
-  transform: translateY(-50%);
-  width: 60%;
-  background-color: lightblue;
-
-  aspect-ratio: 1 / 1.15;
-  animation: mainMove 1s ease forwards, fadeIn 0.5s ease forwards; 
-}
-
-.container-1 {
-  position: absolute;
-  opacity: 0.3;
-
-  width: 55%;
-
-  transform: translate(+100%, +40%);
-
-  background-color: rgb(165, 42, 42, 0.6);
-  aspect-ratio: 1 / 1;
-  animation: container1Move 1.4s ease forwards, fadeIn 0.5s ease forwards; 
-
-  z-index: -2;
-}
-
-.container-2 {
-  position: absolute;
-  opacity: 0.3;
-
-  width: 45%;
-
-  transform: translate(-90%, -45%);
-
-  background-color: rgb(165, 42, 42, 0.6);
-  aspect-ratio: 1 / 1;
-
-  animation: container2Move 1.4s ease forwards, fadeIn 0.5s ease forwards; 
-
-  z-index: -2;
-}
-
-.container-3 {
-  position: absolute;
-  opacity: 0.3;
-
-  width: 65%;
-
-  transform: translate(-105%, +40%);
-
-  background-color: rgb(0, 0, 255, 0.7);
-  aspect-ratio: 1 / 1;
-
-  animation: container3Move 1.3s ease forwards, fadeIn 0.5s ease forwards; 
-
-  z-index: -1;
-}
-
-.container-4 {
-  position: absolute;
-  opacity: 0.3;
-
-  width: 80%;
-
-  transform: translate(+105%, -8%);
-
-  background-color: rgb(0, 0, 255, 0.7);
-  aspect-ratio: 1 / 1.15;
-
-  animation: container4Move 1.3s ease forwards, fadeIn 0.5s ease forwards; 
-
-  z-index: -1;
-}
-
 .hex {
   clip-path: polygon(
     25% 6.7%,
@@ -93,32 +19,105 @@
   );
 }
 
-@keyframes fadeIn {
-  from { opacity: 0.3; }
-  to   { opacity: 1; }
+// central container
+.main-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  width: 60%;
+
+  background-color: lightblue;
+
+  animation: mainContainer 0.7s ease forwards, fadeIn 0.5s ease; 
+
+  aspect-ratio: 1 / 1.15;
 }
 
-@keyframes mainMove {
+@keyframes mainContainer {
   from { transform: translateY(-50%); }
   to   { transform: translateY(-35%); }
 }
 
-@keyframes container1Move {
-  from { transform: translate(+100%, +40%); }
-  to   { transform: translate(+50%, +40%); }
+// container 1
+.container-1 {
+  position: absolute;
+  width: 55%;
+
+  background-color: rgb(165, 42, 42, 0.6);
+
+  animation: container1 1.4s ease forwards, fadeIn 0.5s ease; 
+
+  aspect-ratio: 1 / 1;
+
+  z-index: -2;
 }
 
-@keyframes container2Move {
+@keyframes container1 {
+  from { transform: translate(100%, 40%); }
+  to   { transform: translate(50%, 40%); }
+}
+
+// container 2
+.container-2 {
+  position: absolute;
+  width: 45%;
+
+  background-color: rgb(165, 42, 42, 0.6);
+
+  animation: container2 1.4s ease forwards, fadeIn 0.5s ease; 
+
+  aspect-ratio: 1 / 1;
+
+  z-index: -2;
+}
+
+@keyframes container2 {
   from { transform: translate(-90%, -45%); }
   to   { transform: translate(-70%, -45%); }
 }
 
-@keyframes container3Move {
+// container 3
+.container-3 {
+  position: absolute;
+  width: 65%;
+
+  background-color: rgb(0, 0, 255, 0.7);
+
+  animation: container3 1.3s ease forwards, fadeIn 0.5s ease; 
+
+  aspect-ratio: 1 / 1;
+
+  z-index: -1;
+}
+
+@keyframes container3 {
   from { transform: translate(-105%, +40%); }
   to   { transform: translate(-85%, +40%); }
 }
 
-@keyframes container4Move {
+// container 4
+.container-4 {
+  position: absolute;
+  width: 80%;
+
+  background-color: rgb(0, 0, 255, 0.7);
+
+  animation: container4 1.3s ease forwards, fadeIn 2.5s ease; 
+
+  aspect-ratio: 1 / 1.15;
+
+  z-index: -1;
+}
+
+@keyframes container4 {
   from { transform: translate(+105%, -8%); }
   to   { transform: translate(+90%, -8%); }
+}
+
+// other animations
+@keyframes fadeIn {
+  from { opacity: 0.3; }
+  to   { opacity: 1; }
 }
