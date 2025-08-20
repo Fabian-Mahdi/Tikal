@@ -1,11 +1,9 @@
-<div class="root-container">
-  @if (show) {
-    <div class="main-container hex">
-      <button type="button" (click)="leave()">go back</button>
-    </div>
-    <div class="container-1 hex"></div>
-    <div class="container-2 hex"></div>
-    <div class="container-3 hex"></div>
-    <div class="container-4 hex"></div>
-  }
+<div @backgroundFadeOut class="root-container">
+  <div @mainLeaveAnimation class="main-container hex">
+    <button type="button" (click)="leave()">go back</button>
+  </div>
+  <div @container1LeaveAnimation class="container-1 hex"></div>
+  <div @container2LeaveAnimation class="container-2 hex"></div>
+  <div @container3LeaveAnimation class="container-3 hex"></div>
+  <div @container4LeaveAnimation class="container-4 hex"></div>
 </div>

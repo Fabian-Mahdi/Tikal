@@ -5,7 +5,12 @@
 
   height: 100vh;
 
-  background-color: rgb(255, 255, 255, 0.2);
+  animation: backgroundFadeIn 0.3s ease forwards; 
+}
+
+@keyframes backgroundFadeIn {
+  from { background-color: rgba(255, 255, 255, 0);}
+  to { background-color: rgba(255, 255, 255, 0.15);}
 }
 
 .hex {
@@ -30,9 +35,11 @@
 
   background-color: lightblue;
 
-  animation: mainContainer 0.7s ease forwards, fadeIn 0.5s ease; 
+  animation: mainContainer 0.7s ease forwards, fadeIn 0.3s ease; 
 
   aspect-ratio: 1 / 1.15;
+
+  z-index: 3;
 }
 
 @keyframes mainContainer {
@@ -51,7 +58,7 @@
 
   aspect-ratio: 1 / 1;
 
-  z-index: -2;
+  z-index: 1;
 }
 
 @keyframes container1 {
@@ -70,7 +77,7 @@
 
   aspect-ratio: 1 / 1;
 
-  z-index: -2;
+  z-index: 1;
 }
 
 @keyframes container2 {
@@ -89,12 +96,12 @@
 
   aspect-ratio: 1 / 1;
 
-  z-index: -1;
+  z-index: 2;
 }
 
 @keyframes container3 {
-  from { transform: translate(-105%, +40%); }
-  to   { transform: translate(-85%, +40%); }
+  from { transform: translate(-105%, 40%); }
+  to   { transform: translate(-85%, 40%); }
 }
 
 // container 4
@@ -104,16 +111,16 @@
 
   background-color: rgb(0, 0, 255, 0.7);
 
-  animation: container4 1.3s ease forwards, fadeIn 2.5s ease; 
+  animation: container4 1.3s ease forwards, fadeIn 0.5s ease; 
 
   aspect-ratio: 1 / 1.15;
 
-  z-index: -1;
+  z-index: 2;
 }
 
 @keyframes container4 {
-  from { transform: translate(+105%, -8%); }
-  to   { transform: translate(+90%, -8%); }
+  from { transform: translate(105%, -8%); }
+  to   { transform: translate(90%, -8%); }
 }
 
 // other animations
