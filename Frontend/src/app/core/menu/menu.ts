@@ -1,5 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { backgroundFadeOut } from "./animations/fade-out";
 import {
   container1LeaveAnimation,
@@ -24,10 +23,4 @@ import {
     container4LeaveAnimation,
   ],
 })
-export class Menu {
-  private readonly router: Router = inject(Router);
-
-  leave(): void {
-    this.router.navigate(["/"]);
-  }
-}
+export class Menu {}
