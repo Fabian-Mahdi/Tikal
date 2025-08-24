@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
 
-  height: 100vh;
+  height: 100%;
 
   animation: backgroundFadeIn 0.3s ease forwards; 
 }
@@ -22,6 +22,18 @@
     25% 93.3%,
     0% 50%
   );
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 50%;
+  height: 40%;
+
+  transform: translateY(50%);
 }
 
 // line overlay
@@ -51,6 +63,7 @@
 
 // circle container
 .circle-container {
+  position: absolute;
   width: 85%;
   aspect-ratio: 1 / 1;
 
@@ -65,6 +78,7 @@
 // central container
 .main-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
