@@ -1,0 +1,10 @@
+<span class="button-wrapper">
+  <button
+    class="button"
+    type="button"
+    [class.error]="type() === ButtonType.Error"
+    [class.primary]="type() === ButtonType.Primary"
+  >
+    <ng-content />
+  </button>
+</span>

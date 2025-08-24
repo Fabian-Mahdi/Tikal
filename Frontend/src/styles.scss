@@ -5,6 +5,8 @@ body {
   background-color: black;
 
   font-family: "Main";
+
+  overflow: hidden;
 }
 
 @font-face {
@@ -12,12 +14,4 @@ body {
     src: url("/fonts/main.ttf") format('truetype');
     font-weight: normal;
     font-style: normal;
-}
-
-.root-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  height: 100vh;
 }
