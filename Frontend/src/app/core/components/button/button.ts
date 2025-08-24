@@ -11,6 +11,8 @@ import { ButtonType } from "./button-type";
 export class Button {
   readonly type = input.required<ButtonType>();
 
+  readonly disabled = input<boolean>(false);
+
   get ButtonType(): typeof ButtonType {
     return ButtonType;
   }
