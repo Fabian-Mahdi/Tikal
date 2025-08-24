@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
 
-  height: 100vh;
+  height: 100%;
 }
 
 .content {
@@ -16,14 +16,6 @@
 .logo {
   width: 100%;
   height: min-content;
-}
-
-.tooltip {
-  text-align: center;
-  color: gray;
-
-  animation: blink 4s ease-in-out infinite;
-  font-size: large;
 }
 
 @keyframes blink {
