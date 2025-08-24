@@ -5,6 +5,7 @@
     [class.error]="type() === ButtonType.Error"
     [class.primary]="type() === ButtonType.Primary"
     [disabled]="disabled()"
+    (click)="onClicked()"
   >
     <ng-content />
   </button>
