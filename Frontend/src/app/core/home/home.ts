@@ -2,12 +2,12 @@ import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { NgOptimizedImage } from "@angular/common";
 import { Button } from "../components/button/button";
 import { ButtonType } from "../components/button/button-type";
-import { Router } from "@angular/router";
+import { Router, RouterOutlet } from "@angular/router";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: "app-home",
-  imports: [NgOptimizedImage, Button],
+  imports: [NgOptimizedImage, Button, RouterOutlet],
   templateUrl: "./home.html",
   styleUrl: "./home.scss",
 })

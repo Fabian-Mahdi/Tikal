@@ -11,11 +11,13 @@ import { Router } from "@angular/router";
 import { LoginUseCase } from "../../usecases/login/login-usecase";
 import { Menu } from "../../../../core/menu/menu";
 import { backgroundFadeOut } from "../../../../core/menu/animations/fade-out";
+import { Button } from "../../../../core/components/button/button";
+import { ButtonType } from "../../../../core/components/button/button-type";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: "app-login",
-  imports: [ReactiveFormsModule, Menu],
+  imports: [ReactiveFormsModule, Menu, Button],
   templateUrl: "./login.html",
   styleUrl: "./login.scss",
   animations: [backgroundFadeOut],
@@ -62,5 +64,9 @@ export class Login {
 
   get password(): FormControl<string> {
     return this.loginForm.get("password") as FormControl<string>;
+  }
+
+  get ButtonType(): typeof ButtonType {
+    return ButtonType;
   }
 }
