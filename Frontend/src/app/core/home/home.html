@@ -16,7 +16,11 @@
       >
         SOLO PLAY (WIP)
       </app-button>
-      <app-button class="home-screen-button" [type]="ButtonType.Primary">
+      <app-button
+        class="home-screen-button"
+        [type]="ButtonType.Primary"
+        (clicked)="onPlayOnlinePressed()"
+      >
         ONLINE PLAY
       </app-button>
     </div>

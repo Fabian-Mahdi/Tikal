@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { NgOptimizedImage } from "@angular/common";
 import { Button } from "../components/button/button";
 import { ButtonType } from "../components/button/button-type";
+import { Router } from "@angular/router";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,6 +12,12 @@ import { ButtonType } from "../components/button/button-type";
   styleUrl: "./home.scss",
 })
 export class Home {
+  private readonly router: Router = inject(Router);
+
+  onPlayOnlinePressed(): void {
+    this.router.navigate(["login"]);
+  }
+
   get ButtonType(): typeof ButtonType {
     return ButtonType;
   }

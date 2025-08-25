@@ -9,13 +9,16 @@ import {
 import { User } from "../../models/user";
 import { Router } from "@angular/router";
 import { LoginUseCase } from "../../usecases/login/login-usecase";
+import { Menu } from "../../../../core/menu/menu";
+import { backgroundFadeOut } from "../../../../core/menu/animations/fade-out";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: "app-login",
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Menu],
   templateUrl: "./login.html",
   styleUrl: "./login.scss",
+  animations: [backgroundFadeOut],
 })
 export class Login {
   private readonly router: Router = inject(Router);
