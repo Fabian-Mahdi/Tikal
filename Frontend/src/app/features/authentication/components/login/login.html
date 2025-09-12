@@ -1,3 +1,45 @@
 <app-menu @backgroundFadeOut>
-  <app-button class="login-button" [type]="ButtonType.Error">CLOSE</app-button>
+  <form
+    class="login-form"
+    id="loginForm"
+    [formGroup]="loginForm"
+    (ngSubmit)="onClosePressed()"
+  >
+    <div class="input-group">
+      <label for="username" hidden>Username</label>
+      <input
+        class="input"
+        formControlName="username"
+        id="username"
+        placeholder="Username"
+        type="text"
+      />
+    </div>
+    <div class="input-group">
+      <label for="password" hidden>Password</label>
+      <input
+        class="input"
+        formControlName="password"
+        id="password"
+        placeholder="Password"
+        type="password"
+      />
+    </div>
+  </form>
+  <app-button
+    class="login-button"
+    form="loginForm"
+    type="submit"
+    [style]="ButtonStyle.Primary"
+  >
+    LOG IN
+  </app-button>
+  <a class="link" href="#" (click)="onClosePressed()">NEW ACCOUNT</a>
+  <app-button
+    class="login-button"
+    [style]="ButtonStyle.Error"
+    (clicked)="onClosePressed()"
+  >
+    CLOSE
+  </app-button>
 </app-menu>

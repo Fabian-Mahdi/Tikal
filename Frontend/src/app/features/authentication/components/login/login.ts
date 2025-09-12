@@ -12,7 +12,7 @@ import { LoginUseCase } from "../../usecases/login/login-usecase";
 import { Menu } from "../../../../core/menu/menu";
 import { backgroundFadeOut } from "../../../../core/menu/animations/fade-out";
 import { Button } from "../../../../core/components/button/button";
-import { ButtonType } from "../../../../core/components/button/button-type";
+import { ButtonStyle } from "../../../../core/components/button/button-type";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,8 +54,10 @@ export class Login {
     } else {
       console.log("failure");
     }
+  }
 
-    this.router.navigate(["register"]);
+  onClosePressed(): void {
+    this.router.navigate([""]);
   }
 
   get username(): FormControl<string> {
@@ -66,7 +68,7 @@ export class Login {
     return this.loginForm.get("password") as FormControl<string>;
   }
 
-  get ButtonType(): typeof ButtonType {
-    return ButtonType;
+  get ButtonStyle(): typeof ButtonStyle {
+    return ButtonStyle;
   }
 }

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { NgOptimizedImage } from "@angular/common";
 import { Button } from "../components/button/button";
-import { ButtonType } from "../components/button/button-type";
+import { ButtonStyle } from "../components/button/button-type";
 import { Router, RouterOutlet } from "@angular/router";
 
 @Component({
@@ -18,7 +18,7 @@ export class Home {
     this.router.navigate(["login"]);
   }
 
-  get ButtonType(): typeof ButtonType {
-    return ButtonType;
+  get ButtonType(): typeof ButtonStyle {
+    return ButtonStyle;
   }
 }

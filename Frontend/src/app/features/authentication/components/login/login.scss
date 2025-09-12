@@ -1,4 +1,45 @@
+@use "colors";
+
 .login-button {
-  min-width: 140px;
+  margin: 5% 0 5% 0;
+
+  min-width: 180px;
   width: 35%;
+}
+
+.link {
+  text-decoration: none;
+
+  font-size: 0.9rem;
+
+  color: colors.$link-text;
+}
+
+.login-form {
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  justify-content: center;
+}
+
+.input {
+  width: 80%;
+
+  margin: 5% 0 5% 0;
+  padding: 8px;
+  padding-left: 10px;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  color: colors.$primary-text;
+
+  background-color: black;
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: none;
 }
