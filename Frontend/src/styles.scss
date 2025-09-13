@@ -9,9 +9,20 @@ body {
   overflow: hidden;
 }
 
+h1 {
+  font-family: "Heading";
+}
+
 @font-face {
-    font-family: 'Main';
-    src: url("/fonts/main.ttf") format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Main";
+  src: url("/fonts/main.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Heading";
+  src: url("/fonts/heading.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
