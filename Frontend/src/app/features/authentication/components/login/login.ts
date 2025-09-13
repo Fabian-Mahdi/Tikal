@@ -9,13 +9,18 @@ import {
 import { User } from "../../models/user";
 import { Router } from "@angular/router";
 import { LoginUseCase } from "../../usecases/login/login-usecase";
+import { Menu } from "../../../../core/menu/menu";
+import { backgroundFadeOut } from "../../../../core/menu/animations/fade-out";
+import { Button } from "../../../../core/components/button/button";
+import { ButtonStyle } from "../../../../core/components/button/button-type";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: "app-login",
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Menu, Button],
   templateUrl: "./login.html",
   styleUrl: "./login.scss",
+  animations: [backgroundFadeOut],
 })
 export class Login {
   private readonly router: Router = inject(Router);
@@ -49,8 +54,10 @@ export class Login {
     } else {
       console.log("failure");
     }
+  }
 
-    this.router.navigate(["register"]);
+  onClosePressed(): void {
+    this.router.navigate([{ outlets: { overlay: null } }]);
   }
 
   get username(): FormControl<string> {
@@ -59,5 +66,9 @@ export class Login {
 
   get password(): FormControl<string> {
     return this.loginForm.get("password") as FormControl<string>;
+  }
+
+  get ButtonStyle(): typeof ButtonStyle {
+    return ButtonStyle;
   }
 }

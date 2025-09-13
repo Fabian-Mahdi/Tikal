@@ -81,3 +81,7 @@
 .primary:active {
   background-color: colors.$button-primary-pressed;
 }
+
+.primary:disabled {
+  background-color: colors.$button-primary-disabled;
+}

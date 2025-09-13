@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { backgroundFadeOut } from "./animations/fade-out";
 import {
   container1LeaveAnimation,
   container2LeaveAnimation,
@@ -15,7 +14,6 @@ import {
   templateUrl: "./menu.html",
   styleUrl: "./menu.scss",
   animations: [
-    backgroundFadeOut,
     mainLeaveAnimation,
     container1LeaveAnimation,
     container2LeaveAnimation,

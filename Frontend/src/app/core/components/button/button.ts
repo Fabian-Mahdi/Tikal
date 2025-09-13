@@ -1,5 +1,10 @@
-import { Component, ChangeDetectionStrategy, input } from "@angular/core";
-import { ButtonType } from "./button-type";
+import {
+  Component,
+  ChangeDetectionStrategy,
+  input,
+  output,
+} from "@angular/core";
+import { ButtonStyle } from "./button-type";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -9,9 +14,21 @@ import { ButtonType } from "./button-type";
   styleUrl: "./button.scss",
 })
 export class Button {
-  readonly type = input.required<ButtonType>();
+  readonly style = input.required<ButtonStyle>();
 
-  get ButtonType(): typeof ButtonType {
-    return ButtonType;
+  readonly disabled = input<boolean>(false);
+
+  readonly type = input<string>("button");
+
+  readonly form = input<string>("");
+
+  readonly clicked = output();
+
+  onClicked(): void {
+    this.clicked.emit();
+  }
+
+  get ButtonStyle(): typeof ButtonStyle {
+    return ButtonStyle;
   }
 }

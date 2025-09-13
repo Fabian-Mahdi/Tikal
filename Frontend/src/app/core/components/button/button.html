@@ -1,9 +1,12 @@
 <span class="button-wrapper">
   <button
     class="button"
-    type="button"
-    [class.error]="type() === ButtonType.Error"
-    [class.primary]="type() === ButtonType.Primary"
+    [attr.form]="form()"
+    [class.error]="style() === ButtonStyle.Error"
+    [class.primary]="style() === ButtonStyle.Primary"
+    [disabled]="disabled()"
+    [type]="type()"
+    (click)="onClicked()"
   >
     <ng-content />
   </button>

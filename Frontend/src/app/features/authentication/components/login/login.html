@@ -1,25 +1,47 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="username">Username</label>
-    <input formControlName="username" id="username" type="text" />
-  </div>
-  @if (username.invalid && (username.touched || username.dirty)) {
-    <div>
-      @if (username.errors?.["required"]) {
-        Username is required
-      }
+<app-menu @backgroundFadeOut>
+  <h1 class="login-header">LOG IN</h1>
+  <hr class="login-line" />
+  <form
+    class="login-form"
+    id="loginForm"
+    [formGroup]="loginForm"
+    (ngSubmit)="onClosePressed()"
+  >
+    <div class="input-group">
+      <label for="username" hidden>Username</label>
+      <input
+        class="input"
+        formControlName="username"
+        id="username"
+        placeholder="Username"
+        type="text"
+      />
     </div>
-  }
-  <div>
-    <label for="password">Password</label>
-    <input formControlName="password" id="password" type="password" />
-  </div>
-  @if (password.invalid && (password.touched || password.dirty)) {
-    <div>
-      @if (password.errors?.["required"]) {
-        Password is required
-      }
+    <div class="input-group">
+      <label for="password" hidden>Password</label>
+      <input
+        class="input"
+        formControlName="password"
+        id="password"
+        placeholder="Password"
+        type="password"
+      />
     </div>
-  }
-  <button type="submit">Login</button>
-</form>
+  </form>
+  <app-button
+    class="login-button"
+    form="loginForm"
+    type="submit"
+    [style]="ButtonStyle.Primary"
+  >
+    LOG IN
+  </app-button>
+  <a class="link" href="#" (click)="onClosePressed()">NEW ACCOUNT</a>
+  <app-button
+    class="login-button"
+    [style]="ButtonStyle.Error"
+    (clicked)="onClosePressed()"
+  >
+    CLOSE
+  </app-button>
+</app-menu>

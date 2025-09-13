@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { Background } from "./core/background/background";
 import { Home } from "./core/home/home";
+import { Login } from "./features/authentication/components/login/login";
 
 export const routes: Routes = [
   {
@@ -12,5 +13,11 @@ export const routes: Routes = [
         component: Home,
       },
     ],
+  },
+  // full screen overlays
+  {
+    path: "login",
+    component: Login,
+    outlet: "overlay",
   },
 ];

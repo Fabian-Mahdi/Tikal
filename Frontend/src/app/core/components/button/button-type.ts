@@ -1,4 +1,4 @@
-export enum ButtonType {
+export enum ButtonStyle {
   Error,
   Primary,
 }

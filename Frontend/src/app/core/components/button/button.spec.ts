@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { Button } from "./button";
 import { provideZonelessChangeDetection } from "@angular/core";
-import { ButtonType } from "./button-type";
+import { ButtonStyle } from "./button-type";
 
 describe("Button", () => {
   let component: Button;
@@ -15,7 +15,7 @@ describe("Button", () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(Button);
-    fixture.componentRef.setInput("type", ButtonType.Primary);
+    fixture.componentRef.setInput("style", ButtonStyle.Primary);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
