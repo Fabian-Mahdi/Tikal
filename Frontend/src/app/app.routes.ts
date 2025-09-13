@@ -11,13 +11,13 @@ export const routes: Routes = [
       {
         path: "",
         component: Home,
-        children: [
-          {
-            path: "login",
-            component: Login,
-          },
-        ],
       },
     ],
+  },
+  // full screen overlays
+  {
+    path: "login",
+    component: Login,
+    outlet: "overlay",
   },
 ];

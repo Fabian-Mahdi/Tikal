@@ -57,7 +57,7 @@ export class Login {
   }
 
   onClosePressed(): void {
-    this.router.navigate([""]);
+    this.router.navigate([{ outlets: { overlay: null } }]);
   }
 
   get username(): FormControl<string> {
