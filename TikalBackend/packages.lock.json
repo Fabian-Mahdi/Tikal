@@ -275,6 +275,11 @@
           "OpenTelemetry.API": "1.7.0"
         }
       },
+      "OneOf": {
+        "type": "Transitive",
+        "resolved": "3.0.271",
+        "contentHash": "pqpqeK8xQGggExhr4tesVgJkjdn+9HQAO0QgrYV2hFjE3y90okzk1kQMntMiUOGfV7FrCUfKPaVvPBD4IANqKg=="
+      },
       "OpenTelemetry": {
         "type": "Transitive",
         "resolved": "1.12.0",
@@ -357,6 +362,7 @@
           "Microsoft.EntityFrameworkCore.Relational": "[9.0.9, )",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "[9.0.4, )",
           "Npgsql.OpenTelemetry": "[9.0.3, )",
+          "OneOf": "[3.0.271, )",
           "OpenTelemetry.Exporter.OpenTelemetryProtocol": "[1.12.0, )",
           "OpenTelemetry.Extensions.Hosting": "[1.12.0, )",
           "OpenTelemetry.Instrumentation.AspNetCore": "[1.12.0, )",

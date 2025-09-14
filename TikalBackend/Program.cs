@@ -23,6 +23,8 @@ builder.Services.AddHttpLogging(logging =>
     logging.CombineLogs = false;
 });
 
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(ApplicationDbContext).Assembly));
+
 builder.Services.AddControllers();
 
 builder.Services.AddHealthChecks();
