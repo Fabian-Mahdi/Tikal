@@ -1,8 +1,7 @@
-using FluentResults;
 using MediatR;
 
 namespace Shared.Abstractions.Messaging;
 
-public interface Query<TResponse> : IRequest<Result<TResponse>>
+public interface Query<out TResponse> : IRequest<TResponse>
 {
 }

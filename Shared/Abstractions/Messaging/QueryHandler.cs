@@ -1,9 +1,8 @@
-using FluentResults;
 using MediatR;
 
 namespace Shared.Abstractions.Messaging;
 
-public interface QueryHandler<in TQuery, TResponse> : IRequestHandler<TQuery, Result<TResponse>>
+public interface QueryHandler<in TQuery, TResponse> : IRequestHandler<TQuery, TResponse>
     where TQuery : Query<TResponse>
 {
 }
