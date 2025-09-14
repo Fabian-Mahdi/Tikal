@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityAPI.Integration", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire", "Aspire\Aspire.csproj", "{BABEE1A5-080C-4F00-AC74-E88EF7528C70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{4BE87FCE-4024-4C96-B690-11821BE967CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikalBackend", "TikalBackend\TikalBackend.csproj", "{1902D68F-2328-4B81-B3DA-8C5F45EF2FCD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{BABEE1A5-080C-4F00-AC74-E88EF7528C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BABEE1A5-080C-4F00-AC74-E88EF7528C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BABEE1A5-080C-4F00-AC74-E88EF7528C70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BE87FCE-4024-4C96-B690-11821BE967CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BE87FCE-4024-4C96-B690-11821BE967CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BE87FCE-4024-4C96-B690-11821BE967CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BE87FCE-4024-4C96-B690-11821BE967CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1902D68F-2328-4B81-B3DA-8C5F45EF2FCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1902D68F-2328-4B81-B3DA-8C5F45EF2FCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1902D68F-2328-4B81-B3DA-8C5F45EF2FCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1902D68F-2328-4B81-B3DA-8C5F45EF2FCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
