@@ -18,15 +18,15 @@ IResourceBuilder<ProjectResource> identityapi = builder.AddProject<IdentityAPI>(
 IResourceBuilder<PostgresDatabaseResource> tikaldb = postgres.AddDatabase("TikalDatabase");
 
 // tikal backend
-IResourceBuilder<ProjectResource> tikalBackend = builder.AddProject<TikalBackend>("TikalBackend")
+IResourceBuilder<ProjectResource> tikalApp = builder.AddProject<Tikal_App>("TikalApp")
     .WithReference(tikaldb)
     .WaitFor(tikaldb);
 
 // frontend
 builder.AddNpmApp("frontend", "../Frontend")
     .WithReference(identityapi)
-    .WithReference(tikalBackend)
+    .WithReference(tikalApp)
     .WaitFor(identityapi)
-    .WaitFor(tikalBackend);
+    .WaitFor(tikalApp);
 
 builder.Build().Run();

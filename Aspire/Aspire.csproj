@@ -18,7 +18,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\IdentityAPI\IdentityAPI.csproj"/>
-        <ProjectReference Include="..\TikalBackend\TikalBackend.csproj"/>
+        <ProjectReference Include="..\Tikal\Tikal.App\Tikal.App.csproj"/>
     </ItemGroup>
 
 </Project>
