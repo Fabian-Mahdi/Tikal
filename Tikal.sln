@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.Presentation", "Tikal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.App", "Tikal\Tikal.App\Tikal.App.csproj", "{9CE9254C-BFB6-4766-8C46-EFD5A5072BF3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tikal.Tests", "Tikal.Tests", "{E63B7B5A-7B0D-472A-A71B-22091FB11CF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.Domain.Tests", "Tikal.Tests\Tikal.Domain.Tests\Tikal.Domain.Tests.csproj", "{0547217C-E6AF-4C2F-ADD7-59622221A155}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +69,10 @@ Global
 		{9CE9254C-BFB6-4766-8C46-EFD5A5072BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CE9254C-BFB6-4766-8C46-EFD5A5072BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CE9254C-BFB6-4766-8C46-EFD5A5072BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0547217C-E6AF-4C2F-ADD7-59622221A155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0547217C-E6AF-4C2F-ADD7-59622221A155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0547217C-E6AF-4C2F-ADD7-59622221A155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0547217C-E6AF-4C2F-ADD7-59622221A155}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,5 +86,6 @@ Global
 		{8580DF68-E70F-4BFE-864A-59061AD29FD8} = {8BE05676-1943-4F94-AED1-8938EC872324}
 		{AEFD08B1-1FAF-4F6C-9B0F-B8B8ED6329E7} = {8BE05676-1943-4F94-AED1-8938EC872324}
 		{9CE9254C-BFB6-4766-8C46-EFD5A5072BF3} = {8BE05676-1943-4F94-AED1-8938EC872324}
+		{0547217C-E6AF-4C2F-ADD7-59622221A155} = {E63B7B5A-7B0D-472A-A71B-22091FB11CF7}
 	EndGlobalSection
 EndGlobal
