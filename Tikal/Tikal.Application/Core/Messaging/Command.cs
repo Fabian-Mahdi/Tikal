@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Tikal.Application.Abstractions.Messaging;
+namespace Tikal.Application.Core.Messaging;
 
 public interface Command<out TResponse> : IRequest<TResponse>
 {

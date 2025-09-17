@@ -1,8 +1,8 @@
 using OneOf;
 using OneOf.Types;
-using Tikal.Application.Abstractions.Messaging;
 using Tikal.Application.Accounts.DataAccess;
 using Tikal.Application.Core.DataAccess;
+using Tikal.Application.Core.Messaging;
 using Tikal.Domain.Accounts;
 
 namespace Tikal.Application.Accounts.Commands.CreateAccount;
