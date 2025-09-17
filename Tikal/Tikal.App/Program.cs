@@ -30,6 +30,8 @@ if (builder.Environment.IsDevelopment())
 // Dependencies
 builder.Services.AddRepositories();
 
+builder.Services.AddMappers();
+
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(AssemblyReference.Assembly));
 
 builder.Services.AddControllers().AddApplicationPart(Tikal.Presentation.AssemblyReference.Assembly);

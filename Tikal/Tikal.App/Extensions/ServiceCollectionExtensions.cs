@@ -5,6 +5,7 @@ using OpenTelemetry.Trace;
 using Tikal.Application.Accounts.DataAccess;
 using Tikal.Application.Core.DataAccess;
 using Tikal.Infrastructure.Accounts;
+using Tikal.Infrastructure.Accounts.Mappers;
 using Tikal.Infrastructure.Database;
 
 namespace Tikal.App.Extensions;
@@ -45,6 +46,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped<UnitOfWork, ApplicationUnitOfWork>();
 
         services.AddScoped<AccountRepository, AccountDatabase>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddMappers(this IServiceCollection services)
+    {
+        services.AddScoped<AccountMapper>();
 
         return services;
     }
