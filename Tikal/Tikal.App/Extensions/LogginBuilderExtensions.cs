@@ -4,7 +4,7 @@ namespace Tikal.App.Extensions;
 
 public static class LoggingBuilderExtensions
 {
-    public static ILoggingBuilder ConfigureOpenTelemetry(this ILoggingBuilder builder)
+    public static void ConfigureOpenTelemetry(this ILoggingBuilder builder)
     {
         builder.AddOpenTelemetry(options =>
         {
@@ -14,7 +14,5 @@ public static class LoggingBuilderExtensions
             options.IncludeScopes = true;
             options.ParseStateValues = true;
         });
-
-        return builder;
     }
 }

@@ -17,7 +17,7 @@ namespace Tikal.App.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDevOpenTelemetry(this IServiceCollection services)
+    public static void AddDevOpenTelemetry(this IServiceCollection services)
     {
         services.AddOpenTelemetry()
             .WithTracing(tracing =>
@@ -33,36 +33,28 @@ public static class ServiceCollectionExtensions
                 logging
                     .AddOtlpExporter();
             });
-
-        return services;
     }
 
-    public static IServiceCollection AddDevDbContext(this IServiceCollection services, WebApplicationBuilder builder)
+    public static void AddDevDbContext(this IServiceCollection services, WebApplicationBuilder builder)
     {
         string connectionString = builder.Configuration.GetConnectionString("TikalDatabase")!;
 
         services.AddDbContext<ApplicationDbContext>(optionsBuilder => { optionsBuilder.UseNpgsql(connectionString); });
-
-        return services;
     }
 
-    public static IServiceCollection AddRepositories(this IServiceCollection services)
+    public static void AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<UnitOfWork, ApplicationUnitOfWork>();
 
         services.AddScoped<AccountRepository, AccountDatabase>();
-
-        return services;
     }
 
-    public static IServiceCollection AddMappers(this IServiceCollection services)
+    public static void AddMappers(this IServiceCollection services)
     {
         services.AddScoped<AccountMapper>();
-
-        return services;
     }
 
-    public static IServiceCollection AddJwtAuthentication(
+    public static void AddJwtAuthentication(
         this IServiceCollection services,
         IConfiguration configuration
     )
@@ -88,18 +80,14 @@ public static class ServiceCollectionExtensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SigningKey))
                 };
             });
-
-        return services;
     }
 
-    public static IServiceCollection AddMandatoryAuthorization(this IServiceCollection services)
+    public static void AddMandatoryAuthorization(this IServiceCollection services)
     {
         services.AddAuthorizationBuilder()
             .SetFallbackPolicy(new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .Build()
             );
-
-        return services;
     }
 }
