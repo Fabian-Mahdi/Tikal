@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,5 +12,10 @@ public class ApiController : ControllerBase
     public ApiController(ISender sender)
     {
         this.sender = sender;
+    }
+
+    protected string GetCurrentUserId()
+    {
+        return HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
     }
 }

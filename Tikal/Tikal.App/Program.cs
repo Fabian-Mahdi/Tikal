@@ -27,6 +27,11 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddDevDbContext(builder);
 }
 
+// Auth
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
+builder.Services.AddMandatoryAuthorization();
+
 // Dependencies
 builder.Services.AddRepositories();
 
@@ -46,6 +51,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpLogging();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapHealthChecks("/healthcheck");
 

@@ -18,7 +18,9 @@ public partial class CreateAccountController : ApiController
     [HttpPost]
     public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto dto, CancellationToken cancellationToken)
     {
-        CreateAccountCommand command = new(dto.Id, dto.Name);
+        string userId = GetCurrentUserId();
+
+        CreateAccountCommand command = new(userId, dto.Name);
 
         OneOf<Account, DuplicateAccountId> result = await sender.Send(command, cancellationToken);
 
@@ -30,7 +32,7 @@ public partial class CreateAccountController : ApiController
 
     private IActionResult handleSuccess(Account account)
     {
-        AccountDto dto = new(account.Id, account.Name);
+        AccountDto dto = new(account.Name);
 
         return Ok(dto);
     }
