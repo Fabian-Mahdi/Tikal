@@ -79,6 +79,28 @@ public static class ServiceCollectionExtensions
                     ValidAudience = jwtOptions.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SigningKey))
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnChallenge = async context =>
+                    {
+                        context.HandleResponse();
+
+                        await context.HttpContext.WriteProblem(
+                            StatusCodes.Status401Unauthorized,
+                            "Unauthorized",
+                            "Authentication is required to access this resource."
+                        );
+                    },
+                    OnForbidden = async context =>
+                    {
+                        await context.HttpContext.WriteProblem(
+                            StatusCodes.Status403Forbidden,
+                            "Forbidden",
+                            "Authentication is required to access this resource."
+                        );
+                    }
+                };
             });
     }
 
