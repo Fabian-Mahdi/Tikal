@@ -7,6 +7,9 @@ using Tikal.Domain.Accounts;
 
 namespace Tikal.Application.Accounts.Commands.CreateAccount;
 
+/// <summary>
+///     The command handler for <see cref="CreateAccountCommand" />
+/// </summary>
 public sealed class CreateAccountCommandHandler
     : CommandHandler<CreateAccountCommand, OneOf<Account, DuplicateAccountId>>
 {
