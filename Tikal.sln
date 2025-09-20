@@ -11,6 +11,32 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityAPI.Integration", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire", "Aspire\Aspire.csproj", "{BABEE1A5-080C-4F00-AC74-E88EF7528C70}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tikal", "Tikal", "{8BE05676-1943-4F94-AED1-8938EC872324}"
+	ProjectSection(SolutionItems) = preProject
+		Tikal\README.md = Tikal\README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.Domain", "Tikal\Tikal.Domain\Tikal.Domain.csproj", "{927E99CF-5C5C-4D71-A870-D6B02BBF7312}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.Application", "Tikal\Tikal.Application\Tikal.Application.csproj", "{1A3C24EB-B99D-43C4-9282-A9454609ECDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.Infrastructure", "Tikal\Tikal.Infrastructure\Tikal.Infrastructure.csproj", "{8580DF68-E70F-4BFE-864A-59061AD29FD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.Presentation", "Tikal\Tikal.Presentation\Tikal.Presentation.csproj", "{AEFD08B1-1FAF-4F6C-9B0F-B8B8ED6329E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.App", "Tikal\Tikal.App\Tikal.App.csproj", "{9CE9254C-BFB6-4766-8C46-EFD5A5072BF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tikal.Tests", "Tikal.Tests", "{E63B7B5A-7B0D-472A-A71B-22091FB11CF7}"
+	ProjectSection(SolutionItems) = preProject
+		Tikal.Tests\README.md = Tikal.Tests\README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.Domain.Tests", "Tikal.Tests\Tikal.Domain.Tests\Tikal.Domain.Tests.csproj", "{0547217C-E6AF-4C2F-ADD7-59622221A155}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.Application.Tests", "Tikal.Tests\Tikal.Application.Tests\Tikal.Application.Tests.csproj", "{99C902B5-CAD4-4DCC-987B-5AAAED91CFD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.Integration", "Tikal.Tests\Tikal.Integration\Tikal.Integration.csproj", "{83D0DBA1-B0E6-4E45-BA27-AABDD60E8D90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,11 +59,53 @@ Global
 		{BABEE1A5-080C-4F00-AC74-E88EF7528C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BABEE1A5-080C-4F00-AC74-E88EF7528C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BABEE1A5-080C-4F00-AC74-E88EF7528C70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{927E99CF-5C5C-4D71-A870-D6B02BBF7312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{927E99CF-5C5C-4D71-A870-D6B02BBF7312}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{927E99CF-5C5C-4D71-A870-D6B02BBF7312}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{927E99CF-5C5C-4D71-A870-D6B02BBF7312}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A3C24EB-B99D-43C4-9282-A9454609ECDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A3C24EB-B99D-43C4-9282-A9454609ECDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A3C24EB-B99D-43C4-9282-A9454609ECDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A3C24EB-B99D-43C4-9282-A9454609ECDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8580DF68-E70F-4BFE-864A-59061AD29FD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8580DF68-E70F-4BFE-864A-59061AD29FD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8580DF68-E70F-4BFE-864A-59061AD29FD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8580DF68-E70F-4BFE-864A-59061AD29FD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEFD08B1-1FAF-4F6C-9B0F-B8B8ED6329E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEFD08B1-1FAF-4F6C-9B0F-B8B8ED6329E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEFD08B1-1FAF-4F6C-9B0F-B8B8ED6329E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEFD08B1-1FAF-4F6C-9B0F-B8B8ED6329E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CE9254C-BFB6-4766-8C46-EFD5A5072BF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CE9254C-BFB6-4766-8C46-EFD5A5072BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CE9254C-BFB6-4766-8C46-EFD5A5072BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CE9254C-BFB6-4766-8C46-EFD5A5072BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0547217C-E6AF-4C2F-ADD7-59622221A155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0547217C-E6AF-4C2F-ADD7-59622221A155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0547217C-E6AF-4C2F-ADD7-59622221A155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0547217C-E6AF-4C2F-ADD7-59622221A155}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99C902B5-CAD4-4DCC-987B-5AAAED91CFD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99C902B5-CAD4-4DCC-987B-5AAAED91CFD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99C902B5-CAD4-4DCC-987B-5AAAED91CFD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99C902B5-CAD4-4DCC-987B-5AAAED91CFD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83D0DBA1-B0E6-4E45-BA27-AABDD60E8D90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83D0DBA1-B0E6-4E45-BA27-AABDD60E8D90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83D0DBA1-B0E6-4E45-BA27-AABDD60E8D90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83D0DBA1-B0E6-4E45-BA27-AABDD60E8D90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {45E68CCA-A66F-4F06-9374-476DE4FFF35D}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{927E99CF-5C5C-4D71-A870-D6B02BBF7312} = {8BE05676-1943-4F94-AED1-8938EC872324}
+		{1A3C24EB-B99D-43C4-9282-A9454609ECDE} = {8BE05676-1943-4F94-AED1-8938EC872324}
+		{8580DF68-E70F-4BFE-864A-59061AD29FD8} = {8BE05676-1943-4F94-AED1-8938EC872324}
+		{AEFD08B1-1FAF-4F6C-9B0F-B8B8ED6329E7} = {8BE05676-1943-4F94-AED1-8938EC872324}
+		{9CE9254C-BFB6-4766-8C46-EFD5A5072BF3} = {8BE05676-1943-4F94-AED1-8938EC872324}
+		{0547217C-E6AF-4C2F-ADD7-59622221A155} = {E63B7B5A-7B0D-472A-A71B-22091FB11CF7}
+		{99C902B5-CAD4-4DCC-987B-5AAAED91CFD3} = {E63B7B5A-7B0D-472A-A71B-22091FB11CF7}
+		{83D0DBA1-B0E6-4E45-BA27-AABDD60E8D90} = {E63B7B5A-7B0D-472A-A71B-22091FB11CF7}
 	EndGlobalSection
 EndGlobal

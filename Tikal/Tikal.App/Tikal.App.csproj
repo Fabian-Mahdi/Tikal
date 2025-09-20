@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <UserSecretsId>76c04cc5-3cac-452c-9d74-5b5a399acbc4</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Tikal.Infrastructure\Tikal.Infrastructure.csproj"/>
+        <ProjectReference Include="..\Tikal.Presentation\Tikal.Presentation.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.9"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.9" />
+        <PackageReference Include="Npgsql.OpenTelemetry" Version="9.0.3"/>
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0"/>
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Tikal.Integration"/>
+    </ItemGroup>
+
+</Project>
