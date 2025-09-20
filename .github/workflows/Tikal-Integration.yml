@@ -1,0 +1,48 @@
+name: Tikal-Integration
+
+on:
+  push:
+    paths:
+      - .github/**
+      - Tikal/**
+      - Tikal.Tests/**
+    branches:
+      - master
+      - feature/*
+
+jobs:
+  format:
+    name: Enforce formatting
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        dotnet-version: ["9.0.X"]
+        project:
+          [
+            "Tikal/Tikal.App",
+            "Tikal/Tikal.Application",
+            "Tikal/Tikal.Domain",
+            "Tikal/Tikal.Infrastructure",
+            "Tikal/Tikal.Presentation",
+            "Tikal.Tests/Tikal.Application.Tests",
+            "Tikal.Tests/Tikal.Domain.Tests",
+            "Tikal.Tests/Tikal.Integration",
+          ]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          cache: true
+          cache-dependency-path: ./${{ matrix.project }}/packages.lock.json
+
+      - name: Restore ${{ matrix.project }}
+        run: dotnet restore ./${{ matrix.project }} --locked-mode
+
+      - name: Enforce formatting for ${{ matrix.project }}
+        run: dotnet format ./${{ matrix.project }} whitespace --verify-no-changes --no-restore
