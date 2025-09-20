@@ -10,6 +10,9 @@ on:
       - master
       - feature/*
 
+env:
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
 jobs:
   format:
     name: Enforce formatting
@@ -28,8 +31,6 @@ jobs:
             "Tikal.Tests/Tikal.Domain.Tests",
             "Tikal.Tests/Tikal.Integration",
           ]
-    env:
-      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -46,3 +47,38 @@ jobs:
 
       - name: Enforce formatting for ${{ matrix.project }}
         run: dotnet format ./${{ matrix.project }} whitespace --verify-no-changes --no-restore
+
+  unit-test:
+    name: Run unit tests
+    needs: format
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        dotnet-version: ["9.0.X"]
+        project: ["Tikal.Application.Tests", "Tikal.Domain.Tests"]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          cache: true
+          cache-dependency-path: ./Tikal.Tests/${{ matrix.project }}/packages.lock.json
+
+      - name: Restore ${{ matrix.project }}
+        run: dotnet restore ./Tikal.Tests/${{ matrix.project }} --locked-mode
+
+      - name: Build ${{ matrix.project }}
+        run: dotnet build ./Tikal.Tests/${{ matrix.project }} --configuration Release --no-restore
+
+      - name: Test ${{ matrix.project }}
+        run: dotnet test ./Tikal.Tests/${{ matrix.project }} --configuration Release --no-build --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results-${{ matrix.dotnet-version }}-${{ matrix.project }}
+          path: TestResults-${{ matrix.dotnet-version }}
+        if: ${{ always() }}
