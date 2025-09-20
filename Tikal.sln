@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire", "Aspire\Aspire.csproj", "{BABEE1A5-080C-4F00-AC74-E88EF7528C70}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tikal", "Tikal", "{8BE05676-1943-4F94-AED1-8938EC872324}"
+	ProjectSection(SolutionItems) = preProject
+		Tikal\README.md = Tikal\README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.Domain", "Tikal\Tikal.Domain\Tikal.Domain.csproj", "{927E99CF-5C5C-4D71-A870-D6B02BBF7312}"
 EndProject
@@ -24,6 +27,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.App", "Tikal\Tikal.App\Tikal.App.csproj", "{9CE9254C-BFB6-4766-8C46-EFD5A5072BF3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tikal.Tests", "Tikal.Tests", "{E63B7B5A-7B0D-472A-A71B-22091FB11CF7}"
+	ProjectSection(SolutionItems) = preProject
+		Tikal.Tests\README.md = Tikal.Tests\README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.Domain.Tests", "Tikal.Tests\Tikal.Domain.Tests\Tikal.Domain.Tests.csproj", "{0547217C-E6AF-4C2F-ADD7-59622221A155}"
 EndProject

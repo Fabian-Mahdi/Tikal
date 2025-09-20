@@ -28,6 +28,8 @@ The repository contains the following projects:
 - **IdentityAPI.Tests:** Contains unit tests for the IdentityAPI.
 - **IdentityAPI.Integration:** Contains integration tests for the IdentityAPI.
 - **Infrastructure:** Documentation and configuration of the infrastructure on which the system is deployed.
+- **Tikal:** Contains all projects related to the main backend for the Tikal game.
+- **Tikal.Tests:** Contains all test projects related to the main backend for the Tikal game.
 
 For more details refer to the READMEs in the respective sub folders.
 
