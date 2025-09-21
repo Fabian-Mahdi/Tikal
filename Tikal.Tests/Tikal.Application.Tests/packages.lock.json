@@ -266,7 +266,10 @@
         }
       },
       "tikal.domain": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "OneOf": "[3.0.271, )"
+        }
       }
     }
   }
