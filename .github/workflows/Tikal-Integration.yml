@@ -150,13 +150,12 @@ jobs:
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
 
-      - name: Cache NuGet packages
-        uses: actions/cache@v4
+      - name: Setup dotnet 9.0.X
+        uses: actions/setup-dotnet@v4
         with:
-          path: ${{ github.workspace }}/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('./Tikal.Tests/Integration/package.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
+          dotnet-version: 9.0.X
+          cache: true
+          cache-dependency-path: ./Tikal.Tests/Tikal.Integration/packages.lock.json
 
       - name: Install SonarQube Cloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
@@ -189,4 +188,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.TIKAL_SONAR_TOKEN }}
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.TIKAL_SONAR_TOKEN }}"
+          dotnet-sonarscanner end /d:sonar.token="${{ secrets.TIKAL_SONAR_TOKEN }}"
