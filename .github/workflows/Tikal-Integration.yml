@@ -171,14 +171,14 @@ jobs:
 
       - name: Build Projects
         run: |
-          dotnet build .\Tikal\Tikal.Domain
-          dotnet build .\Tikal\Tikal.Application
-          dotnet build .\Tikal\Tikal.Infrastructure
-          dotnet build .\Tikal\Tikal.Presentation
-          dotnet build .\Tikal\Tikal.App
-          dotnet build .\Tikal.Tests\Tikal.Domain.Tests
-          dotnet build .\Tikal.Tests\Tikal.Application.Tests
-          dotnet build .\Tikal.Tests\Tikal.Integration
+          dotnet build ./Tikal/Tikal.Domain
+          dotnet build ./Tikal/Tikal.Application
+          dotnet build ./Tikal/Tikal.Infrastructure
+          dotnet build ./Tikal/Tikal.Presentation
+          dotnet build ./Tikal/Tikal.App
+          dotnet build ./Tikal.Tests/Tikal.Domain.Tests
+          dotnet build ./Tikal.Tests/Tikal.Application.Tests
+          dotnet build ./Tikal.Tests/Tikal.Integration
 
       - uses: actions/download-artifact@v5
         with:
