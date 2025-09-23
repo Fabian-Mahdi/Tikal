@@ -36,7 +36,7 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           cache: true
-          cache-dependency-path: "./IdentityAPI/packages.lock.json"
+          cache-dependency-path: "./Tikal/Tikal.App/packages.lock.json"
 
       - name: Install dotnet-ef
         run: dotnet tool install --global dotnet-ef
