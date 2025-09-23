@@ -72,7 +72,7 @@ resource "azurerm_user_assigned_identity" "tikal-backend" {
 }
 
 resource "azurerm_key_vault_access_policy" "tikal-backend" {
-  key_vault_id = azurerm_key_vault.current.id
+  key_vault_id = azurerm_key_vault.tikal.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = azurerm_user_assigned_identity.tikal-backend.principal_id
 
