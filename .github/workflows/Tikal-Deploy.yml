@@ -1,0 +1,84 @@
+name: Tikal-Deploy
+
+on:
+  push:
+    paths:
+      - .github/**
+      - Tikal/**
+      - Tikal.Tests/**
+    branches:
+      - master
+      - feature/*
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  IMAGE_NAME: "tikal"
+  AZ_REGISTRY: "tikalcontainerregistry.azurecr.io"
+
+jobs:
+  migration:
+    name: Migrate database
+    runs-on: tikal-azure-runner
+    strategy:
+      matrix:
+        dotnet-version: ["9.0.X"]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          cache: true
+          cache-dependency-path: "./IdentityAPI/packages.lock.json"
+
+      - name: Install dotnet-ef
+        run: dotnet tool install --global dotnet-ef
+
+      - name: Restore IdentityAPI
+        run: dotnet restore ./Tikal/Tikal.App --locked-mode
+
+      - name: Build IdentityAPI
+        run: dotnet build ./Tikal/Tikal.App --configuration Release --no-restore
+
+      - name: Create bundle
+        run: |
+          cd ./Tikal
+          dotnet ef migrations bundle --project ./Tikal.App --output efbundle
+
+      - name: Setup Azure CLI
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Retrieve database connection string from Key Vault
+        id: keyvault
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            DB_NAME=$(az keyvault secret show --name Database--DatabaseName --vault-name ${{ secrets.TIKAL_KEYVAULT_NAME }} --query value -o tsv)
+            echo "::add-mask::$DB_NAME"
+            echo "DB_NAME=$DB_NAME" >> $GITHUB_ENV
+            DB_HOST=$(az keyvault secret show --name Database--Host --vault-name ${{ secrets.TIKAL_KEYVAULT_NAME }} --query value -o tsv)
+            echo "::add-mask::$DB_HOST"
+            echo "DB_HOST=$DB_HOST" >> $GITHUB_ENV
+            DB_PASSWORD=$(az keyvault secret show --name Database--Password --vault-name ${{ secrets.TIKAL_KEYVAULT_NAME }} --query value -o tsv)
+            echo "::add-mask::$DB_PASSWORD"
+            echo "DB_PASSWORD=$DB_PASSWORD" >> $GITHUB_ENV
+            DB_PORT=$(az keyvault secret show --name Database--Port --vault-name ${{ secrets.TIKAL_KEYVAULT_NAME }} --query value -o tsv)
+            echo "::add-mask::$DB_PORT"
+            echo "DB_PORT=$DB_PORT" >> $GITHUB_ENV
+            DB_USERNAME=$(az keyvault secret show --name Database--Username --vault-name ${{ secrets.TIKAL_KEYVAULT_NAME }} --query value -o tsv)
+            echo "::add-mask::$DB_USERNAME"
+            echo "DB_USERNAME=$DB_USERNAME" >> $GITHUB_ENV
+
+      - name: Apply migration
+        run: |
+          cd ./Tikal
+          ./efbundle --connection "Server=${{ env.DB_HOST }};Database=${{ env.DB_NAME }};Port=${{ env.DB_PORT }};User Id=${{ env.DB_USERNAME }};Password=${{ env.DB_PASSWORD }};Ssl Mode=Require;"
