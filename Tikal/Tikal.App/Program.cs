@@ -4,6 +4,13 @@ using Tikal.Application;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+// Configuration
+if (builder.Environment.IsProduction())
+{
+    builder.Configuration.ConfigureKeyVault();
+    builder.Services.AddProductionCorsPolicy();
+}
+
 // Logging
 builder.Logging.ClearProviders();
 builder.Logging.ConfigureOpenTelemetry();
@@ -20,11 +27,20 @@ if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDevOpenTelemetry();
 }
+else
+{
+    builder.WebHost.AddSentry();
+    builder.Services.AddProdOpenTelemetry();
+}
 
 // Database
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDevDbContext(builder);
+}
+else
+{
+    builder.Services.AddProdDbContext(builder.Configuration);
 }
 
 // Auth
