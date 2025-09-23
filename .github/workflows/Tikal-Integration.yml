@@ -3,7 +3,6 @@ name: Tikal-Integration
 on:
   push:
     paths:
-      - .github/**
       - Tikal/**
       - Tikal.Tests/**
     branches:
