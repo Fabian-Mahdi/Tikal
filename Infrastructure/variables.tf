@@ -38,9 +38,19 @@ variable "identity_db_name" {
   description = "Name of the database used by the identity api"
 }
 
+variable "tikal_db_name" {
+  type        = string
+  description = "Name of the database used by the tikal backend"
+}
+
 variable "identity_api_image" {
   type        = string
   description = "The docker image (including tag) which is to be deployed in the identity api app service"
+}
+
+variable "tikal_image" {
+  type        = string
+  description = "The docker image (including tag) which is to be deployed in the tikal backend app service"
 }
 
 variable "frontend_image" {

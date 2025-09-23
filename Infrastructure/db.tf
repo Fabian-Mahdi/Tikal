@@ -1,6 +1,5 @@
 locals {
-  db_prefix          = "db"
-  identity_db_prefix = "identity-db"
+  db_prefix = "db"
 }
 
 resource "azurerm_subnet" "db" {
@@ -51,17 +50,6 @@ resource "azurerm_postgresql_flexible_server" "db" {
   depends_on = [azurerm_private_dns_zone_virtual_network_link.db]
 }
 
-resource "azurerm_postgresql_flexible_server_database" "identity-db" {
-  name      = var.identity_db_name
-  server_id = azurerm_postgresql_flexible_server.db.id
-  collation = "en_US.utf8"
-  charset   = "UTF8"
-
-  lifecycle {
-    prevent_destroy = false
-  }
-}
-
 resource "random_password" "db_admin_password" {
   length           = 20
   special          = true
@@ -78,39 +66,103 @@ resource "random_password" "jwt_signing_key" {
   override_special = "!#"
 }
 
+# tikal
+
+resource "azurerm_postgresql_flexible_server_database" "identity-db" {
+  name      = var.identity_db_name
+  server_id = azurerm_postgresql_flexible_server.db.id
+  collation = "en_US.utf8"
+  charset   = "UTF8"
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
 # Secrets
 
-resource "azurerm_key_vault_secret" "db_admin_password" {
+resource "azurerm_key_vault_secret" "tikal_db_admin_password" {
+  key_vault_id = azurerm_key_vault.tikal.id
+  name         = "Database--Password"
+  value        = random_password.db_admin_password.result
+}
+
+resource "azurerm_key_vault_secret" "tikal" {
+  key_vault_id = azurerm_key_vault.tikal.id
+  name         = "Database--Username"
+  value        = var.db_admin_login
+}
+
+resource "azurerm_key_vault_secret" "tikal_db_port" {
+  key_vault_id = azurerm_key_vault.tikal.id
+  name         = "Database--Port"
+  value        = 5432
+}
+
+resource "azurerm_key_vault_secret" "tikal_db_host" {
+  key_vault_id = azurerm_key_vault.tikal.id
+  name         = "Database--Host"
+  value        = azurerm_postgresql_flexible_server.db.fqdn
+}
+
+resource "azurerm_key_vault_secret" "tikal_db_name" {
+  key_vault_id = azurerm_key_vault.tikal.id
+  name         = "Database--DatabaseName"
+  value        = var.tikal_db_name
+}
+
+resource "azurerm_key_vault_secret" "tikal_jwt_signing_key" {
+  key_vault_id = azurerm_key_vault.tikal.id
+  name         = "Jwt--SigningKey"
+  value        = random_password.jwt_signing_key.result
+}
+
+# identity
+
+resource "azurerm_postgresql_flexible_server_database" "tikal-db" {
+  name      = var.tikal_db_name
+  server_id = azurerm_postgresql_flexible_server.db.id
+  collation = "en_US.utf8"
+  charset   = "UTF8"
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
+# Secrets
+
+resource "azurerm_key_vault_secret" "identity_db_admin_password" {
   key_vault_id = azurerm_key_vault.current.id
   name         = "Database--Password"
   value        = random_password.db_admin_password.result
 }
 
-resource "azurerm_key_vault_secret" "db_admin_username" {
+resource "azurerm_key_vault_secret" "identity_db_admin_username" {
   key_vault_id = azurerm_key_vault.current.id
   name         = "Database--Username"
   value        = var.db_admin_login
 }
 
-resource "azurerm_key_vault_secret" "db_port" {
+resource "azurerm_key_vault_secret" "identity_db_port" {
   key_vault_id = azurerm_key_vault.current.id
   name         = "Database--Port"
   value        = 5432
 }
 
-resource "azurerm_key_vault_secret" "db_host" {
+resource "azurerm_key_vault_secret" "identity_db_host" {
   key_vault_id = azurerm_key_vault.current.id
   name         = "Database--Host"
   value        = azurerm_postgresql_flexible_server.db.fqdn
 }
 
-resource "azurerm_key_vault_secret" "db_name" {
+resource "azurerm_key_vault_secret" "identity_db_name" {
   key_vault_id = azurerm_key_vault.current.id
   name         = "Database--DatabaseName"
   value        = var.identity_db_name
 }
 
-resource "azurerm_key_vault_secret" "jwt_signing_key" {
+resource "azurerm_key_vault_secret" "identity_jwt_signing_key" {
   key_vault_id = azurerm_key_vault.current.id
   name         = "Jwt--SigningKey"
   value        = random_password.jwt_signing_key.result

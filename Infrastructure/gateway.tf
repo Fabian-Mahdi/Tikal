@@ -15,6 +15,10 @@ locals {
   frontend_backend_address_pool_name = "${var.global_prefix}-${local.gateway_prefix}-frontend-backend-address-pool"
   frontend_routing_rule_name         = "${var.global_prefix}-${local.gateway_prefix}-frontend-routing_rule"
   frontend_http_listener_name        = "${var.global_prefix}-${local.gateway_prefix}-frontend-http-listener"
+
+  tikal_backend_address_pool_name = "${var.global_prefix}-${local.gateway_prefix}-tikal-backend-address-pool"
+  tikal_routing_rule_name         = "${var.global_prefix}-${local.gateway_prefix}-tikal-api-routing_rule"
+  tikal_http_listener_name        = "${var.global_prefix}-${local.gateway_prefix}-tikal-api-http-listener"
 }
 
 resource "azurerm_subnet" "application-gateway" {
@@ -169,5 +173,29 @@ resource "azurerm_application_gateway" "this" {
   backend_address_pool {
     name  = local.frontend_backend_address_pool_name
     fqdns = [azurerm_linux_web_app.frontend.default_hostname]
+  }
+
+  # tikal-backend
+  http_listener {
+    name                           = local.tikal_http_listener_name
+    frontend_ip_configuration_name = local.frontend_ip_configuration_name
+    frontend_port_name             = local.frontend_port_name
+    protocol                       = "Https"
+    ssl_certificate_name           = local.certificate_name
+    host_name                      = "backend.${var.domain_name}"
+  }
+
+  request_routing_rule {
+    name                       = local.tikal_routing_rule_name
+    priority                   = 7
+    rule_type                  = "Basic"
+    http_listener_name         = local.tikal_http_listener_name
+    backend_address_pool_name  = local.tikal_backend_address_pool_name
+    backend_http_settings_name = local.backend_http_settings_name
+  }
+
+  backend_address_pool {
+    name  = local.tikal_backend_address_pool_name
+    fqdns = [azurerm_linux_web_app.tikal-backend.default_hostname]
   }
 }

@@ -18,6 +18,18 @@ resource "azurerm_container_registry_webhook" "identity-api" {
   actions     = ["push"]
 }
 
+resource "azurerm_container_registry_webhook" "tikal-backend" {
+  name                = "${var.global_prefix}TikalBackendWebhook"
+  resource_group_name = azurerm_resource_group.current.name
+  registry_name       = azurerm_container_registry.current.name
+  location            = azurerm_resource_group.current.location
+
+  service_uri = "https://${azurerm_linux_web_app.tikal-backend.site_credential.0.name}:${azurerm_linux_web_app.tikal-backend.site_credential.0.password}@${azurerm_linux_web_app.tikal-backend.name}.scm.azurewebsites.net/api/registry/webhook"
+  status      = "enabled"
+  scope       = var.tikal_image
+  actions     = ["push"]
+}
+
 resource "azurerm_container_registry_webhook" "frontend" {
   name                = "${var.global_prefix}FrontendWebhook"
   resource_group_name = azurerm_resource_group.current.name
