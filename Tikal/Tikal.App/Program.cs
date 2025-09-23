@@ -72,7 +72,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.MapHealthChecks("/healthcheck");
+app.MapHealthChecks("/healthcheck").AllowAnonymous();
 
 app.MapControllers();
 
