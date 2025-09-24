@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Trace;
+using Sentry.OpenTelemetry;
 using Tikal.App.Configuration;
 using Tikal.Application.Accounts.DataAccess;
 using Tikal.Application.Core.DataAccess;
@@ -111,5 +112,48 @@ public static class ServiceCollectionExtensions
                 .RequireAuthenticatedUser()
                 .Build()
             );
+    }
+
+    public static void AddProductionCorsPolicy(this IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy(
+                "production",
+                builder =>
+                    builder.WithOrigins("https://tikalonline.com")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+            );
+        });
+    }
+
+    public static void AddProdDbContext(this IServiceCollection services, IConfiguration configuration)
+    {
+        DatabaseOptions options = new();
+        configuration.GetSection(DatabaseOptions.Position).Bind(options);
+
+        services.AddDbContext<ApplicationDbContext>(optionsBuilder =>
+        {
+            optionsBuilder.UseNpgsql(
+                $"Server={options.Host};" +
+                $"Port={options.Port};" +
+                $"Database={options.DatabaseName};" +
+                $"User ID={options.Username};" +
+                $"Password={options.Password};"
+            );
+        });
+    }
+
+    public static void AddProdOpenTelemetry(this IServiceCollection services)
+    {
+        services.AddOpenTelemetry()
+            .WithTracing(tracing =>
+            {
+                tracing
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddSentry();
+            });
     }
 }

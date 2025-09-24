@@ -53,8 +53,19 @@ resource "azuread_application_password" "github" {
   application_id = azuread_application.github.id
 }
 
-resource "azurerm_key_vault_access_policy" "github" {
+resource "azurerm_key_vault_access_policy" "github-identity" {
   key_vault_id = azurerm_key_vault.current.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azuread_service_principal.github.object_id
+
+  secret_permissions = [
+    "Get",
+    "List",
+  ]
+}
+
+resource "azurerm_key_vault_access_policy" "github-tikal-backend" {
+  key_vault_id = azurerm_key_vault.tikal.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = azuread_service_principal.github.object_id
 

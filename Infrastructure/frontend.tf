@@ -2,22 +2,6 @@ locals {
   frontend_prefix = "frontend"
 }
 
-resource "azurerm_subnet" "frontend" {
-  name                 = "${var.global_prefix}-${local.frontend_prefix}-subnet"
-  resource_group_name  = azurerm_resource_group.current.name
-  virtual_network_name = azurerm_virtual_network.root.name
-  address_prefixes     = ["10.123.6.0/24"]
-
-  delegation {
-    name = "${var.global_prefix}-${local.frontend_prefix}-subnet-delegation"
-
-    service_delegation {
-      name    = "Microsoft.Web/serverFarms"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-    }
-  }
-}
-
 resource "azurerm_subnet" "frontend-endpoint" {
   name                              = "${var.global_prefix}-${local.frontend_prefix}-endpoint-subnet"
   resource_group_name               = azurerm_resource_group.current.name
@@ -50,7 +34,7 @@ resource "azurerm_linux_web_app" "frontend" {
   resource_group_name       = azurerm_resource_group.current.name
   location                  = azurerm_service_plan.current.location
   service_plan_id           = azurerm_service_plan.current.id
-  virtual_network_subnet_id = azurerm_subnet.frontend.id
+  virtual_network_subnet_id = azurerm_subnet.services.id
 
   site_config {
     ip_restriction_default_action = "Deny"
