@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.HttpLogging;
 using Tikal.App.Extensions;
-using Tikal.Application;
+using Tikal.Presentation;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -49,13 +49,20 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddMandatoryAuthorization();
 
 // Dependencies
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDevMediatr();
+}
+else
+{
+    builder.Services.AddProdMediatr(builder.Configuration);
+}
+
 builder.Services.AddRepositories();
 
 builder.Services.AddMappers();
 
-builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(AssemblyReference.Assembly));
-
-builder.Services.AddControllers().AddApplicationPart(Tikal.Presentation.AssemblyReference.Assembly);
+builder.Services.AddControllers().AddApplicationPart(AssemblyReference.Assembly);
 
 builder.Services.AddHealthChecks();
 
@@ -64,6 +71,10 @@ WebApplication app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.ApplyMigrations();
+}
+else
+{
+    app.UseCors("production");
 }
 
 app.UseHttpLogging();
