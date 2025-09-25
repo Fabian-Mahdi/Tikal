@@ -8,6 +8,7 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Trace;
 using Sentry.OpenTelemetry;
 using Tikal.App.Configuration;
+using Tikal.Application;
 using Tikal.Application.Accounts.DataAccess;
 using Tikal.Application.Core.DataAccess;
 using Tikal.Infrastructure.Accounts;
@@ -155,5 +156,22 @@ public static class ServiceCollectionExtensions
                     .AddHttpClientInstrumentation()
                     .AddSentry();
             });
+    }
+
+    public static void AddDevMediatr(this IServiceCollection services)
+    {
+        services.AddMediatR(config => config.RegisterServicesFromAssembly(AssemblyReference.Assembly));
+    }
+
+    public static void AddProdMediatr(this IServiceCollection services, IConfiguration configuration)
+    {
+        MediatrOptions options = new();
+        configuration.GetSection(MediatrOptions.Position).Bind(options);
+
+        services.AddMediatR(config =>
+        {
+            config.RegisterServicesFromAssembly(AssemblyReference.Assembly);
+            config.LicenseKey = options.LicenseKey;
+        });
     }
 }
