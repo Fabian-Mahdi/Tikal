@@ -24,12 +24,10 @@ public static class ConfigureWebHostBuilderExtensions
                 }
 
                 // app service always on pings
-                if (sentryTransaction.Request.Headers.TryGetValue("User-Agent", out string? agent))
+                if (sentryTransaction.Request.Headers.TryGetValue("User-Agent", out string? agent) &&
+                    agent == "AlwaysOn")
                 {
-                    if (agent == "AlwaysOn")
-                    {
-                        return null;
-                    }
+                    return null;
                 }
 
                 return sentryTransaction;
