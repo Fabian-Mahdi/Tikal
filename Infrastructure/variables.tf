@@ -67,3 +67,8 @@ variable "github_database_id" {
   type        = string
   description = "The database id of your github organization"
 }
+
+variable "mediatr_license" {
+  type        = string
+  description = "The currently active license for the mediatr library"
+}

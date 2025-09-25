@@ -87,3 +87,9 @@ resource "azurerm_role_assignment" "tikal-backend-arc-pull" {
   role_definition_name = "AcrPull"
   principal_id         = azurerm_user_assigned_identity.tikal-backend.principal_id
 }
+
+resource "azurerm_key_vault_secret" "tikal_mediatr_license" {
+  key_vault_id = azurerm_key_vault.tikal.id
+  name         = "Mediatr--LicenseKey"
+  value        = var.mediatr_license
+}
