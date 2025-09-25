@@ -87,4 +87,4 @@ app.MapHealthChecks("/healthcheck").AllowAnonymous();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
