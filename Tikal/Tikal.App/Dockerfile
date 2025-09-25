@@ -11,11 +11,11 @@ COPY ["Tikal/Tikal.App/Tikal.App.csproj", "Tikal/Tikal.App/"]
 RUN dotnet restore "Tikal/Tikal.App/Tikal.App.csproj"
 COPY . .
 WORKDIR "/src/Tikal/Tikal.App"
-RUN dotnet build "./Tikal.App.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./Tikal.App.csproj" -c "$BUILD_CONFIGURATION" -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Tikal.App.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Tikal.App.csproj" -c "$BUILD_CONFIGURATION" -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
