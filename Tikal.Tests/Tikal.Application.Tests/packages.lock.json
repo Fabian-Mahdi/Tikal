@@ -57,6 +57,11 @@
           "System.Diagnostics.EventLog": "6.0.0"
         }
       },
+      "FluentValidation": {
+        "type": "Transitive",
+        "resolved": "12.0.0",
+        "contentHash": "8NVLxtMUXynRHJIX3Hn1ACovaqZIJASufXIIFkD0EUbcd5PmMsL1xUD5h548gCezJ5BzlITaR9CAMrGe29aWpA=="
+      },
       "MediatR": {
         "type": "Transitive",
         "resolved": "13.0.0",
@@ -260,6 +265,7 @@
       "tikal.application": {
         "type": "Project",
         "dependencies": {
+          "FluentValidation": "[12.0.0, )",
           "MediatR": "[13.0.0, )",
           "OneOf": "[3.0.271, )",
           "Tikal.Domain": "[1.0.0, )"
