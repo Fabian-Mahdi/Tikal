@@ -1,6 +1,7 @@
+using FluentValidation;
 using Microsoft.AspNetCore.HttpLogging;
 using Tikal.App.Extensions;
-using Tikal.Presentation;
+using Tikal.Application;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +65,9 @@ builder.Services.AddMappers();
 
 builder.Services.AddPipelines();
 
-builder.Services.AddControllers().AddApplicationPart(AssemblyReference.Assembly);
+builder.Services.AddValidatorsFromAssembly(AssemblyReference.Assembly);
+
+builder.Services.AddControllers().AddApplicationPart(Tikal.Presentation.AssemblyReference.Assembly);
 
 builder.Services.AddHealthChecks();
 

@@ -41,14 +41,20 @@ public abstract class ApiController : ControllerBase
     /// <returns>StatusCode: 400</returns>
     protected IActionResult handleValidationFailed(ValidationFailed validationFailed)
     {
+        Dictionary<string, IEnumerable<string>> errors = validationFailed.Errors
+            .GroupBy(error => error.PropertyName)
+            .ToDictionary(
+                group => group.Key,
+                group => group.Select(error => error.ErrorMessage)
+            );
+
         return Problem(
-            title: "Invalid data provided",
-            detail: "One or more validation errors occurred.",
+            title: "One or more validation errors occurred.",
             statusCode: StatusCodes.Status400BadRequest,
             extensions: new Dictionary<string, object?>
             {
                 {
-                    "errors", validationFailed.Errors
+                    "errors", errors
                 }
             }
         );

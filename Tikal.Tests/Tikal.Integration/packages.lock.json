@@ -140,6 +140,15 @@
         "resolved": "12.0.0",
         "contentHash": "8NVLxtMUXynRHJIX3Hn1ACovaqZIJASufXIIFkD0EUbcd5PmMsL1xUD5h548gCezJ5BzlITaR9CAMrGe29aWpA=="
       },
+      "FluentValidation.DependencyInjectionExtensions": {
+        "type": "Transitive",
+        "resolved": "12.0.0",
+        "contentHash": "B28fBRL1UjhGsBC8fwV6YBZosh+SiU1FxdD7l7p5dGPgRlVI7UnM+Lgzmg+unZtV1Zxzpaw96UY2MYfMaAd8cg==",
+        "dependencies": {
+          "FluentValidation": "12.0.0",
+          "Microsoft.Extensions.Dependencyinjection.Abstractions": "2.1.0"
+        }
+      },
       "MediatR": {
         "type": "Transitive",
         "resolved": "13.0.0",
@@ -880,6 +889,7 @@
         "dependencies": {
           "Azure.Extensions.AspNetCore.Configuration.Secrets": "[1.4.0, )",
           "Azure.Identity": "[1.16.0, )",
+          "FluentValidation.DependencyInjectionExtensions": "[12.0.0, )",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "[9.0.9, )",
           "Microsoft.EntityFrameworkCore.Relational": "[9.0.9, )",
           "Npgsql.OpenTelemetry": "[9.0.3, )",

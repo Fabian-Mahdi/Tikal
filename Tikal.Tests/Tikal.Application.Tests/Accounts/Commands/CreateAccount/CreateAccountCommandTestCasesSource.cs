@@ -4,7 +4,7 @@ namespace Tikal.Application.Tests.Accounts.Commands.CreateAccount;
 
 public static class CreateAccountCommandTestCasesSource
 {
-    public static IEnumerable<CreateAccountCommand> TestCases()
+    public static IEnumerable<CreateAccountCommand> ValidTestCases()
     {
         yield return new CreateAccountCommand(
             "id",
@@ -17,6 +17,22 @@ public static class CreateAccountCommandTestCasesSource
         yield return new CreateAccountCommand(
             "asdfajsdkflasödfj",
             "ajskdlföaieaslldf"
+        );
+    }
+
+    public static IEnumerable<CreateAccountCommand> InvalidTestCases()
+    {
+        yield return new CreateAccountCommand(
+            "",
+            "name"
+        );
+        yield return new CreateAccountCommand(
+            "id",
+            ""
+        );
+        yield return new CreateAccountCommand(
+            "",
+            ""
         );
     }
 }

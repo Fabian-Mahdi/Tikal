@@ -34,7 +34,11 @@ public class ValidationPipeline<TRequest, TResponse>
 
         ValidationFailed validationFailed = new()
         {
-            Errors = validationResult.Errors
+            Errors = validationResult.Errors.Select(error => new ValidationError
+            {
+                ErrorMessage = error.ErrorMessage,
+                PropertyName = error.PropertyName
+            }).ToList()
         };
 
         return CreateValidationFailedResponse(validationFailed);

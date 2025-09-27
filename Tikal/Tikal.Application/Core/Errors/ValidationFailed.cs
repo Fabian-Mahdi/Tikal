@@ -10,5 +10,5 @@ public class ValidationFailed
     /// <summary>
     ///     The list of <see cref="ValidationFailure" /> which resulted in a failed validation
     /// </summary>
-    public List<ValidationFailure> Errors { get; set; } = [];
+    public List<ValidationError> Errors { get; set; } = [];
 }
