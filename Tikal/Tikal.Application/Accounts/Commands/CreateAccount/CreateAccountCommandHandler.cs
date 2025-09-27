@@ -2,6 +2,7 @@ using OneOf;
 using OneOf.Types;
 using Tikal.Application.Accounts.DataAccess;
 using Tikal.Application.Core.DataAccess;
+using Tikal.Application.Core.Errors;
 using Tikal.Application.Core.Messaging;
 using Tikal.Domain.Accounts;
 
@@ -11,7 +12,7 @@ namespace Tikal.Application.Accounts.Commands.CreateAccount;
 ///     The command handler for <see cref="CreateAccountCommand" />
 /// </summary>
 public sealed class CreateAccountCommandHandler
-    : CommandHandler<CreateAccountCommand, OneOf<Account, DuplicateAccountId>>
+    : CommandHandler<CreateAccountCommand, OneOf<Account, ValidationFailed, DuplicateAccountId>>
 {
     private readonly AccountRepository accountRepository;
 
@@ -23,7 +24,7 @@ public sealed class CreateAccountCommandHandler
         this.unitOfWork = unitOfWork;
     }
 
-    public async Task<OneOf<Account, DuplicateAccountId>> Handle(
+    public async Task<OneOf<Account, ValidationFailed, DuplicateAccountId>> Handle(
         CreateAccountCommand request,
         CancellationToken cancellationToken
     )
@@ -41,7 +42,7 @@ public sealed class CreateAccountCommandHandler
 
         OneOf<None, DatabaseUpdateError> result = await unitOfWork.SaveChanges(cancellationToken);
 
-        return result.Match<OneOf<Account, DuplicateAccountId>>(
+        return result.Match<OneOf<Account, ValidationFailed, DuplicateAccountId>>(
             _ => createdAccount,
             _ => new DuplicateAccountId(request.id)
         );

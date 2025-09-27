@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OneOf;
 using Tikal.Application.Accounts.Commands.CreateAccount;
+using Tikal.Application.Core.Errors;
 using Tikal.Domain.Accounts;
 using Tikal.Presentation.Accounts.Dtos;
 using Tikal.Presentation.Core;
@@ -22,10 +23,11 @@ public partial class CreateAccountController : ApiController
 
         CreateAccountCommand command = new(userId, dto.Name);
 
-        OneOf<Account, DuplicateAccountId> result = await sender.Send(command, cancellationToken);
+        OneOf<Account, ValidationFailed, DuplicateAccountId> result = await sender.Send(command, cancellationToken);
 
         return result.Match(
             handleSuccess,
+            handleValidationFailed,
             handleDuplicateAccountId
         );
     }

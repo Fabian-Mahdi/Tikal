@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Tikal.Application.Core.Errors;
 
 namespace Tikal.Presentation.Core;
 
@@ -27,5 +29,34 @@ public abstract class ApiController : ControllerBase
     protected string GetCurrentUserId()
     {
         return HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+    }
+
+    /// <summary>
+    ///     Validation of the current command or query has failed
+    /// </summary>
+    /// <param name="validationFailed">
+    ///     The <see cref="ValidationFailed" /> which contains the errors responsible for the
+    ///     failure
+    /// </param>
+    /// <returns>StatusCode: 400</returns>
+    protected IActionResult handleValidationFailed(ValidationFailed validationFailed)
+    {
+        Dictionary<string, IEnumerable<string>> errors = validationFailed.Errors
+            .GroupBy(error => error.PropertyName)
+            .ToDictionary(
+                group => group.Key,
+                group => group.Select(error => error.ErrorMessage)
+            );
+
+        return Problem(
+            title: "One or more validation errors occurred.",
+            statusCode: StatusCodes.Status400BadRequest,
+            extensions: new Dictionary<string, object?>
+            {
+                {
+                    "errors", errors
+                }
+            }
+        );
     }
 }
