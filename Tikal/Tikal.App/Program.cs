@@ -62,6 +62,8 @@ builder.Services.AddRepositories();
 
 builder.Services.AddMappers();
 
+builder.Services.AddPipelines();
+
 builder.Services.AddControllers().AddApplicationPart(AssemblyReference.Assembly);
 
 builder.Services.AddHealthChecks();

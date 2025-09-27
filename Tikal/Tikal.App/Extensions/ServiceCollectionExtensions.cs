@@ -1,4 +1,5 @@
 using System.Text;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using Tikal.App.Configuration;
 using Tikal.Application;
 using Tikal.Application.Accounts.DataAccess;
 using Tikal.Application.Core.DataAccess;
+using Tikal.Application.Core.Pipelines;
 using Tikal.Infrastructure.Accounts;
 using Tikal.Infrastructure.Accounts.Mappers;
 using Tikal.Infrastructure.Database;
@@ -54,6 +56,11 @@ public static class ServiceCollectionExtensions
     public static void AddMappers(this IServiceCollection services)
     {
         services.AddScoped<AccountMapper>();
+    }
+
+    public static void AddPipelines(this IServiceCollection services)
+    {
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
     }
 
     public static void AddJwtAuthentication(

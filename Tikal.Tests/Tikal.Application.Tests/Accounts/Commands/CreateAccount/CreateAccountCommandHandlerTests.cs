@@ -4,6 +4,7 @@ using OneOf.Types;
 using Tikal.Application.Accounts.Commands.CreateAccount;
 using Tikal.Application.Accounts.DataAccess;
 using Tikal.Application.Core.DataAccess;
+using Tikal.Application.Core.Errors;
 using Tikal.Domain.Accounts;
 
 namespace Tikal.Application.Tests.Accounts.Commands.CreateAccount;
@@ -101,7 +102,8 @@ public class CreateAccountCommandHandlerTests
             .ReturnsAsync(existingAccount);
 
         // when
-        OneOf<Account, DuplicateAccountId> result = await commandHandler.Handle(command, cancellationToken);
+        OneOf<Account, ValidationFailed, DuplicateAccountId> result =
+            await commandHandler.Handle(command, cancellationToken);
 
         // then
         Assert.That(result.Value, Is.InstanceOf<DuplicateAccountId>());
@@ -120,7 +122,8 @@ public class CreateAccountCommandHandlerTests
             .ReturnsAsync(new DatabaseUpdateError());
 
         // when
-        OneOf<Account, DuplicateAccountId> result = await commandHandler.Handle(command, cancellationToken);
+        OneOf<Account, ValidationFailed, DuplicateAccountId> result =
+            await commandHandler.Handle(command, cancellationToken);
 
         // then
         Assert.That(result.Value, Is.InstanceOf<DuplicateAccountId>());
