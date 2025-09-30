@@ -47,7 +47,7 @@ else
     builder.Services.AddProdDbContext(builder.Configuration);
 }
 
-builder.Services.AddIdentity<UserEntity, IdentityRole>()
+builder.Services.AddIdentity<UserEntity, IdentityRole<int>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Dependencies
