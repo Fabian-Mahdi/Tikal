@@ -36,7 +36,7 @@ public static class ServiceCollectionExtensions
 
     public static void AddDevDbContext(this IServiceCollection services, WebApplicationBuilder builder)
     {
-        string connectionString = builder.Configuration.GetConnectionString("TikalDatabase")!;
+        string connectionString = builder.Configuration.GetConnectionString("IdentityDatabase")!;
 
         services.AddDbContext<ApplicationDbContext>(optionsBuilder => { optionsBuilder.UseNpgsql(connectionString); });
     }
