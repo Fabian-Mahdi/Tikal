@@ -1,0 +1,14 @@
+using FluentValidation.Results;
+
+namespace Identity.Application.Core.Errors;
+
+/// <summary>
+///     Indicates that validation has failed for various reasons
+/// </summary>
+public class ValidationFailed
+{
+    /// <summary>
+    ///     The list of <see cref="ValidationFailure" /> which resulted in a failed validation
+    /// </summary>
+    public List<ValidationError> Errors { get; set; } = [];
+}
