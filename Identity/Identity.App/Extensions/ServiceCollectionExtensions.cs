@@ -1,12 +1,15 @@
+using System.IdentityModel.Tokens.Jwt;
 using Identity.App.Configuration;
 using Identity.Application;
 using Identity.Application.Core.Pipelines;
 using Identity.Application.Identity.DataAccess;
 using Identity.Infrastructure.Database;
 using Identity.Infrastructure.Identity;
+using Identity.Infrastructure.Identity.Configuration;
 using Identity.Infrastructure.Identity.Mappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Trace;
@@ -103,7 +106,11 @@ public static class ServiceCollectionExtensions
 
     public static void AddRepositories(this IServiceCollection services)
     {
+        services.AddSingleton<SecurityTokenHandler, JwtSecurityTokenHandler>();
+
         services.AddScoped<UserRepository, UserDatabase>();
+
+        services.AddScoped<TokenRepository, JwtTokenDatabase>();
     }
 
     public static void AddMappers(this IServiceCollection services)
@@ -114,5 +121,10 @@ public static class ServiceCollectionExtensions
     public static void AddPipelines(this IServiceCollection services)
     {
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
+    }
+
+    public static void AddConfiguration(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
     }
 }

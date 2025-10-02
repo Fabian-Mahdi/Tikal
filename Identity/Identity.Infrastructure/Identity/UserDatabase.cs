@@ -13,10 +13,17 @@ public class UserDatabase : UserRepository
 
     private readonly UserManager<UserEntity> userManager;
 
-    public UserDatabase(UserMapper userMapper, UserManager<UserEntity> userManager)
+    private readonly SignInManager<UserEntity> signInManager;
+
+    public UserDatabase(
+        UserMapper userMapper,
+        UserManager<UserEntity> userManager,
+        SignInManager<UserEntity> signInManager
+    )
     {
         this.userMapper = userMapper;
         this.userManager = userManager;
+        this.signInManager = signInManager;
     }
 
     public async Task<User?> FindByUsername(string username, CancellationToken cancellationToken)
@@ -42,5 +49,19 @@ public class UserDatabase : UserRepository
         }
 
         return userMapper.ToUser(userEntity);
+    }
+
+    public async Task<bool> ValidatePassword(User user, string password, CancellationToken cancellationToken)
+    {
+        UserEntity? userEntity = await userManager.FindByNameAsync(user.Username);
+
+        if (userEntity is null)
+        {
+            return false;
+        }
+
+        SignInResult result = await signInManager.CheckPasswordSignInAsync(userEntity, password, false);
+
+        return result.Succeeded;
     }
 }

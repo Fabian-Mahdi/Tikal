@@ -60,6 +60,8 @@ else
     builder.Services.AddProdMediatr(builder.Configuration);
 }
 
+builder.Services.AddConfiguration(builder.Configuration);
+
 builder.Services.AddRepositories();
 
 builder.Services.AddMappers();

@@ -34,4 +34,15 @@ public interface UserRepository
     ///     exists
     /// </returns>
     Task<OneOf<User, DuplicateUsername>> CreateUser(User user, string password, CancellationToken cancellationToken);
+
+    /// <summary>
+    ///     Checks if a given password belongs to a given user
+    /// </summary>
+    /// <param name="user">The <see cref="User" /> for which to validate the password</param>
+    /// <param name="password">The password to validate</param>
+    /// <param name="cancellationToken">
+    ///     <see cref="CancellationToken" />
+    /// </param>
+    /// <returns>True if the credentials are valid for a user, False otherwise</returns>
+    Task<bool> ValidatePassword(User user, string password, CancellationToken cancellationToken);
 }
