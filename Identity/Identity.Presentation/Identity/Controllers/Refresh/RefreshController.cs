@@ -1,4 +1,4 @@
-using Identity.Application.Identity.Commands.RefreshCommand;
+using Identity.Application.Identity.Commands.Refresh;
 using Identity.Domain.Identity;
 using Identity.Presentation.Core;
 using Identity.Presentation.Extensions;

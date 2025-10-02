@@ -4,7 +4,7 @@ using Identity.Application.Identity.DataAccess;
 using Identity.Domain.Identity;
 using OneOf;
 
-namespace Identity.Application.Identity.Commands.LoginCommand;
+namespace Identity.Application.Identity.Commands.Login;
 
 /// <summary>
 ///     The command handler for <see cref="LoginCommand" />

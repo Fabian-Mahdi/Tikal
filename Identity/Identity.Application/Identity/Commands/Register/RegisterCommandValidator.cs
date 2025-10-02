@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Identity.Application.Identity.Commands.RegisterCommand;
+namespace Identity.Application.Identity.Commands.Register;
 
 /// <summary>
 ///     The validator for <see cref="RegisterCommand" />

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Identity.Application.Identity.Commands.LoginCommand;
+namespace Identity.Application.Identity.Commands.Login;
 
 /// <summary>
 ///     The validator for <see cref="LoginCommand" />

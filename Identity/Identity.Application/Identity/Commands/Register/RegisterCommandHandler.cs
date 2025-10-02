@@ -4,7 +4,7 @@ using Identity.Application.Identity.DataAccess;
 using Identity.Domain.Identity;
 using OneOf;
 
-namespace Identity.Application.Identity.Commands.RegisterCommand;
+namespace Identity.Application.Identity.Commands.Register;
 
 /// <summary>
 ///     The command handler for <see cref="RegisterCommand" />

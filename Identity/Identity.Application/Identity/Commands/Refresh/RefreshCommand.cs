@@ -2,7 +2,7 @@ using Identity.Application.Core.Messaging;
 using Identity.Domain.Identity;
 using OneOf;
 
-namespace Identity.Application.Identity.Commands.RefreshCommand;
+namespace Identity.Application.Identity.Commands.Refresh;
 
 /// <summary>
 ///     The Command used to refresh a given token with a new pair,

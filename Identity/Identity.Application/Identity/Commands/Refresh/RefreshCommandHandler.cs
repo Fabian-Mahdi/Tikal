@@ -3,7 +3,7 @@ using Identity.Application.Identity.DataAccess;
 using Identity.Domain.Identity;
 using OneOf;
 
-namespace Identity.Application.Identity.Commands.RefreshCommand;
+namespace Identity.Application.Identity.Commands.Refresh;
 
 /// <summary>
 ///     The command handler for <see cref="RefreshCommand" />

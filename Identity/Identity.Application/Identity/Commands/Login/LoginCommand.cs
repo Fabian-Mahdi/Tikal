@@ -3,7 +3,7 @@ using Identity.Application.Core.Messaging;
 using Identity.Domain.Identity;
 using OneOf;
 
-namespace Identity.Application.Identity.Commands.LoginCommand;
+namespace Identity.Application.Identity.Commands.Login;
 
 /// <summary>
 ///     The Command used to log in with a pair of credentials

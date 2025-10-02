@@ -1,5 +1,5 @@
 using Identity.Application.Core.Errors;
-using Identity.Application.Identity.Commands.RegisterCommand;
+using Identity.Application.Identity.Commands.Register;
 using Identity.Domain.Identity;
 using Identity.Presentation.Core;
 using Identity.Presentation.Identity.Dtos;

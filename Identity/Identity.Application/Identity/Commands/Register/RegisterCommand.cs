@@ -3,7 +3,7 @@ using Identity.Application.Core.Messaging;
 using Identity.Domain.Identity;
 using OneOf;
 
-namespace Identity.Application.Identity.Commands.RegisterCommand;
+namespace Identity.Application.Identity.Commands.Register;
 
 /// <summary>
 ///     The Command used to register a new <see cref="User" /> with a given username and password

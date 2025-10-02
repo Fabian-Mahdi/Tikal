@@ -1,5 +1,5 @@
 using Identity.Application.Core.Errors;
-using Identity.Application.Identity.Commands.LoginCommand;
+using Identity.Application.Identity.Commands.Login;
 using Identity.Domain.Identity;
 using Identity.Presentation.Core;
 using Identity.Presentation.Extensions;
