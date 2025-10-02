@@ -43,7 +43,8 @@ public class JwtTokenDatabase : TokenRepository
         List<Claim> claims =
         [
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(JwtRegisteredClaimNames.Sub, user.Id.ToString())
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Name, user.Username)
         ];
 
         DateTime now = DateTime.UtcNow;
@@ -83,5 +84,24 @@ public class JwtTokenDatabase : TokenRepository
         );
 
         return tokenPair;
+    }
+
+    public async Task<bool> ValidateToken(string token)
+    {
+        TokenValidationResult result = await securityTokenHandler.ValidateTokenAsync(token, tokenValidationParameters);
+
+        return result.IsValid;
+    }
+
+    public async Task<T?> ExtractClaim<T>(string token, string claimName)
+    {
+        TokenValidationResult result = await securityTokenHandler.ValidateTokenAsync(token, tokenValidationParameters);
+
+        if (result.Claims.TryGetValue(claimName, out object? claim))
+        {
+            return (T)claim;
+        }
+
+        return default;
     }
 }
