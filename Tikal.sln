@@ -3,12 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36203.30
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityAPI", "IdentityAPI\IdentityAPI.csproj", "{A0E46AF4-A486-4C3C-A91A-7E85CEA299F4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityAPI.Tests", "IdentityAPI.Tests\IdentityAPI.Tests.csproj", "{7A1A7833-B03F-5B91-720E-3CE8A77DAA59}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityAPI.Integration", "IdentityAPI.Integration\IdentityAPI.Integration.csproj", "{07599659-0DD1-8EE3-8C96-673025892221}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire", "Aspire\Aspire.csproj", "{BABEE1A5-080C-4F00-AC74-E88EF7528C70}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tikal", "Tikal", "{8BE05676-1943-4F94-AED1-8938EC872324}"
@@ -61,18 +55,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A0E46AF4-A486-4C3C-A91A-7E85CEA299F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0E46AF4-A486-4C3C-A91A-7E85CEA299F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0E46AF4-A486-4C3C-A91A-7E85CEA299F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0E46AF4-A486-4C3C-A91A-7E85CEA299F4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A1A7833-B03F-5B91-720E-3CE8A77DAA59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A1A7833-B03F-5B91-720E-3CE8A77DAA59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A1A7833-B03F-5B91-720E-3CE8A77DAA59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A1A7833-B03F-5B91-720E-3CE8A77DAA59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07599659-0DD1-8EE3-8C96-673025892221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07599659-0DD1-8EE3-8C96-673025892221}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07599659-0DD1-8EE3-8C96-673025892221}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07599659-0DD1-8EE3-8C96-673025892221}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BABEE1A5-080C-4F00-AC74-E88EF7528C70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BABEE1A5-080C-4F00-AC74-E88EF7528C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BABEE1A5-080C-4F00-AC74-E88EF7528C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
