@@ -112,6 +112,8 @@ jobs:
 
       - name: Test ${{ matrix.project }}
         run: dotnet test ./Identity.Tests/${{ matrix.project }} --collect:"XPlat Code Coverage" --configuration Release --no-build --results-directory "TestResults-${{ matrix.dotnet-version }}" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        env:
+          Jwt__SigningKey: ${{ secrets.TEST_SIGNING_KEY }}
 
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
