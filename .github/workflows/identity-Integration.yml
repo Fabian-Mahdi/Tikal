@@ -167,7 +167,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.IDENTITY_SONAR_TOKEN }}
         run: |
-          dotnet-sonarscanner begin /k:"fmahdi09_tikal" /o:"fmahdi09" /d:sonar.token="${{ secrets.IDENTITY_SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.scanner.scanAll=false /d:sonar.cs.opencover.reportsPaths=./TestResults/**/coverage.opencover.xml
+          dotnet-sonarscanner begin /k:"fmahdi09_identity" /o:"fmahdi09" /d:sonar.token="${{ secrets.IDENTITY_SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.scanner.scanAll=false /d:sonar.cs.opencover.reportsPaths=./TestResults/**/coverage.opencover.xml
 
       - name: Build Projects
         run: |
