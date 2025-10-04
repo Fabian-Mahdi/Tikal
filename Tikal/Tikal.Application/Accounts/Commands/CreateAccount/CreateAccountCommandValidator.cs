@@ -9,7 +9,7 @@ public class CreateAccountCommandValidator : AbstractValidator<CreateAccountComm
 {
     public CreateAccountCommandValidator()
     {
-        RuleFor(c => c.id).NotEmpty();
+        RuleFor(c => c.id).GreaterThan(0);
         RuleFor(c => c.name).NotEmpty();
     }
 }

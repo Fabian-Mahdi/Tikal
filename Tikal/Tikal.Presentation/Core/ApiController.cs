@@ -26,9 +26,11 @@ public abstract class ApiController : ControllerBase
     ///     Gets the Id of the currently authenticated user
     /// </summary>
     /// <returns>The id of the currently authenticated user</returns>
-    protected string GetCurrentUserId()
+    protected int GetCurrentUserId()
     {
-        return HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+        string? userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        return userId is null ? 0 : int.Parse(userId);
     }
 
     /// <summary>

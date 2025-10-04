@@ -13,7 +13,7 @@ public partial class CreateAccountController
     /// </summary>
     /// <param name="id">The id which is the source of the error</param>
     /// <returns>StatusCode: 409</returns>
-    private ObjectResult AccountExists(string id)
+    private ObjectResult AccountExists(int id)
     {
         return Problem(
             title: "Account already exists",

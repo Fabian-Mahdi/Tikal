@@ -8,13 +8,13 @@ public class DuplicateAccountId
     /// <summary>
     ///     Gets the Id which was the source of the error
     /// </summary>
-    public string Id { get; private set; }
+    public int Id { get; }
 
     /// <summary>
     ///     Initializes a new instance of <see cref="DuplicateAccountId" /> with a given Id
     /// </summary>
     /// <param name="id">The Id which was the source of the error</param>
-    public DuplicateAccountId(string id)
+    public DuplicateAccountId(int id)
     {
         Id = id;
     }

@@ -11,7 +11,7 @@ using Tikal.Infrastructure.Database;
 namespace Tikal.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250917183337_AccountInitial")]
+    [Migration("20251004112651_AccountInitial")]
     partial class AccountInitial
     {
         /// <inheritdoc />
@@ -26,9 +26,11 @@ namespace Tikal.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("Tikal.Infrastructure.Entities.AccountEntity", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasMaxLength(120)
-                        .HasColumnType("character varying(120)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -36,9 +38,6 @@ namespace Tikal.Infrastructure.Database.Migrations
                         .HasColumnType("character varying(120)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("Accounts");
                 });

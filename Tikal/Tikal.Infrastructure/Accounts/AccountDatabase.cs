@@ -30,7 +30,7 @@ public class AccountDatabase : AccountRepository
         return createdAccount;
     }
 
-    public async Task<Account?> GetAccountById(string id, CancellationToken cancellationToken)
+    public async Task<Account?> GetAccountById(int id, CancellationToken cancellationToken)
     {
         AccountEntity? accountEntity =
             await dbContext.Accounts.FirstOrDefaultAsync(account => account.Id == id, cancellationToken);
