@@ -4,7 +4,6 @@ on:
     paths:
       - Identity/**
       - Identity.Tests/**
-      - .github/**
     branches:
       - master
       - feature/*
