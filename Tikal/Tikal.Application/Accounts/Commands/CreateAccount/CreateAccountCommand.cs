@@ -10,5 +10,5 @@ namespace Tikal.Application.Accounts.Commands.CreateAccount;
 /// </summary>
 /// <param name="id">The id of the <see cref="Account" /> to create</param>
 /// <param name="name">The name of the <see cref="Account" /> to create</param>
-public sealed record CreateAccountCommand(string id, string name)
+public sealed record CreateAccountCommand(int id, string name)
     : Command<OneOf<Account, ValidationFailed, DuplicateAccountId>>;

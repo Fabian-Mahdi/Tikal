@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -14,19 +15,14 @@ namespace Tikal.Infrastructure.Database.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "character varying(120)", maxLength: 120, nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "character varying(120)", maxLength: 120, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Accounts", x => x.Id);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Accounts_Id",
-                table: "Accounts",
-                column: "Id",
-                unique: true);
         }
 
         /// <inheritdoc />

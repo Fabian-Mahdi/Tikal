@@ -28,5 +28,5 @@ public interface AccountRepository
     ///     The <see cref="Account" /> with the given id, null if no <see cref="Account" /> with the given id could be
     ///     found
     /// </returns>
-    Task<Account?> GetAccountById(string id, CancellationToken cancellationToken);
+    Task<Account?> GetAccountById(int id, CancellationToken cancellationToken);
 }

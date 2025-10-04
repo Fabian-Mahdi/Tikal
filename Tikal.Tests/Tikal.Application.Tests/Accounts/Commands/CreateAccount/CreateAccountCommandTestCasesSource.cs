@@ -7,15 +7,15 @@ public static class CreateAccountCommandTestCasesSource
     public static IEnumerable<CreateAccountCommand> ValidTestCases()
     {
         yield return new CreateAccountCommand(
-            "id",
+            1,
             "name"
         );
         yield return new CreateAccountCommand(
-            "20394820934",
+            2,
             "20348290348"
         );
         yield return new CreateAccountCommand(
-            "asdfajsdkflasödfj",
+            3,
             "ajskdlföaieaslldf"
         );
     }
@@ -23,15 +23,15 @@ public static class CreateAccountCommandTestCasesSource
     public static IEnumerable<CreateAccountCommand> InvalidTestCases()
     {
         yield return new CreateAccountCommand(
-            "",
+            0,
             "name"
         );
         yield return new CreateAccountCommand(
-            "id",
+            -1,
             ""
         );
         yield return new CreateAccountCommand(
-            "",
+            -234234,
             ""
         );
     }

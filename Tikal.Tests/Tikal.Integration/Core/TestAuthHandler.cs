@@ -17,7 +17,7 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        Claim[] claims = [new(ClaimTypes.Name, "TestUser"), new(ClaimTypes.NameIdentifier, "test-user-id")];
+        Claim[] claims = [new(ClaimTypes.Name, "username"), new(ClaimTypes.NameIdentifier, "1")];
 
         ClaimsIdentity identity = new(claims, SchemeName);
 

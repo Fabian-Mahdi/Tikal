@@ -19,7 +19,7 @@ public partial class CreateAccountController : ApiController
     [HttpPost]
     public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto dto, CancellationToken cancellationToken)
     {
-        string userId = GetCurrentUserId();
+        int userId = GetCurrentUserId();
 
         CreateAccountCommand command = new(userId, dto.Name);
 

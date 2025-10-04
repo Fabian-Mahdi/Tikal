@@ -8,7 +8,7 @@ public class Account
     /// <summary>
     ///     The unique identifier
     /// </summary>
-    public string Id { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     ///     The display name shown to other players
@@ -20,7 +20,7 @@ public class Account
     /// </summary>
     /// <param name="id">The id of the account</param>
     /// <param name="name">The name of the account</param>
-    public Account(string id, string name)
+    public Account(int id, string name)
     {
         Id = id;
         Name = name;
