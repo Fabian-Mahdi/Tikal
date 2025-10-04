@@ -1,4 +1,4 @@
-name: IdentityAPI-Deploy
+name: Identity-Deploy
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
     runs-on: tikal-azure-runner
     strategy:
       matrix:
-        dotnet-version: [ "9.0.X" ]
+        dotnet-version: ["9.0.X"]
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
@@ -31,21 +31,21 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           cache: true
-          cache-dependency-path: './IdentityAPI/packages.lock.json'
+          cache-dependency-path: "./Identity/Identity.App/packages.lock.json"
 
       - name: Install dotnet-ef
         run: dotnet tool install --global dotnet-ef
 
-      - name: Restore IdentityAPI
-        run: dotnet restore ./IdentityAPI/IdentityAPI.csproj --locked-mode
+      - name: Restore Identity
+        run: dotnet restore ./Identity/Identity.App --locked-mode
 
-      - name: Build IdentityAPI
-        run: dotnet build ./IdentityAPI/IdentityAPI.csproj --configuration Release --no-restore
+      - name: Build Identity
+        run: dotnet build ./Identity/Identity.App --configuration Release --no-restore
 
       - name: Create bundle
         run: |
-          cd ./IdentityAPI
-          dotnet ef migrations bundle --project ./IdentityAPI.csproj --output efbundle
+          cd ./Identity
+          dotnet ef migrations bundle --project ./Identity.App --output efbundle
 
       - name: Setup Azure CLI
         uses: azure/login@v2
@@ -75,7 +75,7 @@ jobs:
 
       - name: Apply migration
         run: |
-          cd ./IdentityAPI
+          cd ./Identity
           ./efbundle --connection "Server=${{ env.DB_HOST }};Database=${{ env.DB_NAME }};Port=${{ env.DB_PORT }};User Id=${{ env.DB_USERNAME }};Password=${{ env.DB_PASSWORD }};Ssl Mode=Require;"
 
   deliver:
@@ -108,6 +108,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./IdentityAPI/Dockerfile
+          file: ./Identity/Identity.App/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
