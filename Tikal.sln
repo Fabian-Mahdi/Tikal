@@ -32,6 +32,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tikal.Integration", "Tikal.Tests\Tikal.Integration\Tikal.Integration.csproj", "{83D0DBA1-B0E6-4E45-BA27-AABDD60E8D90}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{39345047-FC50-447E-8287-877ACA6993A3}"
+	ProjectSection(SolutionItems) = preProject
+		Identity\README.md = Identity\README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Domain", "Identity\Identity.Domain\Identity.Domain.csproj", "{3661CE9A-D3BC-4984-BF21-C85E66AB43DB}"
 EndProject
@@ -44,6 +47,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.App", "Identity\Identity.App\Identity.App.csproj", "{8D455523-B994-4C51-ABEC-A896FC406BFF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity.Tests", "Identity.Tests", "{67784996-B2C1-4184-A75C-506EDFD499D3}"
+	ProjectSection(SolutionItems) = preProject
+		Identity.Tests\README.md = Identity.Tests\README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Application.Tests", "Identity.Tests\Identity.Application.Tests\Identity.Application.Tests.csproj", "{CCAEF11B-FCA2-4B86-AA4A-E8508ABECC29}"
 EndProject
