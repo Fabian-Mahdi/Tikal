@@ -7,12 +7,12 @@ IResourceBuilder<PostgresServerResource> postgres = builder.AddPostgres("postgre
     .WithDataVolume(isReadOnly: false);
 
 // identity db
-IResourceBuilder<PostgresDatabaseResource> identityDb = postgres.AddDatabase("identitydb");
+IResourceBuilder<PostgresDatabaseResource> identitydb = postgres.AddDatabase("IdentityDatabase");
 
-// identity api
-IResourceBuilder<ProjectResource> identityapi = builder.AddProject<IdentityAPI>("IdentityAPI")
-    .WithReference(identityDb)
-    .WaitFor(identityDb);
+// identity
+IResourceBuilder<ProjectResource> identity = builder.AddProject<Identity_App>("Identity")
+    .WithReference(identitydb)
+    .WaitFor(identitydb);
 
 // tikal db
 IResourceBuilder<PostgresDatabaseResource> tikaldb = postgres.AddDatabase("TikalDatabase");
@@ -24,9 +24,9 @@ IResourceBuilder<ProjectResource> tikalApp = builder.AddProject<Tikal_App>("Tika
 
 // frontend
 builder.AddNpmApp("frontend", "../Frontend")
-    .WithReference(identityapi)
+    .WithReference(identity)
     .WithReference(tikalApp)
-    .WaitFor(identityapi)
+    .WaitFor(identity)
     .WaitFor(tikalApp);
 
 builder.Build().Run();
