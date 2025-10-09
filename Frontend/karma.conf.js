@@ -1,37 +1,45 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
+import { fileURLToPath } from 'url';
+import path from 'path';
 
-module.exports = function (config) {
+import jasmine from 'karma-jasmine';
+import firefoxLauncher from 'karma-firefox-launcher';
+import jasmineHtmlReporter from 'karma-jasmine-html-reporter';
+import coverage from 'karma-coverage';
+
+// Recreate __dirname in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
     plugins: [
-      require('karma-jasmine'),
-      require('karma-firefox-launcher'),
-      require('karma-jasmine-html-reporter'),
-      require('karma-coverage'),
+      jasmine,
+      firefoxLauncher,
+      jasmineHtmlReporter,
+      coverage,
     ],
     client: {
       jasmine: {
         // you can add configuration options for Jasmine here
-        // the possible options are listed at https://jasmine.github.io/api/edge/Configuration.html
-        // for example, you can disable the random execution with `random: false`
-        // or set a specific seed with `seed: 4321`
       },
     },
     jasmineHtmlReporter: {
-      suppressAll: true // removes the duplicated traces
+      suppressAll: true, // removes duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/frontend'),
+      dir: path.join(__dirname, './coverage/frontend'),
       subdir: '.',
       reporters: [
         { type: 'html' },
-        { type: 'text-summary' }
-      ]
+        { type: 'text-summary' },
+      ],
     },
     reporters: ['progress', 'kjhtml'],
     browsers: ['Firefox'],
-    restartOnFileChange: true
+    restartOnFileChange: true,
   });
-};
+}
