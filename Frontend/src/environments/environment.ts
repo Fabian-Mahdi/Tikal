@@ -1,4 +1,7 @@
 export const environment = {
   is_production: true,
-  base_api_url: "https://auth.tikalonline.com",
+  apis: {
+    auth: "https://auth.tikalonline.com",
+    main: "https://backend.tikalonline.com",
+  },
 };

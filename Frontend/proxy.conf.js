@@ -1,8 +1,14 @@
-module.exports = {
-  '/api': {
+export default {
+  '/api/auth': {
     target: process.env['services__Identity__http__0'],
     pathRewrite: {
-      '^/api': '',
+      '^/api/auth': '',
+    },
+  },
+  '/api/main': {
+    target: process.env['services__TikalApp__http__0'],
+    pathRewrite: {
+      '^/api/main': '',
     },
   },
   '/v1/traces': {

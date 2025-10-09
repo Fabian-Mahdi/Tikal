@@ -25,14 +25,16 @@ export class LoginUseCase extends UseCase<[User, string], void, LoginError> {
       password: password,
     };
 
-    const request = this.httpClient.post<TokenDto>("login", loginDto).pipe(
-      map(() => {
-        return this.handleSucces();
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return this.handleFailure(error);
-      }),
-    );
+    const request = this.httpClient
+      .post<TokenDto>("auth:/login", loginDto)
+      .pipe(
+        map(() => {
+          return this.handleSucces();
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.handleFailure(error);
+        }),
+      );
 
     return await firstValueFrom(request);
   }

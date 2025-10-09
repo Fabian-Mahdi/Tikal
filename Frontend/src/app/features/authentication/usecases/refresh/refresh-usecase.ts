@@ -15,7 +15,7 @@ export class RefreshUseCase extends UseCase<[], void, RefreshError> {
   private readonly httpClient: HttpClient = inject(HttpClient);
 
   override async inner(): Promise<Result<void, RefreshError>> {
-    const request = this.httpClient.post<TokenDto>("refresh", "").pipe(
+    const request = this.httpClient.post<TokenDto>("auth:/refresh", "").pipe(
       map(() => {
         return this.handleSuccess();
       }),
