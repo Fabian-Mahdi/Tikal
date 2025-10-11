@@ -60,7 +60,7 @@ function getDevelopmentConfig(): ApplicationConfig {
       provideZonelessChangeDetection(),
       provideRouter(routes),
       provideHttpClient(
-        withInterceptors([baseUrlInterceptor, authenticationInterceptor]),
+        withInterceptors([authenticationInterceptor, baseUrlInterceptor]),
         withFetch(),
       ),
     ],

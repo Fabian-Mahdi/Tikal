@@ -6,22 +6,21 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { TokenDto } from "../../../../shared/dtos/token-dto";
 import { catchError, firstValueFrom, map } from "rxjs";
 import { LoginError } from "./erros/login-error";
-import { User } from "../../models/user";
 
 @Injectable({
   providedIn: "root",
 })
-export class LoginUseCase extends UseCase<[User, string], void, LoginError> {
+export class LoginUseCase extends UseCase<[string, string], void, LoginError> {
   protected override name = "Login";
 
   private readonly httpClient: HttpClient = inject(HttpClient);
 
   override async inner(
-    user: User,
+    username: string,
     password: string,
   ): Promise<Result<void, LoginError>> {
     const loginDto: LoginDto = {
-      username: user.username,
+      username: username,
       password: password,
     };
 

@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { User } from "../../models/user";
 import { Router } from "@angular/router";
 import { LoginUseCase } from "../../usecases/login/login-usecase";
 import { Menu } from "../../../../core/menu/menu";
@@ -45,9 +44,7 @@ export class Login {
     const { username, password }: { username: string; password: string } =
       this.loginForm.value;
 
-    const user: User = { username: username };
-
-    const result = await this.login.call(user, password);
+    const result = await this.login.call(username, password);
 
     if (result.isOk()) {
       console.log("success");
