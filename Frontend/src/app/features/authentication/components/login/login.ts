@@ -12,6 +12,7 @@ import { Menu } from "../../../../core/menu/menu";
 import { backgroundFadeOut } from "../../../../core/menu/animations/fade-out";
 import { Button } from "../../../../core/components/button/button";
 import { ButtonStyle } from "../../../../core/components/button/button-type";
+import { SetCurrentAccountUseCase } from "../../usecases/setCurrentAccount/set-current-account-usecase";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,6 +31,10 @@ export class Login {
 
   private readonly login: LoginUseCase = inject(LoginUseCase);
 
+  private readonly setAccount: SetCurrentAccountUseCase = inject(
+    SetCurrentAccountUseCase,
+  );
+
   readonly loginForm: FormGroup = this.formBuilder.group({
     username: ["", [Validators.required]],
     password: ["", [Validators.required]],
@@ -44,12 +49,18 @@ export class Login {
     const { username, password }: { username: string; password: string } =
       this.loginForm.value;
 
-    const result = await this.login.call(username, password);
+    const loginResult = await this.login.call(username, password);
 
-    if (result.isOk()) {
-      console.log("success");
-    } else {
+    if (loginResult.isErr()) {
       console.log("failure");
+      return;
+    }
+
+    const accountResult = await this.setAccount.call();
+
+    if (accountResult.isErr()) {
+      this.router.navigate([{ outlets: { overlay: "createaccount" } }]);
+      return;
     }
   }
 
