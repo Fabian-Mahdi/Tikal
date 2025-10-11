@@ -4,7 +4,7 @@ import { RefreshError } from "./errors/refresh-error";
 import { err, Err, ok, Ok, Result } from "neverthrow";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { TokenDto } from "../../../../shared/dtos/token-dto";
-import { catchError, firstValueFrom, map } from "rxjs";
+import { catchError, firstValueFrom, map, throwError } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -19,8 +19,12 @@ export class RefreshUseCase extends UseCase<[], void, RefreshError> {
       map(() => {
         return this.handleSuccess();
       }),
-      catchError((error: HttpErrorResponse) => {
-        return this.handleFailure(error);
+      catchError((error) => {
+        if (error instanceof HttpErrorResponse) {
+          return this.handleFailure(error);
+        }
+
+        return throwError(() => error);
       }),
     );
 

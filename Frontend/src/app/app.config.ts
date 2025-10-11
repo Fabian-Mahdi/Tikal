@@ -20,6 +20,8 @@ import { authenticationInterceptor } from "./core/interceptors/authentication/au
 import { provideInstrumentation } from "./core/telemetry/otel-instrumentation";
 import { environment } from "../environments/environment";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
+import { timeoutInterceptor } from "./core/interceptors/timeout/timeout-interceptor";
+import { DevelopmentErrorHandler } from "./core/error-handler/development-error-handler";
 
 export const appConfig: ApplicationConfig = environment.is_production
   ? getProductionConfig()
@@ -33,7 +35,11 @@ function getProductionConfig(): ApplicationConfig {
       provideZonelessChangeDetection(),
       provideRouter(routes),
       provideHttpClient(
-        withInterceptors([baseUrlInterceptor, authenticationInterceptor]),
+        withInterceptors([
+          baseUrlInterceptor,
+          authenticationInterceptor,
+          timeoutInterceptor,
+        ]),
         withFetch(),
       ),
       {
@@ -60,9 +66,17 @@ function getDevelopmentConfig(): ApplicationConfig {
       provideZonelessChangeDetection(),
       provideRouter(routes),
       provideHttpClient(
-        withInterceptors([authenticationInterceptor, baseUrlInterceptor]),
+        withInterceptors([
+          authenticationInterceptor,
+          baseUrlInterceptor,
+          timeoutInterceptor,
+        ]),
         withFetch(),
       ),
+      {
+        provide: ErrorHandler,
+        useClass: DevelopmentErrorHandler,
+      },
     ],
   };
 }
