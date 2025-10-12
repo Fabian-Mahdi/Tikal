@@ -1,1 +1,36 @@
-<p>create-account works!</p>
+<app-menu @backgroundFadeOut>
+  <h1 class="menu-header">CHOOSE A NAME</h1>
+  <hr class="menu-header-line" />
+  <form
+    class="account-form"
+    id="accountForm"
+    [formGroup]="accountForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="input-group">
+      <label for="name" hidden>Accountname</label>
+      <input
+        class="input"
+        formControlName="name"
+        id="name"
+        placeholder="Accountname"
+        type="text"
+      />
+    </div>
+  </form>
+  <app-button
+    class="account-button"
+    form="accountForm"
+    type="submit"
+    [style]="ButtonStyle.Primary"
+  >
+    CHOOSE
+  </app-button>
+  <app-button
+    class="account-button"
+    [style]="ButtonStyle.Error"
+    (clicked)="onCancelPressed()"
+  >
+    CANCEL
+  </app-button>
+</app-menu>

@@ -5,6 +5,7 @@ import { ButtonStyle } from "../components/button/button-type";
 import { Router } from "@angular/router";
 import { RefreshUseCase } from "../../features/authentication/usecases/refresh/refresh-usecase";
 import { LoadingOverlayService } from "../loading-overlay/loading-overlay-service";
+import { SetCurrentAccountUseCase } from "../../features/authentication/usecases/setCurrentAccount/set-current-account-usecase";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,6 +19,10 @@ export class Home {
 
   private readonly refresh: RefreshUseCase = inject(RefreshUseCase);
 
+  private readonly setAccount: SetCurrentAccountUseCase = inject(
+    SetCurrentAccountUseCase,
+  );
+
   private readonly loadingOverlay: LoadingOverlayService = inject(
     LoadingOverlayService,
   );
@@ -25,11 +30,19 @@ export class Home {
   async onPlayOnlinePressed(): Promise<void> {
     this.loadingOverlay.showLoadingOverlay();
 
-    const result = await this.refresh.call();
+    const refreshResult = await this.refresh.call();
 
-    if (result.isErr()) {
+    if (refreshResult.isErr()) {
       this.loadingOverlay.hideLoadingOverlay();
       this.router.navigate([{ outlets: { overlay: ["login"] } }]);
+      return;
+    }
+
+    const accountResult = await this.setAccount.call();
+
+    if (accountResult.isErr()) {
+      this.loadingOverlay.hideLoadingOverlay();
+      this.router.navigate([{ outlets: { overlay: ["createaccount"] } }]);
       return;
     }
 
