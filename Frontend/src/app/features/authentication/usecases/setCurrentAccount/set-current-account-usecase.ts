@@ -5,7 +5,7 @@ import { err, Err, ok, Ok, Result } from "neverthrow";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { AccountStore } from "../../stores/account/account-store";
 import { AccountDto } from "../../../../shared/dtos/account-dto";
-import { catchError, firstValueFrom, map } from "rxjs";
+import { catchError, firstValueFrom, map, Observable, throwError } from "rxjs";
 import { Account } from "../../models/account";
 
 @Injectable({
@@ -27,8 +27,12 @@ export class SetCurrentAccountUseCase extends UseCase<
       map((accountDto: AccountDto) => {
         return this.handleSuccess(accountDto);
       }),
-      catchError((error: HttpErrorResponse) => {
-        return this.handleFailure(error);
+      catchError((error: unknown) => {
+        if (error instanceof HttpErrorResponse) {
+          return this.handleFailure(error);
+        }
+
+        return throwError(() => error);
       }),
     );
 
@@ -47,11 +51,11 @@ export class SetCurrentAccountUseCase extends UseCase<
 
   private handleFailure(
     error: HttpErrorResponse,
-  ): Err<never, SetCurrentAccountError> {
+  ): Err<never, SetCurrentAccountError> | Observable<never> {
     if (error.status == 404) {
       return err(SetCurrentAccountError.NoAccount);
     }
 
-    return err(SetCurrentAccountError.UnknownError);
+    return throwError(() => error);
   }
 }

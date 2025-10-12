@@ -4,7 +4,8 @@ import { RefreshError } from "./errors/refresh-error";
 import { err, Err, ok, Ok, Result } from "neverthrow";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { TokenDto } from "../../../../shared/dtos/token-dto";
-import { catchError, firstValueFrom, map, throwError } from "rxjs";
+import { catchError, firstValueFrom, map, Observable, throwError } from "rxjs";
+import { TokenStore } from "../../stores/token/token-store";
 
 @Injectable({
   providedIn: "root",
@@ -14,12 +15,14 @@ export class RefreshUseCase extends UseCase<[], void, RefreshError> {
 
   private readonly httpClient: HttpClient = inject(HttpClient);
 
+  private readonly tokenStore: TokenStore = inject(TokenStore);
+
   override async inner(): Promise<Result<void, RefreshError>> {
     const request = this.httpClient.post<TokenDto>("auth:/refresh", "").pipe(
-      map(() => {
-        return this.handleSuccess();
+      map((tokenDto: TokenDto) => {
+        return this.handleSuccess(tokenDto);
       }),
-      catchError((error) => {
+      catchError((error: unknown) => {
         if (error instanceof HttpErrorResponse) {
           return this.handleFailure(error);
         }
@@ -31,15 +34,19 @@ export class RefreshUseCase extends UseCase<[], void, RefreshError> {
     return await firstValueFrom(request);
   }
 
-  private handleSuccess(): Ok<void, never> {
+  private handleSuccess(tokenDto: TokenDto): Ok<void, never> {
+    this.tokenStore.AccessToken = tokenDto.accessToken;
+
     return ok();
   }
 
-  private handleFailure(error: HttpErrorResponse): Err<never, RefreshError> {
+  private handleFailure(
+    error: HttpErrorResponse,
+  ): Err<never, RefreshError> | Observable<never> {
     if (error.status == 401) {
       return err(RefreshError.InvalidRefreshToken);
     }
 
-    return err(RefreshError.UnknownError);
+    return throwError(() => error);
   }
 }
