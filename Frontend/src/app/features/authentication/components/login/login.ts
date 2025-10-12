@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import {
-  FormControl,
   FormGroup,
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -66,14 +65,6 @@ export class Login {
 
   onClosePressed(): void {
     this.router.navigate([{ outlets: { overlay: null } }]);
-  }
-
-  get username(): FormControl<string> {
-    return this.loginForm.get("username") as FormControl<string>;
-  }
-
-  get password(): FormControl<string> {
-    return this.loginForm.get("password") as FormControl<string>;
   }
 
   get ButtonStyle(): typeof ButtonStyle {

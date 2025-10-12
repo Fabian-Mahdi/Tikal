@@ -3,7 +3,6 @@ import { backgroundFadeOut } from "../../../../core/menu/animations/fade-out";
 import { Menu } from "../../../../core/menu/menu";
 import { Router } from "@angular/router";
 import {
-  FormControl,
   FormGroup,
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -40,10 +39,6 @@ export class CreateAccount {
 
   onCancelPressed(): void {
     this.router.navigate([{ outlets: { overlay: null } }]);
-  }
-
-  get name(): FormControl<string> {
-    return this.accountForm.get("name") as FormControl<string>;
   }
 
   get ButtonStyle(): typeof ButtonStyle {
