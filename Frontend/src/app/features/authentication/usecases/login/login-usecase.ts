@@ -5,7 +5,7 @@ import { LoginDto } from "./dtos/login-dto";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { TokenDto } from "../../../../shared/dtos/token-dto";
 import { catchError, firstValueFrom, map, Observable, throwError } from "rxjs";
-import { LoginError } from "./erros/login-error";
+import { LoginError } from "./login-error";
 import { TokenStore } from "../../stores/token/token-store";
 
 @Injectable({

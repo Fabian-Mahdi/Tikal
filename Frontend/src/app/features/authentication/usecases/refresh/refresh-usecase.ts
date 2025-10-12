@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { UseCase } from "../../../../core/usecase/usecase";
-import { RefreshError } from "./errors/refresh-error";
+import { RefreshError } from "./refresh-error";
 import { err, Err, ok, Ok, Result } from "neverthrow";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { TokenDto } from "../../../../shared/dtos/token-dto";
