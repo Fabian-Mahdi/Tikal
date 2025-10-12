@@ -6,11 +6,13 @@ import {
 } from "@angular/core";
 import { ErrorOverlayService } from "./error-overlay-service";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { Button } from "../components/button/button";
+import { ButtonStyle } from "../components/button/button-type";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: "app-error-overlay",
-  imports: [],
+  imports: [Button],
   templateUrl: "./error-overlay.html",
   styleUrl: "./error-overlay.scss",
 })
@@ -27,4 +29,12 @@ export class ErrorOverlay {
     this.errorOverlayService.errorMessage,
     { initialValue: "" },
   );
+
+  closePressed(): void {
+    this.errorOverlayService.hideErrorOverlay();
+  }
+
+  get ButtonStyle(): typeof ButtonStyle {
+    return ButtonStyle;
+  }
 }
