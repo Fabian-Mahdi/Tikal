@@ -12,7 +12,7 @@ import { Menu } from "../../../../core/menu/menu";
 import { backgroundFadeOut } from "../../../../core/menu/animations/fade-out";
 import { Button } from "../../../../core/components/button/button";
 import { ButtonStyle } from "../../../../core/components/button/button-type";
-import { SetCurrentAccountUseCase } from "../../usecases/setCurrentAccount/set-current-account-usecase";
+import { SetCurrentAccountUseCase } from "../../usecases/set-current-account/set-current-account-usecase";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

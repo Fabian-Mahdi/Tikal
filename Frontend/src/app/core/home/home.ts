@@ -5,7 +5,7 @@ import { ButtonStyle } from "../components/button/button-type";
 import { Router } from "@angular/router";
 import { RefreshUseCase } from "../../features/authentication/usecases/refresh/refresh-usecase";
 import { LoadingOverlayService } from "../loading-overlay/loading-overlay-service";
-import { SetCurrentAccountUseCase } from "../../features/authentication/usecases/setCurrentAccount/set-current-account-usecase";
+import { SetCurrentAccountUseCase } from "../../features/authentication/usecases/set-current-account/set-current-account-usecase";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
