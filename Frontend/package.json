@@ -12,16 +12,6 @@
     "lint": "ng lint --fix",
     "verify": "ng lint"
   },
-  "prettier": {
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
-  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^20.1.7",

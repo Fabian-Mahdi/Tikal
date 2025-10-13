@@ -2,12 +2,7 @@ import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { backgroundFadeOut } from "../../../../core/menu/animations/fade-out";
 import { Menu } from "../../../../core/menu/menu";
 import { Router } from "@angular/router";
-import {
-  FormGroup,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from "@angular/forms";
+import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Button } from "../../../../core/components/button/button";
 import { ButtonStyle } from "../../../../core/components/button/button-type";
 import { LoadingOverlayService } from "../../../../core/loading-overlay/loading-overlay-service";
@@ -25,19 +20,13 @@ import { ErrorOverlayService } from "../../../../core/error-overlay/error-overla
 export class CreateAccount {
   private readonly router: Router = inject(Router);
 
-  private readonly createAccount: CreateAccountUseCase =
-    inject(CreateAccountUseCase);
+  private readonly createAccount: CreateAccountUseCase = inject(CreateAccountUseCase);
 
-  private readonly loadingOverlay: LoadingOverlayService = inject(
-    LoadingOverlayService,
-  );
+  private readonly loadingOverlay: LoadingOverlayService = inject(LoadingOverlayService);
 
-  private readonly errorOverlay: ErrorOverlayService =
-    inject(ErrorOverlayService);
+  private readonly errorOverlay: ErrorOverlayService = inject(ErrorOverlayService);
 
-  private readonly formBuilder: NonNullableFormBuilder = inject(
-    NonNullableFormBuilder,
-  );
+  private readonly formBuilder: NonNullableFormBuilder = inject(NonNullableFormBuilder);
 
   readonly accountForm: FormGroup = this.formBuilder.group({
     name: ["", [Validators.required]],
@@ -58,9 +47,7 @@ export class CreateAccount {
     if (accountCreationResult.isErr()) {
       this.loadingOverlay.hideLoadingOverlay();
       this.router.navigate([{ outlets: { overlay: null } }]);
-      this.errorOverlay.showErrorOverlay(
-        "An account for your user already exists",
-      );
+      this.errorOverlay.showErrorOverlay("An account for your user already exists");
       return;
     }
 

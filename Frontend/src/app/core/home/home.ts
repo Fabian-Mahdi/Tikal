@@ -19,13 +19,9 @@ export class Home {
 
   private readonly refresh: RefreshUseCase = inject(RefreshUseCase);
 
-  private readonly setAccount: SetCurrentAccountUseCase = inject(
-    SetCurrentAccountUseCase,
-  );
+  private readonly setAccount: SetCurrentAccountUseCase = inject(SetCurrentAccountUseCase);
 
-  private readonly loadingOverlay: LoadingOverlayService = inject(
-    LoadingOverlayService,
-  );
+  private readonly loadingOverlay: LoadingOverlayService = inject(LoadingOverlayService);
 
   async onPlayOnlinePressed(): Promise<void> {
     this.loadingOverlay.showLoadingOverlay();

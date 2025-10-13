@@ -11,11 +11,7 @@ import { Account } from "../../models/account";
 @Injectable({
   providedIn: "root",
 })
-export class SetCurrentAccountUseCase extends UseCase<
-  [],
-  void,
-  SetCurrentAccountError
-> {
+export class SetCurrentAccountUseCase extends UseCase<[], void, SetCurrentAccountError> {
   protected override name = "Retrieve Account";
 
   private readonly httpClient: HttpClient = inject(HttpClient);
@@ -49,9 +45,7 @@ export class SetCurrentAccountUseCase extends UseCase<
     return ok();
   }
 
-  private handleFailure(
-    error: HttpErrorResponse,
-  ): Err<never, SetCurrentAccountError> | Observable<never> {
+  private handleFailure(error: HttpErrorResponse): Err<never, SetCurrentAccountError> | Observable<never> {
     if (error.status == 404) {
       return err(SetCurrentAccountError.NoAccount);
     }

@@ -10,11 +10,7 @@ import { provideRouter, Router } from "@angular/router";
 
 import * as Sentry from "@sentry/angular";
 import { routes } from "./app.routes";
-import {
-  provideHttpClient,
-  withFetch,
-  withInterceptors,
-} from "@angular/common/http";
+import { provideHttpClient, withFetch, withInterceptors } from "@angular/common/http";
 import { baseUrlInterceptor } from "./core/interceptors/base-url/base-url-interceptor";
 import { authenticationInterceptor } from "./core/interceptors/authentication/authentication-interceptor";
 import { provideInstrumentation } from "./core/telemetry/otel-instrumentation";
@@ -23,9 +19,7 @@ import { provideAnimationsAsync } from "@angular/platform-browser/animations/asy
 import { timeoutInterceptor } from "./core/interceptors/timeout/timeout-interceptor";
 import { DevelopmentErrorHandler } from "./core/error-handler/development-error-handler";
 
-export const appConfig: ApplicationConfig = environment.is_production
-  ? getProductionConfig()
-  : getDevelopmentConfig();
+export const appConfig: ApplicationConfig = environment.is_production ? getProductionConfig() : getDevelopmentConfig();
 
 function getProductionConfig(): ApplicationConfig {
   return {
@@ -35,11 +29,7 @@ function getProductionConfig(): ApplicationConfig {
       provideZonelessChangeDetection(),
       provideRouter(routes),
       provideHttpClient(
-        withInterceptors([
-          baseUrlInterceptor,
-          authenticationInterceptor,
-          timeoutInterceptor,
-        ]),
+        withInterceptors([baseUrlInterceptor, authenticationInterceptor, timeoutInterceptor]),
         withFetch(),
       ),
       {
@@ -66,11 +56,7 @@ function getDevelopmentConfig(): ApplicationConfig {
       provideZonelessChangeDetection(),
       provideRouter(routes),
       provideHttpClient(
-        withInterceptors([
-          authenticationInterceptor,
-          baseUrlInterceptor,
-          timeoutInterceptor,
-        ]),
+        withInterceptors([authenticationInterceptor, baseUrlInterceptor, timeoutInterceptor]),
         withFetch(),
       ),
       {

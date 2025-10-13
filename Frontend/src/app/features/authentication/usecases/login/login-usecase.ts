@@ -18,29 +18,24 @@ export class LoginUseCase extends UseCase<[string, string], void, LoginError> {
 
   private readonly tokenStore: TokenStore = inject(TokenStore);
 
-  override async inner(
-    username: string,
-    password: string,
-  ): Promise<Result<void, LoginError>> {
+  override async inner(username: string, password: string): Promise<Result<void, LoginError>> {
     const loginDto: LoginDto = {
       username: username,
       password: password,
     };
 
-    const request = this.httpClient
-      .post<TokenDto>("auth:/login", loginDto)
-      .pipe(
-        map((tokenDto: TokenDto) => {
-          return this.handleSucces(tokenDto);
-        }),
-        catchError((error: unknown) => {
-          if (error instanceof HttpErrorResponse) {
-            return this.handleFailure(error);
-          }
+    const request = this.httpClient.post<TokenDto>("auth:/login", loginDto).pipe(
+      map((tokenDto: TokenDto) => {
+        return this.handleSucces(tokenDto);
+      }),
+      catchError((error: unknown) => {
+        if (error instanceof HttpErrorResponse) {
+          return this.handleFailure(error);
+        }
 
-          return throwError(() => error);
-        }),
-      );
+        return throwError(() => error);
+      }),
+    );
 
     return await firstValueFrom(request);
   }
@@ -51,9 +46,7 @@ export class LoginUseCase extends UseCase<[string, string], void, LoginError> {
     return ok();
   }
 
-  private handleFailure(
-    error: HttpErrorResponse,
-  ): Err<never, LoginError> | Observable<never> {
+  private handleFailure(error: HttpErrorResponse): Err<never, LoginError> | Observable<never> {
     if (error.status == 401) {
       return err(LoginError.InvalidCredentials);
     }

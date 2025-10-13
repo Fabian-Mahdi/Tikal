@@ -1,7 +1,4 @@
 {
-    "cSpell.words": [
-        "devcontainers",
-        "Tikal"
-    ],
-    "typescript.tsdk": "node_modules/typescript/lib"
+  "cSpell.words": ["devcontainers", "Tikal"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

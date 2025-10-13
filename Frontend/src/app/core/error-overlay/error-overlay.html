@@ -1,13 +1,8 @@
 @if (showErrorOverlay()) {
-  <div class="error-overlay">
-    <div class="error-box">
-      <p class="error-message">{{ errorMessage() }}</p>
-      <app-button
-        class="close-button"
-        [style]="ButtonStyle.Error"
-        (clicked)="closePressed()"
-        >Close</app-button
-      >
-    </div>
+<div class="error-overlay">
+  <div class="error-box">
+    <p class="error-message">{{ errorMessage() }}</p>
+    <app-button class="close-button" [style]="ButtonStyle.Error" (clicked)="closePressed()">Close</app-button>
   </div>
+</div>
 }

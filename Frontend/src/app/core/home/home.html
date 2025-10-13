@@ -1,26 +1,11 @@
 <div class="root-container">
   <div class="content">
-    <img
-      alt="tikal logo"
-      class="logo"
-      height="282"
-      ngSrc="/images/logo.png"
-      priority
-      width="1024"
-    />
+    <img alt="tikal logo" class="logo" height="282" ngSrc="/images/logo.png" priority width="1024" />
     <div class="button-container">
-      <app-button
-        class="home-screen-button"
-        [disabled]="true"
-        [style]="ButtonType.Primary"
-      >
+      <app-button class="home-screen-button" [disabled]="true" [style]="ButtonType.Primary">
         SOLO PLAY (WIP)
       </app-button>
-      <app-button
-        class="home-screen-button"
-        [style]="ButtonType.Primary"
-        (clicked)="onPlayOnlinePressed()"
-      >
+      <app-button class="home-screen-button" [style]="ButtonType.Primary" (clicked)="onPlayOnlinePressed()">
         ONLINE PLAY
       </app-button>
     </div>

@@ -1,17 +1,5 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  inject,
-  signal,
-  WritableSignal,
-} from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from "@angular/forms";
+import { Component, ChangeDetectionStrategy, inject, signal, WritableSignal } from "@angular/core";
+import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoginUseCase } from "../../usecases/login/login-usecase";
 import { Menu } from "../../../../core/menu/menu";
@@ -34,17 +22,11 @@ export class Login {
 
   private readonly login: LoginUseCase = inject(LoginUseCase);
 
-  private readonly setAccount: SetCurrentAccountUseCase = inject(
-    SetCurrentAccountUseCase,
-  );
+  private readonly setAccount: SetCurrentAccountUseCase = inject(SetCurrentAccountUseCase);
 
-  private readonly loadingOverlay: LoadingOverlayService = inject(
-    LoadingOverlayService,
-  );
+  private readonly loadingOverlay: LoadingOverlayService = inject(LoadingOverlayService);
 
-  private readonly formBuilder: NonNullableFormBuilder = inject(
-    NonNullableFormBuilder,
-  );
+  private readonly formBuilder: NonNullableFormBuilder = inject(NonNullableFormBuilder);
 
   readonly loginForm: FormGroup = this.formBuilder.group({
     username: ["", [Validators.required]],
@@ -69,8 +51,7 @@ export class Login {
 
     this.loadingOverlay.showLoadingOverlay();
 
-    const { username, password }: { username: string; password: string } =
-      this.loginForm.value;
+    const { username, password }: { username: string; password: string } = this.loginForm.value;
 
     const loginResult = await this.login.call(username, password);
 

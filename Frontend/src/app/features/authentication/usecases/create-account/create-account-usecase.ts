@@ -11,38 +11,30 @@ import { Account } from "../../models/account";
 @Injectable({
   providedIn: "root",
 })
-export class CreateAccountUseCase extends UseCase<
-  [string],
-  void,
-  CreateAccountError
-> {
+export class CreateAccountUseCase extends UseCase<[string], void, CreateAccountError> {
   protected override name = "Create Account";
 
   private readonly httpClient: HttpClient = inject(HttpClient);
 
   private readonly accountStore: AccountStore = inject(AccountStore);
 
-  override async inner(
-    name: string,
-  ): Promise<Result<void, CreateAccountError>> {
+  override async inner(name: string): Promise<Result<void, CreateAccountError>> {
     const createAccountDto: AccountDto = {
       name: name,
     };
 
-    const request = this.httpClient
-      .post<AccountDto>("main:/accounts", createAccountDto)
-      .pipe(
-        map((accountDto: AccountDto) => {
-          return this.handleSuccess(accountDto);
-        }),
-        catchError((error: unknown) => {
-          if (error instanceof HttpErrorResponse) {
-            return this.handleFailure(error);
-          }
+    const request = this.httpClient.post<AccountDto>("main:/accounts", createAccountDto).pipe(
+      map((accountDto: AccountDto) => {
+        return this.handleSuccess(accountDto);
+      }),
+      catchError((error: unknown) => {
+        if (error instanceof HttpErrorResponse) {
+          return this.handleFailure(error);
+        }
 
-          return throwError(() => error);
-        }),
-      );
+        return throwError(() => error);
+      }),
+    );
 
     return await firstValueFrom(request);
   }
@@ -57,9 +49,7 @@ export class CreateAccountUseCase extends UseCase<
     return ok();
   }
 
-  private handleFailure(
-    error: HttpErrorResponse,
-  ): Err<never, CreateAccountError> | Observable<never> {
+  private handleFailure(error: HttpErrorResponse): Err<never, CreateAccountError> | Observable<never> {
     if (error.status == 409) {
       return err(CreateAccountError.AccountExists);
     }

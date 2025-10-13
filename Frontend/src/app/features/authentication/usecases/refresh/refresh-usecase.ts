@@ -40,9 +40,7 @@ export class RefreshUseCase extends UseCase<[], void, RefreshError> {
     return ok();
   }
 
-  private handleFailure(
-    error: HttpErrorResponse,
-  ): Err<never, RefreshError> | Observable<never> {
+  private handleFailure(error: HttpErrorResponse): Err<never, RefreshError> | Observable<never> {
     if (error.status == 401) {
       return err(RefreshError.InvalidRefreshToken);
     }

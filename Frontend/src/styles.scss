@@ -48,12 +48,7 @@ h1 {
 
   border: none;
 
-  background: linear-gradient(
-    to right,
-    transparent,
-    colors.$header-text,
-    transparent
-  );
+  background: linear-gradient(to right, transparent, colors.$header-text, transparent);
 
   opacity: 0.75;
 }

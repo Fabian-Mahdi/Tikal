@@ -4,12 +4,9 @@ import { LoadingOverlayService } from "../loading-overlay/loading-overlay-servic
 import { ErrorOverlayService } from "../error-overlay/error-overlay-service";
 
 export class DevelopmentErrorHandler implements ErrorHandler {
-  private readonly loadingOverlayService: LoadingOverlayService = inject(
-    LoadingOverlayService,
-  );
+  private readonly loadingOverlayService: LoadingOverlayService = inject(LoadingOverlayService);
 
-  private readonly errorOverlayService: ErrorOverlayService =
-    inject(ErrorOverlayService);
+  private readonly errorOverlayService: ErrorOverlayService = inject(ErrorOverlayService);
 
   handleError(error: unknown): void {
     if (error instanceof TimeoutError) {
