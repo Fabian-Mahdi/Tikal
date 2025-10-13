@@ -28,10 +28,16 @@
       />
     </div>
   </form>
+  <div class="error">
+    @if (errorMessage()) {
+      <p>{{ errorMessage() }}</p>
+    }
+  </div>
   <app-button
     class="login-button"
     form="loginForm"
     type="submit"
+    [disabled]="!formValid()"
     [style]="ButtonStyle.Primary"
   >
     LOG IN
