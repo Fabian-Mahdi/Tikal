@@ -1,18 +1,13 @@
-import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from "@angular/forms";
-import { User } from "../../models/user";
+import { Component, ChangeDetectionStrategy, inject, signal, WritableSignal } from "@angular/core";
+import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoginUseCase } from "../../usecases/login/login-usecase";
 import { Menu } from "../../../../core/menu/menu";
 import { backgroundFadeOut } from "../../../../core/menu/animations/fade-out";
 import { Button } from "../../../../core/components/button/button";
 import { ButtonStyle } from "../../../../core/components/button/button-type";
+import { SetCurrentAccountUseCase } from "../../usecases/set-current-account/set-current-account-usecase";
+import { LoadingOverlayService } from "../../../../core/loading-overlay/loading-overlay-service";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,16 +20,28 @@ import { ButtonStyle } from "../../../../core/components/button/button-type";
 export class Login {
   private readonly router: Router = inject(Router);
 
-  private readonly formBuilder: NonNullableFormBuilder = inject(
-    NonNullableFormBuilder,
-  );
-
   private readonly login: LoginUseCase = inject(LoginUseCase);
+
+  private readonly setAccount: SetCurrentAccountUseCase = inject(SetCurrentAccountUseCase);
+
+  private readonly loadingOverlay: LoadingOverlayService = inject(LoadingOverlayService);
+
+  private readonly formBuilder: NonNullableFormBuilder = inject(NonNullableFormBuilder);
 
   readonly loginForm: FormGroup = this.formBuilder.group({
     username: ["", [Validators.required]],
     password: ["", [Validators.required]],
   });
+
+  readonly formValid: WritableSignal<boolean> = signal(this.loginForm.valid);
+
+  readonly errorMessage: WritableSignal<string> = signal("");
+
+  constructor() {
+    this.loginForm.statusChanges.subscribe(() => {
+      this.formValid.set(this.loginForm.valid);
+    });
+  }
 
   async onSubmit(): Promise<void> {
     if (this.loginForm.invalid) {
@@ -42,26 +49,30 @@ export class Login {
       return;
     }
 
-    const { username, password }: { username: string; password: string } =
-      this.loginForm.value;
+    this.loadingOverlay.showLoadingOverlay();
 
-    const user: User = { username: username };
+    const { username, password }: { username: string; password: string } = this.loginForm.value;
 
-    const result = await this.login.call(user, password);
+    const loginResult = await this.login.call(username, password);
 
-    if (result.isOk()) {
-      console.log("success");
-    } else {
-      console.log("failure");
+    if (loginResult.isErr()) {
+      this.loadingOverlay.hideLoadingOverlay();
+      this.password.setValue("");
+      this.errorMessage.set("Invalid username or password provided");
+      return;
+    }
+
+    const accountResult = await this.setAccount.call();
+
+    if (accountResult.isErr()) {
+      this.loadingOverlay.hideLoadingOverlay();
+      this.router.navigate([{ outlets: { overlay: "createaccount" } }]);
+      return;
     }
   }
 
   onClosePressed(): void {
     this.router.navigate([{ outlets: { overlay: null } }]);
-  }
-
-  get username(): FormControl<string> {
-    return this.loginForm.get("username") as FormControl<string>;
   }
 
   get password(): FormControl<string> {

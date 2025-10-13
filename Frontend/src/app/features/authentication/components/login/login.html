@@ -1,47 +1,30 @@
 <app-menu @backgroundFadeOut>
-  <h1 class="login-header">LOG IN</h1>
-  <hr class="login-line" />
-  <form
-    class="login-form"
-    id="loginForm"
-    [formGroup]="loginForm"
-    (ngSubmit)="onClosePressed()"
-  >
+  <h1 class="menu-header">LOG IN</h1>
+  <hr class="menu-header-line" />
+  <form class="login-form" id="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="input-group">
       <label for="username" hidden>Username</label>
-      <input
-        class="input"
-        formControlName="username"
-        id="username"
-        placeholder="Username"
-        type="text"
-      />
+      <input class="input" formControlName="username" id="username" placeholder="Username" type="text" />
     </div>
     <div class="input-group">
       <label for="password" hidden>Password</label>
-      <input
-        class="input"
-        formControlName="password"
-        id="password"
-        placeholder="Password"
-        type="password"
-      />
+      <input class="input" formControlName="password" id="password" placeholder="Password" type="password" />
     </div>
   </form>
+  <div class="error">
+    @if (errorMessage()) {
+    <p>{{ errorMessage() }}</p>
+    }
+  </div>
   <app-button
     class="login-button"
     form="loginForm"
     type="submit"
+    [disabled]="!formValid()"
     [style]="ButtonStyle.Primary"
   >
     LOG IN
   </app-button>
   <a class="link" href="#" (click)="onClosePressed()">NEW ACCOUNT</a>
-  <app-button
-    class="login-button"
-    [style]="ButtonStyle.Error"
-    (clicked)="onClosePressed()"
-  >
-    CLOSE
-  </app-button>
+  <app-button class="login-button" [style]="ButtonStyle.Error" (clicked)="onClosePressed()"> CLOSE </app-button>
 </app-menu>

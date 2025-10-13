@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { Background } from "./core/background/background";
 import { Home } from "./core/home/home";
 import { Login } from "./features/authentication/components/login/login";
+import { CreateAccount } from "./features/authentication/components/create-account/create-account";
 
 export const routes: Routes = [
   {
@@ -18,6 +19,11 @@ export const routes: Routes = [
   {
     path: "login",
     component: Login,
+    outlet: "overlay",
+  },
+  {
+    path: "createaccount",
+    component: CreateAccount,
     outlet: "overlay",
   },
 ];

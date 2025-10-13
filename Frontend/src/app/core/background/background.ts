@@ -1,10 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  viewChild,
-  ElementRef,
-  AfterViewInit,
-} from "@angular/core";
+import { Component, ChangeDetectionStrategy, viewChild, ElementRef, AfterViewInit } from "@angular/core";
 import { NgOptimizedImage } from "@angular/common";
 import { RouterOutlet } from "@angular/router";
 
@@ -38,24 +32,17 @@ export class Background implements AfterViewInit {
   };
 
   // element refs
-  private readonly torchBottomLeft =
-    viewChild.required<ElementRef<HTMLDivElement>>("torchBottomLeft");
+  private readonly torchBottomLeft = viewChild.required<ElementRef<HTMLDivElement>>("torchBottomLeft");
 
-  private readonly torchBottomRight =
-    viewChild.required<ElementRef<HTMLDivElement>>("torchBottomRight");
+  private readonly torchBottomRight = viewChild.required<ElementRef<HTMLDivElement>>("torchBottomRight");
 
-  private readonly torchTopLeft =
-    viewChild.required<ElementRef<HTMLDivElement>>("torchTopLeft");
+  private readonly torchTopLeft = viewChild.required<ElementRef<HTMLDivElement>>("torchTopLeft");
 
-  private readonly torchTopRight =
-    viewChild.required<ElementRef<HTMLDivElement>>("torchTopRight");
+  private readonly torchTopRight = viewChild.required<ElementRef<HTMLDivElement>>("torchTopRight");
 
-  private readonly background =
-    viewChild.required<ElementRef<HTMLImageElement>>("background");
+  private readonly background = viewChild.required<ElementRef<HTMLImageElement>>("background");
 
-  private readonly wrapper = viewChild.required<ElementRef<HTMLDivElement>>(
-    "backgroundContainer",
-  );
+  private readonly wrapper = viewChild.required<ElementRef<HTMLDivElement>>("backgroundContainer");
 
   ngAfterViewInit(): void {
     const imgElement = this.background().nativeElement;
@@ -81,24 +68,15 @@ export class Background implements AfterViewInit {
       coords: this.topRightCoordinates,
     };
 
-    const torches = [
-      torchBottomLeft,
-      torchBottomRight,
-      torchTopLeft,
-      torchTopRight,
-    ];
+    const torches = [torchBottomLeft, torchBottomRight, torchTopLeft, torchTopRight];
 
     if (imgElement.complete) {
       this.positionTorches(imgElement, wrapperElement, torches);
     } else {
-      imgElement.addEventListener("load", () =>
-        this.positionTorches(imgElement, wrapperElement, torches),
-      );
+      imgElement.addEventListener("load", () => this.positionTorches(imgElement, wrapperElement, torches));
     }
 
-    window.addEventListener("resize", () =>
-      this.positionTorches(imgElement, wrapperElement, torches),
-    );
+    window.addEventListener("resize", () => this.positionTorches(imgElement, wrapperElement, torches));
   }
 
   private positionTorches(
@@ -135,12 +113,7 @@ export class Background implements AfterViewInit {
       const x = offsetX + xPercent * renderedWidth;
       const y = offsetY + yPercent * renderedHeight;
 
-      if (
-        x >= 0 &&
-        x <= wrapperElement.offsetWidth &&
-        y >= 0 &&
-        y <= wrapperElement.offsetHeight
-      ) {
+      if (x >= 0 && x <= wrapperElement.offsetWidth && y >= 0 && y <= wrapperElement.offsetHeight) {
         torchElement.style.left = `${x}px`;
         torchElement.style.top = `${y}px`;
         torchElement.style.display = "block";
