@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from "rxjs";
   providedIn: "root",
 })
 export class LoadingOverlayService {
-  private loadingOverlaySubject = new BehaviorSubject<boolean>(false);
+  private readonly loadingOverlaySubject = new BehaviorSubject<boolean>(false);
 
   readonly loadingOverlay: Observable<boolean> = this.loadingOverlaySubject.asObservable();
 
