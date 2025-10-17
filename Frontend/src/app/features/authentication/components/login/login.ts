@@ -65,7 +65,6 @@ export class Login {
     if (accountResult.isErr()) {
       this.loadingOverlay.hideLoadingOverlay();
       this.router.navigate([{ outlets: { overlay: "createaccount" } }]);
-      return;
     }
   }
 
