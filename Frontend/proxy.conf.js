@@ -21,7 +21,7 @@ function parseHeaders(s) {
   const headers = s.split(",");
   const result = {};
 
-  for (const header of headers)  {
+  for (const header of headers) {
     const [key, value] = header.split("=");
     result[key.trim()] = value.trim();
   }
