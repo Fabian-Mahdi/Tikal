@@ -1,7 +1,7 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
-import { fileURLToPath } from "url";
-import path from "path";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 
 import jasmine from "karma-jasmine";
 import firefoxLauncher from "karma-firefox-launcher";
@@ -12,7 +12,7 @@ import coverage from "karma-coverage";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default function (config) {
+export default function config(config) {
   config.set({
     basePath: "",
     frameworks: ["jasmine"],

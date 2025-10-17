@@ -21,10 +21,10 @@ function parseHeaders(s) {
   const headers = s.split(",");
   const result = {};
 
-  headers.forEach((header) => {
+  for (const header of headers) {
     const [key, value] = header.split("=");
     result[key.trim()] = value.trim();
-  });
+  }
 
   return result;
 }
