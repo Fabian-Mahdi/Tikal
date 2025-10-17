@@ -16,7 +16,7 @@ export function provideInstrumentation(): EnvironmentProviders {
       spanProcessors: [
         new BatchSpanProcessor(
           new OTLPTraceExporter({
-            url: `${window.origin}/v1/traces`,
+            url: `${globalThis.origin}/v1/traces`,
           }),
         ),
       ],
