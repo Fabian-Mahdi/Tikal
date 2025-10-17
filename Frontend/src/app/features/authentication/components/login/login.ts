@@ -3,7 +3,6 @@ import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Va
 import { Router } from "@angular/router";
 import { LoginUseCase } from "../../usecases/login/login-usecase";
 import { Menu } from "../../../../core/menu/menu";
-import { backgroundFadeOut } from "../../../../core/menu/animations/fade-out";
 import { Button } from "../../../../core/components/button/button";
 import { ButtonStyle } from "../../../../core/components/button/button-type";
 import { SetCurrentAccountUseCase } from "../../usecases/set-current-account/set-current-account-usecase";
@@ -15,7 +14,6 @@ import { LoadingOverlayService } from "../../../../core/loading-overlay/loading-
   imports: [ReactiveFormsModule, Menu, Button],
   templateUrl: "./login.html",
   styleUrl: "./login.scss",
-  animations: [backgroundFadeOut],
 })
 export class Login {
   private readonly router: Router = inject(Router);

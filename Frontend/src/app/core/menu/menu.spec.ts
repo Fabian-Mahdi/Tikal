@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { Menu } from "./menu";
 import { provideZonelessChangeDetection } from "@angular/core";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 describe("Menu", () => {
   let component: Menu;
@@ -10,7 +9,7 @@ describe("Menu", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Menu, NoopAnimationsModule],
+      imports: [Menu],
       providers: [provideZonelessChangeDetection()],
     }).compileComponents();
 

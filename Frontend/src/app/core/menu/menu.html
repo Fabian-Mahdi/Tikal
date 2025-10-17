@@ -1,13 +1,13 @@
-<div class="root-container">
+<div class="menu-root fade-animation">
   <div class="line-overlay"></div>
-  <div @mainLeaveAnimation class="main-container hex">
+  <div class="main-container hex slide-down-animation">
     <div class="circle-container"></div>
     <div class="content">
       <ng-content />
     </div>
   </div>
-  <div @container1LeaveAnimation class="container-1 hex"></div>
-  <div @container2LeaveAnimation class="container-2 hex"></div>
-  <div @container3LeaveAnimation class="container-3 hex"></div>
-  <div @container4LeaveAnimation class="container-4 hex"></div>
+  <div class="container-1 hex slide-right-animation"></div>
+  <div class="container-2 hex slide-left-animation"></div>
+  <div class="container-3 hex slide-left-animation"></div>
+  <div class="container-4 hex slide-right-animation"></div>
 </div>

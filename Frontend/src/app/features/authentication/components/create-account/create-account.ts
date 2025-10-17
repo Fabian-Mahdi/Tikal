@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
-import { backgroundFadeOut } from "../../../../core/menu/animations/fade-out";
 import { Menu } from "../../../../core/menu/menu";
 import { Router } from "@angular/router";
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -15,7 +14,6 @@ import { ErrorOverlayService } from "../../../../core/error-overlay/error-overla
   imports: [ReactiveFormsModule, Menu, Button],
   templateUrl: "./create-account.html",
   styleUrl: "./create-account.scss",
-  animations: [backgroundFadeOut],
 })
 export class CreateAccount {
   private readonly router: Router = inject(Router);
