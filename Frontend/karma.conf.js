@@ -12,7 +12,7 @@ import coverage from "karma-coverage";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default function (config) {
+export default function config(config) {
   config.set({
     basePath: "",
     frameworks: ["jasmine"],
