@@ -12,7 +12,7 @@ if (environment.is_production) {
     sendDefaultPii: true,
     integrations: [Sentry.browserTracingIntegration()],
     // Tracing
-    tracesSampleRate: 1.0, //  Capture 100% of the transactions
+    tracesSampleRate: 1, //  Capture 100% of the transactions
     // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
     tracePropagationTargets: ["auth.tikalonline.com"],
     // Enable sending logs to Sentry
@@ -20,4 +20,8 @@ if (environment.is_production) {
   });
 }
 
-bootstrapApplication(App, appConfig).catch((err) => console.error(err));
+try {
+  await bootstrapApplication(App, appConfig);
+} catch (err: unknown) {
+  console.log(err);
+}
