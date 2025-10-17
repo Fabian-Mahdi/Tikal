@@ -6,7 +6,7 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from "@angular/core";
-import { provideRouter, Router } from "@angular/router";
+import { provideRouter, Router, withViewTransitions } from "@angular/router";
 
 import * as Sentry from "@sentry/angular";
 import { routes } from "./app.routes";
@@ -54,7 +54,7 @@ function getDevelopmentConfig(): ApplicationConfig {
       provideInstrumentation(),
       provideBrowserGlobalErrorListeners(),
       provideZonelessChangeDetection(),
-      provideRouter(routes),
+      provideRouter(routes, withViewTransitions()),
       provideHttpClient(
         withInterceptors([authenticationInterceptor, baseUrlInterceptor, timeoutInterceptor]),
         withFetch(),
