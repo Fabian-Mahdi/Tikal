@@ -15,7 +15,6 @@ import { baseUrlInterceptor } from "./core/interceptors/base-url/base-url-interc
 import { authenticationInterceptor } from "./core/interceptors/authentication/authentication-interceptor";
 import { provideInstrumentation } from "./core/telemetry/otel-instrumentation";
 import { environment } from "../environments/environment";
-import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import { timeoutInterceptor } from "./core/interceptors/timeout/timeout-interceptor";
 import { DevelopmentErrorHandler } from "./core/error-handler/development-error-handler";
 
@@ -24,7 +23,6 @@ export const appConfig: ApplicationConfig = environment.is_production ? getProdu
 function getProductionConfig(): ApplicationConfig {
   return {
     providers: [
-      provideAnimationsAsync(),
       provideBrowserGlobalErrorListeners(),
       provideZonelessChangeDetection(),
       provideRouter(routes),
@@ -50,7 +48,6 @@ function getProductionConfig(): ApplicationConfig {
 function getDevelopmentConfig(): ApplicationConfig {
   return {
     providers: [
-      provideAnimationsAsync(),
       provideInstrumentation(),
       provideBrowserGlobalErrorListeners(),
       provideZonelessChangeDetection(),
