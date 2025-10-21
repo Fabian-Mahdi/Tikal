@@ -26,4 +26,3 @@ export class Lobbies {
     return ButtonStyle;
   }
 }
-
