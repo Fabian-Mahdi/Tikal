@@ -5,7 +5,7 @@ import { ButtonStyle } from "../components/button/button-type";
 import { injectDispatch } from "@ngrx/signals/events";
 import { activeAccountHomeEvents } from "../../features/authentication/stores/active-account/events/active-account-home-events";
 import {
-  ActiveAccountStatus,
+  AccountLoadingStatus,
   ActiveAccountStore,
 } from "../../features/authentication/stores/active-account/active-account-store";
 import { LoadingOverlay } from "../loading-overlay/loading-overlay";
@@ -20,13 +20,13 @@ import { LoadingOverlay } from "../loading-overlay/loading-overlay";
 export class Home {
   readonly ButtonStyle = ButtonStyle;
 
-  readonly ActiveAccountStatus = ActiveAccountStatus;
+  readonly AccountLoadingStatus = AccountLoadingStatus;
 
   readonly accountStore = inject(ActiveAccountStore);
 
   private readonly dispatch = injectDispatch(activeAccountHomeEvents);
 
   async onPlayOnlinePressed(): Promise<void> {
-    this.dispatch.getAccount();
+    this.dispatch.loadAccount();
   }
 }

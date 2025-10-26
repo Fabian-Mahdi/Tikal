@@ -29,7 +29,7 @@ const error = (events: Events, errorHandler: ErrorHandler): Observable<EventInst
   events.on(tokenApiEvents.error).pipe(tap((event) => errorHandler.handleError(event.payload)));
 
 const authenticated = (events: Events): Observable<EventInstance<string, void>> =>
-  events.on(tokenApiEvents.authenticated).pipe(map(() => activeAccountHomeEvents.getAccount()));
+  events.on(tokenApiEvents.authenticated).pipe(map(() => activeAccountHomeEvents.loadAccount()));
 
 const cancel = (events: Events, router: Router): Observable<EventInstance<string, void>> =>
   events.on(tokenLoginEvents.cancel).pipe(tap(() => router.navigate([{ outlets: { overlay: null } }])));

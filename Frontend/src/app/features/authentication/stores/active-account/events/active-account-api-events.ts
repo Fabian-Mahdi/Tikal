@@ -5,8 +5,13 @@ import { Account } from "../../../models/account";
 export const activeAccountApiEvents = eventGroup({
   source: "Tikal API",
   events: {
-    accountFound: type<Account>(),
+    // Create
+    accountCreated: type<Account>(),
+    duplicateAccount: type<void>(),
+    createError: type<unknown>(),
+    // Read
+    accountLoaded: type<Account>(),
     noAccount: type<void>(),
-    error: type<unknown>(),
+    loadError: type<unknown>(),
   },
 });

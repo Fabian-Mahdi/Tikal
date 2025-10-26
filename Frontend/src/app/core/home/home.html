@@ -12,6 +12,6 @@
   </div>
 </div>
 
-@if (accountStore.status() === ActiveAccountStatus.loading) {
+@if (accountStore.loadingStatus() === AccountLoadingStatus.loading) {
 <app-loading-overlay />
 }

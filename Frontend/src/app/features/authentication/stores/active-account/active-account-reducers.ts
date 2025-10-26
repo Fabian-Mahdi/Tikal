@@ -1,27 +1,60 @@
 import { on, withReducer } from "@ngrx/signals/events";
 import { activeAccountApiEvents } from "./events/active-account-api-events";
 import { activeAccountHomeEvents } from "./events/active-account-home-events";
-import { ActiveAccountStatus } from "./active-account-store";
+import { AccountCreationStatus, AccountLoadingStatus } from "./active-account-store";
 import { SignalStoreFeature, signalStoreFeature } from "@ngrx/signals";
+import { activeAccountCreateEvents } from "./events/active-account-create-events";
 
-const GetAccount = on(activeAccountHomeEvents.getAccount, () => ({
-  status: ActiveAccountStatus.loading,
+// Create
+const CreateAccount = on(activeAccountCreateEvents.createAccount, () => ({
+  creationStatus: AccountCreationStatus.loading,
 }));
 
-const AccountFound = on(activeAccountApiEvents.accountFound, ({ payload: account }) => ({
-  status: ActiveAccountStatus.success,
+const AccountCreated = on(activeAccountApiEvents.accountCreated, ({ payload: account }) => ({
+  creationStatus: AccountCreationStatus.success,
+  activeAccount: account,
+}));
+
+const DuplicateAccount = on(activeAccountApiEvents.duplicateAccount, () => ({
+  creationStatus: AccountCreationStatus.duplicateAccount,
+}));
+
+const CreationError = on(activeAccountApiEvents.createError, () => ({
+  creationStatus: AccountCreationStatus.failure,
+}));
+
+// Read
+const LoadAccount = on(activeAccountHomeEvents.loadAccount, () => ({
+  loadingStatus: AccountLoadingStatus.loading,
+}));
+
+const AccountLoaded = on(activeAccountApiEvents.accountLoaded, ({ payload: account }) => ({
+  loadingStatus: AccountLoadingStatus.success,
   activeAccount: account,
 }));
 
 const NoAccount = on(activeAccountApiEvents.noAccount, () => ({
-  status: ActiveAccountStatus.noAccount,
+  loadingStatus: AccountLoadingStatus.noAccount,
   activeAccount: null,
 }));
 
-const Error = on(activeAccountApiEvents.error, () => ({
-  status: ActiveAccountStatus.failure,
+const LoadingError = on(activeAccountApiEvents.loadError, () => ({
+  loadingStatus: AccountLoadingStatus.failure,
 }));
 
 export function withActiveAccountReducer(): SignalStoreFeature {
-  return signalStoreFeature(withReducer(GetAccount, Error, AccountFound, NoAccount));
+  return signalStoreFeature(
+    withReducer(
+      // Create
+      CreateAccount,
+      AccountCreated,
+      DuplicateAccount,
+      CreationError,
+      // Read
+      LoadAccount,
+      AccountLoaded,
+      NoAccount,
+      LoadingError,
+    ),
+  );
 }
