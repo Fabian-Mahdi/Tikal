@@ -8,6 +8,10 @@ const Login = on(tokenLoginEvents.login, () => ({
   status: TokenStatus.loading,
 }));
 
+const Cancel = on(tokenLoginEvents.cancel, () => ({
+  status: TokenStatus.initial,
+}));
+
 const Authenticated = on(tokenApiEvents.authenticated, (event) => ({
   status: TokenStatus.success,
   token: event.payload,
@@ -23,5 +27,5 @@ const Error = on(tokenApiEvents.error, () => ({
 }));
 
 export function withTokenReducer(): SignalStoreFeature {
-  return signalStoreFeature(withReducer(Login, Authenticated, AuthenticationFailed, Error));
+  return signalStoreFeature(withReducer(Login, Cancel, Authenticated, AuthenticationFailed, Error));
 }
