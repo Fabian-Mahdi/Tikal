@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
-import { Menu } from "../../../../core/menu/menu";
+import { Menu } from "../../../../core/components/menu/menu";
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Button } from "../../../../core/components/button/button";
 import { ButtonStyle } from "../../../../core/components/button/button-type";
 import { AccountCreationStatus, ActiveAccountStore } from "../../stores/active-account/active-account-store";
 import { injectDispatch } from "@ngrx/signals/events";
 import { activeAccountCreateEvents } from "../../stores/active-account/events/active-account-create-events";
-import { LoadingOverlay } from "../../../../core/loading-overlay/loading-overlay";
+import { LoadingOverlay } from "../../../../core/overlays/loading-overlay/loading-overlay";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

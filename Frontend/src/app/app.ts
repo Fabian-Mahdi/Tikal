@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { ErrorOverlay } from "./core/error-overlay/error-overlay";
+import { ErrorOverlay } from "./core/overlays/error-overlay/error-overlay";
 
 @Component({
   selector: "app-root",

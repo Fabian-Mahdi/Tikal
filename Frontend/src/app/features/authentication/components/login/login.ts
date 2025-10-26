@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, inject, signal, WritableSignal } from "@angular/core";
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { Menu } from "../../../../core/menu/menu";
+import { Menu } from "../../../../core/components/menu/menu";
 import { Button } from "../../../../core/components/button/button";
 import { ButtonStyle } from "../../../../core/components/button/button-type";
 import { TokenStatus, TokenStore } from "../../stores/token/token-store";
 import { tokenLoginEvents } from "../../stores/token/events/token-login-events";
 import { injectDispatch } from "@ngrx/signals/events";
-import { LoadingOverlay } from "../../../../core/loading-overlay/loading-overlay";
+import { LoadingOverlay } from "../../../../core/overlays/loading-overlay/loading-overlay";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

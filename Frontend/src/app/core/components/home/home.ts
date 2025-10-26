@@ -1,14 +1,14 @@
 import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { NgOptimizedImage } from "@angular/common";
-import { Button } from "../components/button/button";
-import { ButtonStyle } from "../components/button/button-type";
-import { injectDispatch } from "@ngrx/signals/events";
-import { activeAccountHomeEvents } from "../../features/authentication/stores/active-account/events/active-account-home-events";
+import { Button } from "../button/button";
+import { LoadingOverlay } from "../../overlays/loading-overlay/loading-overlay";
+import { ButtonStyle } from "../button/button-type";
 import {
   AccountLoadingStatus,
   ActiveAccountStore,
-} from "../../features/authentication/stores/active-account/active-account-store";
-import { LoadingOverlay } from "../loading-overlay/loading-overlay";
+} from "../../../features/authentication/stores/active-account/active-account-store";
+import { injectDispatch } from "@ngrx/signals/events";
+import { activeAccountHomeEvents } from "../../../features/authentication/stores/active-account/events/active-account-home-events";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

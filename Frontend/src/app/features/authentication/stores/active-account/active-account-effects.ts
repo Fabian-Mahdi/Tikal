@@ -1,7 +1,7 @@
 import { activeAccountHomeEvents } from "./events/active-account-home-events";
 import { EventInstance, Events, withEffects } from "@ngrx/signals/events";
-import { GetCurrentAccountUseCase } from "../../usecases/set-current-account/get-current-account-usecase";
-import { GetCurrentAccountError } from "../../usecases/set-current-account/get-current-account-errors";
+import { GetCurrentAccountUseCase } from "../../usecases/get-current-account/get-current-account-usecase";
+import { GetCurrentAccountError } from "../../usecases/get-current-account/get-current-account-errors";
 import { Account } from "../../models/account";
 import { Result } from "neverthrow";
 import { catchError, map, Observable, of, switchMap, tap } from "rxjs";
