@@ -22,10 +22,10 @@ const AuthenticationFailed = on(tokenApiEvents.authenticationFailed, () => ({
   token: "",
 }));
 
-const Error = on(tokenApiEvents.error, () => ({
+const LoadingError = on(tokenApiEvents.error, () => ({
   status: TokenStatus.failure,
 }));
 
 export function withTokenReducer(): SignalStoreFeature {
-  return signalStoreFeature(withReducer(Login, Cancel, Authenticated, AuthenticationFailed, Error));
+  return signalStoreFeature(withReducer(Login, Cancel, Authenticated, AuthenticationFailed, LoadingError));
 }

@@ -16,7 +16,7 @@ import { CreateAccountError } from "../../usecases/create-account/create-account
 const createAccount = (
   events: Events,
   createUserAccount: CreateAccountUseCase,
-): Observable<EventInstance<string, Account | unknown | void>> =>
+): Observable<EventInstance<string, unknown>> =>
   events.on(activeAccountCreateEvents.createAccount).pipe(
     switchMap((event) =>
       createUserAccount.call(event.payload).pipe(
@@ -35,7 +35,7 @@ const createAccount = (
 const loadAccount = (
   events: Events,
   getCurrentAccount: GetCurrentAccountUseCase,
-): Observable<EventInstance<string, Account | unknown | void>> =>
+): Observable<EventInstance<string, unknown>> =>
   events.on(activeAccountHomeEvents.loadAccount).pipe(
     switchMap(() =>
       getCurrentAccount.call().pipe(

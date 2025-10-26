@@ -10,7 +10,7 @@ import { activeAccountHomeEvents } from "../active-account/events/active-account
 import { signalStoreFeature, SignalStoreFeature } from "@ngrx/signals";
 import { Router } from "@angular/router";
 
-const login = (events: Events, loginUser: LoginUseCase): Observable<EventInstance<string, string | unknown | void>> =>
+const login = (events: Events, loginUser: LoginUseCase): Observable<EventInstance<string, unknown>> =>
   events.on(tokenLoginEvents.login).pipe(
     switchMap((event) =>
       loginUser.call(event.payload.username, event.payload.password).pipe(
