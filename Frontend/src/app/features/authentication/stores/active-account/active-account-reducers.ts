@@ -4,7 +4,7 @@ import { activeAccountHomeEvents } from "./events/active-account-home-events";
 import { ActiveAccountStatus } from "./active-account-store";
 import { SignalStoreFeature, signalStoreFeature } from "@ngrx/signals";
 
-const LoadingStarted = on(activeAccountHomeEvents.getAccount, () => ({
+const GetAccount = on(activeAccountHomeEvents.getAccount, () => ({
   status: ActiveAccountStatus.loading,
 }));
 
@@ -18,10 +18,10 @@ const NoAccount = on(activeAccountApiEvents.noAccount, () => ({
   activeAccount: null,
 }));
 
-const LoadingFailed = on(activeAccountApiEvents.loadingFailed, () => ({
+const Error = on(activeAccountApiEvents.error, () => ({
   status: ActiveAccountStatus.failure,
 }));
 
 export function withActiveAccountReducer(): SignalStoreFeature {
-  return signalStoreFeature(withReducer(LoadingStarted, LoadingFailed, AccountFound, NoAccount));
+  return signalStoreFeature(withReducer(GetAccount, Error, AccountFound, NoAccount));
 }

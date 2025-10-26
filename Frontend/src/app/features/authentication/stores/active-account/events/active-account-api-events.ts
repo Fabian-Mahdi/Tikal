@@ -7,6 +7,6 @@ export const activeAccountApiEvents = eventGroup({
   events: {
     accountFound: type<Account>(),
     noAccount: type<void>(),
-    loadingFailed: type<unknown>(),
+    error: type<unknown>(),
   },
 });

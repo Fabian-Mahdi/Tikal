@@ -5,7 +5,6 @@ import { err, Err, ok, Ok, Result } from "neverthrow";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { TokenDto } from "../../../../shared/dtos/token-dto";
 import { catchError, firstValueFrom, map, Observable, throwError } from "rxjs";
-import { TokenStore } from "../../stores/token/token-store";
 
 @Injectable({
   providedIn: "root",
@@ -15,12 +14,10 @@ export class RefreshUseCase extends UseCase<[], void, RefreshError> {
 
   private readonly httpClient: HttpClient = inject(HttpClient);
 
-  private readonly tokenStore: TokenStore = inject(TokenStore);
-
   override async inner(): Promise<Result<void, RefreshError>> {
     const request = this.httpClient.post<TokenDto>("auth:/refresh", "").pipe(
-      map((tokenDto: TokenDto) => {
-        return this.handleSuccess(tokenDto);
+      map(() => {
+        return this.handleSuccess();
       }),
       catchError((error: unknown) => {
         if (error instanceof HttpErrorResponse) {
@@ -34,9 +31,7 @@ export class RefreshUseCase extends UseCase<[], void, RefreshError> {
     return await firstValueFrom(request);
   }
 
-  private handleSuccess(tokenDto: TokenDto): Ok<void, never> {
-    this.tokenStore.AccessToken = tokenDto.accessToken;
-
+  private handleSuccess(): Ok<void, never> {
     return ok();
   }
 

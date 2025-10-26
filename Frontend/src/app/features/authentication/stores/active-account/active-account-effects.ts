@@ -23,16 +23,23 @@ const getAccount = (
           }
           return activeAccountApiEvents.noAccount();
         }),
-        catchError((error) => of(activeAccountApiEvents.loadingFailed(error))),
+        catchError((error) => of(activeAccountApiEvents.error(error))),
       ),
     ),
   );
 
-const loadingFailed = (events: Events, errorHandler: ErrorHandler): Observable<EventInstance<string, unknown>> =>
-  events.on(activeAccountApiEvents.loadingFailed).pipe(tap((event) => errorHandler.handleError(event.payload)));
+const error = (events: Events, errorHandler: ErrorHandler): Observable<EventInstance<string, unknown>> =>
+  events.on(activeAccountApiEvents.error).pipe(tap((event) => errorHandler.handleError(event.payload)));
 
 const accountFound = (events: Events, router: Router): Observable<EventInstance<string, Account>> =>
-  events.on(activeAccountApiEvents.accountFound).pipe(tap(() => router.navigate(["lobbies"])));
+  events
+    .on(activeAccountApiEvents.accountFound)
+    .pipe(tap(() => router.navigate([{ outlets: { primary: ["lobbies"], overlay: null } }])));
+
+const noAccount = (events: Events, router: Router): Observable<EventInstance<string, void>> =>
+  events
+    .on(activeAccountApiEvents.noAccount)
+    .pipe(tap(() => router.navigate([{ outlets: { overlay: "createaccount" } }])));
 
 export function withActiveAccountEffects(): SignalStoreFeature {
   return signalStoreFeature(
@@ -46,7 +53,8 @@ export function withActiveAccountEffects(): SignalStoreFeature {
       ) => ({
         getAccount: getAccount(events, getCurrentAccount),
         accountFound: accountFound(events, router),
-        loadingFailed: loadingFailed(events, errorHandler),
+        noAccount: noAccount(events, router),
+        error: error(events, errorHandler),
       }),
     ),
   );

@@ -12,8 +12,8 @@
     </div>
   </form>
   <div class="error">
-    @if (errorMessage()) {
-    <p>{{ errorMessage() }}</p>
+    @if (tokenStore.status() === TokenStatus.unauthorized) {
+    <p>Invalid username or password provided</p>
     }
   </div>
   <app-button
@@ -28,3 +28,7 @@
   <a class="link" href="#" (click)="onClosePressed()">NEW ACCOUNT</a>
   <app-button class="login-button" [style]="ButtonStyle.Error" (clicked)="onClosePressed()"> CLOSE </app-button>
 </app-menu>
+
+@if (tokenStore.status() === TokenStatus.loading) {
+<app-loading-overlay />
+}

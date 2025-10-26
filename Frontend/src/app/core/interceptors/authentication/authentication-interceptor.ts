@@ -5,7 +5,7 @@ import { TokenStore } from "../../../features/authentication/stores/token/token-
 export const authenticationInterceptor: HttpInterceptorFn = (req, next) => {
   const tokenStore = inject(TokenStore);
 
-  const accessToken = tokenStore.AccessToken;
+  const accessToken = tokenStore.token();
 
   const newReq = req.clone({
     setHeaders: {
