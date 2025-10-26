@@ -5,7 +5,7 @@ import { LoginUseCase } from "../../usecases/login/login-usecase";
 import { Menu } from "../../../../core/menu/menu";
 import { Button } from "../../../../core/components/button/button";
 import { ButtonStyle } from "../../../../core/components/button/button-type";
-import { SetCurrentAccountUseCase } from "../../usecases/set-current-account/set-current-account-usecase";
+import { GetCurrentAccountUseCase } from "../../usecases/set-current-account/get-current-account-usecase";
 import { LoadingOverlayService } from "../../../../core/loading-overlay/loading-overlay-service";
 
 @Component({
@@ -20,7 +20,7 @@ export class Login {
 
   private readonly login: LoginUseCase = inject(LoginUseCase);
 
-  private readonly setAccount: SetCurrentAccountUseCase = inject(SetCurrentAccountUseCase);
+  private readonly setAccount: GetCurrentAccountUseCase = inject(GetCurrentAccountUseCase);
 
   private readonly loadingOverlay: LoadingOverlayService = inject(LoadingOverlayService);
 
@@ -59,18 +59,6 @@ export class Login {
       this.errorMessage.set("Invalid username or password provided");
       return;
     }
-
-    const accountResult = await this.setAccount.call();
-
-    if (accountResult.isErr()) {
-      this.loadingOverlay.hideLoadingOverlay();
-      this.router.navigate([{ outlets: { overlay: "createaccount" } }]);
-      return;
-    }
-
-    this.loadingOverlay.hideLoadingOverlay();
-    this.router.navigate(["lobbies"]);
-    this.router.navigate([{ outlets: { overlay: null } }]);
   }
 
   onClosePressed(): void {

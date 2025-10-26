@@ -2,50 +2,31 @@ import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { NgOptimizedImage } from "@angular/common";
 import { Button } from "../components/button/button";
 import { ButtonStyle } from "../components/button/button-type";
-import { Router } from "@angular/router";
-import { RefreshUseCase } from "../../features/authentication/usecases/refresh/refresh-usecase";
-import { LoadingOverlayService } from "../loading-overlay/loading-overlay-service";
-import { SetCurrentAccountUseCase } from "../../features/authentication/usecases/set-current-account/set-current-account-usecase";
+import { injectDispatch } from "@ngrx/signals/events";
+import { activeAccountHomeEvents } from "../../features/authentication/stores/active-account/events/active-account-home-events";
+import {
+  ActiveAccountStatus,
+  ActiveAccountStore,
+} from "../../features/authentication/stores/active-account/active-account-store";
+import { LoadingOverlay } from "../loading-overlay/loading-overlay";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: "app-home",
-  imports: [NgOptimizedImage, Button],
+  imports: [NgOptimizedImage, Button, LoadingOverlay],
   templateUrl: "./home.html",
   styleUrl: "./home.scss",
 })
 export class Home {
-  private readonly router: Router = inject(Router);
+  readonly ButtonStyle = ButtonStyle;
 
-  private readonly refresh: RefreshUseCase = inject(RefreshUseCase);
+  readonly ActiveAccountStatus = ActiveAccountStatus;
 
-  private readonly setAccount: SetCurrentAccountUseCase = inject(SetCurrentAccountUseCase);
+  readonly accountStore = inject(ActiveAccountStore);
 
-  private readonly loadingOverlay: LoadingOverlayService = inject(LoadingOverlayService);
+  private readonly dispatch = injectDispatch(activeAccountHomeEvents);
 
   async onPlayOnlinePressed(): Promise<void> {
-    this.loadingOverlay.showLoadingOverlay();
-
-    const refreshResult = await this.refresh.call();
-
-    if (refreshResult.isErr()) {
-      this.loadingOverlay.hideLoadingOverlay();
-      this.router.navigate([{ outlets: { overlay: ["login"] } }]);
-      return;
-    }
-
-    const accountResult = await this.setAccount.call();
-
-    if (accountResult.isErr()) {
-      this.loadingOverlay.hideLoadingOverlay();
-      this.router.navigate([{ outlets: { overlay: ["createaccount"] } }]);
-      return;
-    }
-
-    this.loadingOverlay.hideLoadingOverlay();
-  }
-
-  get ButtonType(): typeof ButtonStyle {
-    return ButtonStyle;
+    this.dispatch.getAccount();
   }
 }

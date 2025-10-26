@@ -1,6 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, Signal } from "@angular/core";
-import { LoadingOverlayService } from "./loading-overlay-service";
-import { toSignal } from "@angular/core/rxjs-interop";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -9,10 +7,4 @@ import { toSignal } from "@angular/core/rxjs-interop";
   templateUrl: "./loading-overlay.html",
   styleUrl: "./loading-overlay.scss",
 })
-export class LoadingOverlay {
-  readonly loadingOverlayService: LoadingOverlayService = inject(LoadingOverlayService);
-
-  readonly showLoadingOverlay: Signal<boolean> = toSignal(this.loadingOverlayService.loadingOverlay, {
-    initialValue: false,
-  });
-}
+export class LoadingOverlay {}
