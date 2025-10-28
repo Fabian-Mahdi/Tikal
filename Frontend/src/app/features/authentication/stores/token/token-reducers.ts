@@ -3,9 +3,15 @@ import { tokenLoginEvents } from "./events/token-login-events";
 import { TokenStatus } from "./token-store";
 import { tokenApiEvents } from "./events/token-api-events";
 import { signalStoreFeature, SignalStoreFeature } from "@ngrx/signals";
+import { globalEvents } from "../../../../core/events/global-events";
 
 const Login = on(tokenLoginEvents.login, () => ({
   status: TokenStatus.loading,
+}));
+
+const Logout = on(globalEvents.logout, () => ({
+  status: TokenStatus.initial,
+  token: "",
 }));
 
 const Cancel = on(tokenLoginEvents.cancel, () => ({
@@ -27,5 +33,5 @@ const LoadingError = on(tokenApiEvents.error, () => ({
 }));
 
 export function withTokenReducer(): SignalStoreFeature {
-  return signalStoreFeature(withReducer(Login, Cancel, Authenticated, AuthenticationFailed, LoadingError));
+  return signalStoreFeature(withReducer(Login, Logout, Cancel, Authenticated, AuthenticationFailed, LoadingError));
 }

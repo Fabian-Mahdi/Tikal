@@ -4,6 +4,7 @@ import { activeAccountHomeEvents } from "./events/active-account-home-events";
 import { AccountCreationStatus, AccountLoadingStatus } from "./active-account-store";
 import { SignalStoreFeature, signalStoreFeature } from "@ngrx/signals";
 import { activeAccountCreateEvents } from "./events/active-account-create-events";
+import { globalEvents } from "../../../../core/events/global-events";
 
 // Create
 const CreateAccount = on(activeAccountCreateEvents.createAccount, () => ({
@@ -42,6 +43,11 @@ const LoadingError = on(activeAccountApiEvents.loadError, () => ({
   loadingStatus: AccountLoadingStatus.failure,
 }));
 
+const ClearAccount = on(globalEvents.logout, () => ({
+  loadingStatus: AccountLoadingStatus.initial,
+  activeAccount: null,
+}));
+
 export function withActiveAccountReducer(): SignalStoreFeature {
   return signalStoreFeature(
     withReducer(
@@ -55,6 +61,7 @@ export function withActiveAccountReducer(): SignalStoreFeature {
       AccountLoaded,
       NoAccount,
       LoadingError,
+      ClearAccount,
     ),
   );
 }
