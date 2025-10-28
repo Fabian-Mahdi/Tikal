@@ -1,24 +1,18 @@
 import { inject, Injectable } from "@angular/core";
-import { UseCase } from "../../../../core/usecase/usecase";
-import { SetCurrentAccountError } from "./set-current-account-errors";
 import { err, Err, ok, Ok, Result } from "neverthrow";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { AccountStore } from "../../stores/account/account-store";
 import { AccountDto } from "../../../../shared/dtos/account-dto";
-import { catchError, firstValueFrom, map, Observable, throwError } from "rxjs";
+import { catchError, map, Observable, throwError } from "rxjs";
 import { Account } from "../../models/account";
+import { GetCurrentAccountError } from "./get-current-account-errors";
 
 @Injectable({
   providedIn: "root",
 })
-export class SetCurrentAccountUseCase extends UseCase<[], void, SetCurrentAccountError> {
-  protected override name = "Retrieve Account";
-
+export class GetCurrentAccountUseCase {
   private readonly httpClient: HttpClient = inject(HttpClient);
 
-  private readonly accountStore: AccountStore = inject(AccountStore);
-
-  override async inner(): Promise<Result<void, SetCurrentAccountError>> {
+  call(): Observable<Result<Account, GetCurrentAccountError>> {
     const request = this.httpClient.get<AccountDto>("main:/accounts").pipe(
       map((accountDto: AccountDto) => {
         return this.handleSuccess(accountDto);
@@ -32,22 +26,20 @@ export class SetCurrentAccountUseCase extends UseCase<[], void, SetCurrentAccoun
       }),
     );
 
-    return await firstValueFrom(request);
+    return request;
   }
 
-  private handleSuccess(accountDto: AccountDto): Ok<void, never> {
+  private handleSuccess(accountDto: AccountDto): Ok<Account, never> {
     const account: Account = {
       username: accountDto.name,
     };
 
-    this.accountStore.CurrentAccount = account;
-
-    return ok();
+    return ok(account);
   }
 
-  private handleFailure(error: HttpErrorResponse): Err<never, SetCurrentAccountError> | Observable<never> {
+  private handleFailure(error: HttpErrorResponse): Err<never, GetCurrentAccountError> | Observable<never> {
     if (error.status == 404) {
-      return err(SetCurrentAccountError.NoAccount);
+      return err(GetCurrentAccountError.NoAccount);
     }
 
     return throwError(() => error);

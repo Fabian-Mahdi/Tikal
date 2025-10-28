@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Button } from "../../../../core/components/button/button";
 import { ButtonStyle } from "../../../../core/components/button/button-type";
-import { LogoutUseCase } from "../../../authentication/usecases/logout/logout-usecase";
-import { Router } from "@angular/router";
+import { Dispatcher } from "@ngrx/signals/events";
+import { globalEvents } from "../../../../core/events/global-events";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,18 +12,11 @@ import { Router } from "@angular/router";
   styleUrl: "./lobbies.scss",
 })
 export class Lobbies {
-  private readonly router: Router = inject(Router);
+  readonly ButtonStyle = ButtonStyle;
 
-  private readonly logout: LogoutUseCase = inject(LogoutUseCase);
+  private readonly dispatcher = inject(Dispatcher);
 
   async onLogoutPressed(): Promise<void> {
-    await this.logout.call();
-
-    this.router.navigate([""]);
-  }
-
-  get ButtonStyle(): typeof ButtonStyle {
-    return ButtonStyle;
+    this.dispatcher.dispatch(globalEvents.logout());
   }
 }
-

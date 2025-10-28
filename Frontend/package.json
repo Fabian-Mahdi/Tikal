@@ -14,16 +14,17 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-architects/ngrx-toolkit": "^20.4.2",
     "@angular/common": "^20.0.0",
     "@angular/compiler": "^20.0.0",
     "@angular/core": "^20.0.0",
     "@angular/forms": "^20.0.0",
     "@angular/platform-browser": "^20.0.0",
     "@angular/router": "^20.0.0",
+    "@ngrx/signals": "^20.0.1",
     "@opentelemetry/auto-instrumentations-web": "^0.49.0",
     "@opentelemetry/exporter-trace-otlp-proto": "^0.203.0",
     "@sentry/angular": "^10.5.0",
-    "@types/three": "^0.178.1",
     "neverthrow": "^8.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

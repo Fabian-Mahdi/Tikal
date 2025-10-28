@@ -1,26 +1,20 @@
 import { inject, Injectable } from "@angular/core";
-import { UseCase } from "../../../../core/usecase/usecase";
 import { RefreshError } from "./refresh-error";
 import { err, Err, ok, Ok, Result } from "neverthrow";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { TokenDto } from "../../../../shared/dtos/token-dto";
-import { catchError, firstValueFrom, map, Observable, throwError } from "rxjs";
-import { TokenStore } from "../../stores/token/token-store";
+import { catchError, map, Observable, throwError } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class RefreshUseCase extends UseCase<[], void, RefreshError> {
-  protected override name = "Refresh";
-
+export class RefreshUseCase {
   private readonly httpClient: HttpClient = inject(HttpClient);
 
-  private readonly tokenStore: TokenStore = inject(TokenStore);
-
-  override async inner(): Promise<Result<void, RefreshError>> {
-    const request = this.httpClient.post<TokenDto>("auth:/refresh", "").pipe(
-      map((tokenDto: TokenDto) => {
-        return this.handleSuccess(tokenDto);
+  call(): Observable<Result<void, RefreshError>> {
+    const request = this.httpClient.post<TokenDto>("auth:/refresh", null).pipe(
+      map(() => {
+        return this.handleSuccess();
       }),
       catchError((error: unknown) => {
         if (error instanceof HttpErrorResponse) {
@@ -31,12 +25,10 @@ export class RefreshUseCase extends UseCase<[], void, RefreshError> {
       }),
     );
 
-    return await firstValueFrom(request);
+    return request;
   }
 
-  private handleSuccess(tokenDto: TokenDto): Ok<void, never> {
-    this.tokenStore.AccessToken = tokenDto.accessToken;
-
+  private handleSuccess(): Ok<void, never> {
     return ok();
   }
 

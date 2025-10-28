@@ -1,9 +1,9 @@
 import { Routes } from "@angular/router";
-import { Background } from "./core/background/background";
-import { Home } from "./core/home/home";
+import { Background } from "./core/components/background/background";
 import { Login } from "./features/authentication/components/login/login";
 import { CreateAccount } from "./features/authentication/components/create-account/create-account";
 import { Lobbies } from "./features/lobbies/components/lobbies/lobbies";
+import { Home } from "./core/components/home/home";
 
 export const routes: Routes = [
   {

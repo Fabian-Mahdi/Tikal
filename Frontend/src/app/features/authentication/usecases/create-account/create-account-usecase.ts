@@ -1,24 +1,18 @@
 import { inject, Injectable } from "@angular/core";
-import { UseCase } from "../../../../core/usecase/usecase";
 import { CreateAccountError } from "./create-account-errors";
 import { err, Err, ok, Ok, Result } from "neverthrow";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { AccountStore } from "../../stores/account/account-store";
 import { AccountDto } from "../../../../shared/dtos/account-dto";
-import { catchError, firstValueFrom, map, Observable, throwError } from "rxjs";
+import { catchError, map, Observable, throwError } from "rxjs";
 import { Account } from "../../models/account";
 
 @Injectable({
   providedIn: "root",
 })
-export class CreateAccountUseCase extends UseCase<[string], void, CreateAccountError> {
-  protected override name = "Create Account";
-
+export class CreateAccountUseCase {
   private readonly httpClient: HttpClient = inject(HttpClient);
 
-  private readonly accountStore: AccountStore = inject(AccountStore);
-
-  override async inner(name: string): Promise<Result<void, CreateAccountError>> {
+  call(name: string): Observable<Result<Account, CreateAccountError>> {
     const createAccountDto: AccountDto = {
       name: name,
     };
@@ -36,17 +30,15 @@ export class CreateAccountUseCase extends UseCase<[string], void, CreateAccountE
       }),
     );
 
-    return await firstValueFrom(request);
+    return request;
   }
 
-  private handleSuccess(accountDto: AccountDto): Ok<void, never> {
+  private handleSuccess(accountDto: AccountDto): Ok<Account, never> {
     const account: Account = {
       username: accountDto.name,
     };
 
-    this.accountStore.CurrentAccount = account;
-
-    return ok();
+    return ok(account);
   }
 
   private handleFailure(error: HttpErrorResponse): Err<never, CreateAccountError> | Observable<never> {

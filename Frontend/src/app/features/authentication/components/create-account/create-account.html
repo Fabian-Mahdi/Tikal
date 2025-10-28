@@ -12,3 +12,7 @@
   </app-button>
   <app-button class="account-button" [style]="ButtonStyle.Error" (clicked)="onCancelPressed()"> CANCEL </app-button>
 </app-menu>
+
+@if (activeAccountStore.creationStatus() === AccountCreationStatus.loading) {
+<app-loading-overlay />
+}
