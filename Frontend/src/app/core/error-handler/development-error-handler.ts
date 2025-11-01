@@ -13,7 +13,7 @@ export class DevelopmentErrorHandler implements ErrorHandler {
 
   private handleHttpError(error: HttpErrorResponse): void {
     if (error.status == 401) {
-      this.router.navigate([{ outlets: { overlay: "login" } }]);
+      this.router.navigate([{ outlets: { overlay: "login" } }], { skipLocationChange: true });
     }
   }
 }
