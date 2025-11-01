@@ -4,6 +4,8 @@ import { Login } from "./features/authentication/components/login/login";
 import { CreateAccount } from "./features/authentication/components/create-account/create-account";
 import { Lobbies } from "./features/lobbies/components/lobbies/lobbies";
 import { Home } from "./core/components/home/home";
+import { isNotAuthenticated } from "./core/route-guards/is-not-authenticated/is-not-authenticated-guard";
+import { isAuthenticated } from "./core/route-guards/is-authenticated/is-authenticated-guard";
 
 export const routes: Routes = [
   {
@@ -17,6 +19,7 @@ export const routes: Routes = [
       {
         path: "lobbies",
         component: Lobbies,
+        canActivate: [isAuthenticated],
       },
     ],
   },
@@ -25,10 +28,12 @@ export const routes: Routes = [
     path: "login",
     component: Login,
     outlet: "overlay",
+    canActivate: [isNotAuthenticated],
   },
   {
     path: "createaccount",
     component: CreateAccount,
     outlet: "overlay",
+    canActivate: [isNotAuthenticated],
   },
 ];
