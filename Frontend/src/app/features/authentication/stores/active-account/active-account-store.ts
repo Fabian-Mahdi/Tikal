@@ -38,7 +38,7 @@ export const ActiveAccountStore = signalStore(
   withDevtools("active account"),
   withState(initialState),
   withComputed((store) => ({
-    isLoggedIn: computed(() => store.activeAccount != null),
+    isLoggedIn: computed(() => store.activeAccount() != null),
   })),
   withActiveAccountReducer(),
   withActiveAccountEffects(),
