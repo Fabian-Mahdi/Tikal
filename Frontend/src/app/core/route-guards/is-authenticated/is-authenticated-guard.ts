@@ -1,15 +1,16 @@
 import { inject } from "@angular/core";
 import { ActiveAccountStore } from "../../../features/authentication/stores/active-account/active-account-store";
-import { CanActivateFn, Router } from "@angular/router";
+import { CanActivateFn } from "@angular/router";
+import { Dispatcher } from "@ngrx/signals/events";
+import { activeAccountHomeEvents } from "../../../features/authentication/stores/active-account/events/active-account-home-events";
 
 export const isAuthenticated: CanActivateFn = (): boolean => {
   const activeAccountStore = inject(ActiveAccountStore);
-  const router = inject(Router);
+  const dispatcher = inject(Dispatcher);
 
-  if (activeAccountStore.isLoggedIn()) {
-    return true;
+  if (!activeAccountStore.isLoggedIn()) {
+    dispatcher.dispatch(activeAccountHomeEvents.loadAccount());
   }
 
-  router.navigate([""], { replaceUrl: true });
-  return false;
+  return true;
 };

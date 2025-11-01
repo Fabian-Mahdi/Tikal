@@ -36,7 +36,7 @@ const authenticated = (events: Events): Observable<EventInstance<string, void>> 
   events.on(tokenApiEvents.authenticated).pipe(map(() => activeAccountHomeEvents.loadAccount()));
 
 const cancel = (events: Events, router: Router): Observable<EventInstance<string, void>> =>
-  events.on(tokenLoginEvents.cancel).pipe(tap(() => router.navigate([{ outlets: { overlay: null } }])));
+  events.on(tokenLoginEvents.cancel).pipe(tap(() => router.navigate([{ outlets: { primary: null, overlay: null } }])));
 
 export function withTokenEffects(): SignalStoreFeature {
   return signalStoreFeature(

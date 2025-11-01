@@ -66,7 +66,9 @@ const error = (events: Events, errorHandler: ErrorHandler): Observable<EventInst
     .pipe(tap((event) => errorHandler.handleError(event.payload)));
 
 const cancel = (events: Events, router: Router): Observable<EventInstance<string, void>> =>
-  events.on(activeAccountCreateEvents.cancel).pipe(tap(() => router.navigate([{ outlets: { overlay: null } }])));
+  events
+    .on(activeAccountCreateEvents.cancel)
+    .pipe(tap(() => router.navigate([{ outlets: { primary: null, overlay: null } }])));
 
 export function withActiveAccountEffects(): SignalStoreFeature {
   return signalStoreFeature(
