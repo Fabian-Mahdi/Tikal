@@ -1,4 +1,4 @@
-import { signalStore, withComputed, withState } from "@ngrx/signals";
+import { patchState, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
 import { Account } from "../../models/account";
 import { computed } from "@angular/core";
 import { withActiveAccountReducer } from "./active-account-reducers";
@@ -39,6 +39,11 @@ export const ActiveAccountStore = signalStore(
   withState(initialState),
   withComputed((store) => ({
     isLoggedIn: computed(() => store.activeAccount() != null),
+  })),
+  withMethods((store) => ({
+    setAccount(account: Account): void {
+      patchState(store, () => ({ activeAccount: account, loadingStatus: AccountLoadingStatus.success }));
+    },
   })),
   withActiveAccountReducer(),
   withActiveAccountEffects(),

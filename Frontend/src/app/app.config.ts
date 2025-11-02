@@ -17,6 +17,7 @@ import { provideInstrumentation } from "./core/telemetry/otel-instrumentation";
 import { environment } from "../environments/environment";
 import { timeoutInterceptor } from "./core/interceptors/timeout/timeout-interceptor";
 import { DevelopmentErrorHandler } from "./core/error-handler/development-error-handler";
+import { developmentAppInitializer } from "./core/initializer/development-app-initializer";
 
 export const appConfig: ApplicationConfig = environment.is_production ? getProductionConfig() : getDevelopmentConfig();
 
@@ -60,6 +61,7 @@ function getDevelopmentConfig(): ApplicationConfig {
         provide: ErrorHandler,
         useClass: DevelopmentErrorHandler,
       },
+      provideAppInitializer(developmentAppInitializer),
     ],
   };
 }

@@ -13,4 +13,3 @@ export const isAuthenticated: CanActivateFn = () => {
   const homePath = router.parseUrl("");
   return new RedirectCommand(homePath);
 };
-
