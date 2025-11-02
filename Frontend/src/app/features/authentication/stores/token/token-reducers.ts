@@ -3,15 +3,9 @@ import { tokenLoginEvents } from "./events/token-login-events";
 import { TokenStatus } from "./token-store";
 import { tokenApiEvents } from "./events/token-api-events";
 import { signalStoreFeature, SignalStoreFeature } from "@ngrx/signals";
-import { globalEvents } from "../../../../core/events/global-events";
 
 const Login = on(tokenLoginEvents.login, () => ({
   status: TokenStatus.loading,
-}));
-
-const Logout = on(globalEvents.logout, () => ({
-  status: TokenStatus.initial,
-  token: "",
 }));
 
 const Cancel = on(tokenLoginEvents.cancel, () => ({
@@ -25,6 +19,11 @@ const Authenticated = on(tokenApiEvents.authenticated, (event) => ({
 
 const AuthenticationFailed = on(tokenApiEvents.authenticationFailed, () => ({
   status: TokenStatus.unauthorized,
+  token: "",
+}));
+
+const Logout = on(tokenApiEvents.logoutCompleted, () => ({
+  status: TokenStatus.initial,
   token: "",
 }));
 
