@@ -10,6 +10,7 @@ import { activeAccountHomeEvents } from "../active-account/events/active-account
 import { signalStoreFeature, SignalStoreFeature } from "@ngrx/signals";
 import { Router } from "@angular/router";
 import { globalEvents } from "../../../../core/events/global-events";
+import { LogoutUseCase } from "../../usecases/logout/logout-usecase";
 
 const login = (events: Events, loginUser: LoginUseCase): Observable<EventInstance<string, unknown>> =>
   events.on(tokenLoginEvents.login).pipe(
@@ -26,8 +27,22 @@ const login = (events: Events, loginUser: LoginUseCase): Observable<EventInstanc
     ),
   );
 
-const logout = (events: Events, router: Router): Observable<EventInstance<string, void>> =>
-  events.on(globalEvents.logout).pipe(tap(() => router.navigate([{ outlets: { primary: null, overlay: null } }])));
+const logout = (events: Events, logoutUser: LogoutUseCase): Observable<EventInstance<string, unknown>> =>
+  events.on(globalEvents.logout).pipe(
+    switchMap(() =>
+      logoutUser.call().pipe(
+        map(() => {
+          return tokenApiEvents.logoutCompleted();
+        }),
+        catchError((error) => of(tokenApiEvents.error(error))),
+      ),
+    ),
+  );
+
+const logoutCompleted = (events: Events, router: Router): Observable<EventInstance<string, void>> =>
+  events
+    .on(tokenApiEvents.logoutCompleted)
+    .pipe(tap(() => router.navigate([{ outlets: { primary: null, overlay: null } }])));
 
 const error = (events: Events, errorHandler: ErrorHandler): Observable<EventInstance<string, unknown>> =>
   events.on(tokenApiEvents.error).pipe(tap((event) => errorHandler.handleError(event.payload)));
@@ -46,10 +61,12 @@ export function withTokenEffects(): SignalStoreFeature {
         events = inject(Events),
         errorHandler = inject(ErrorHandler),
         loginUser = inject(LoginUseCase),
+        logoutUser = inject(LogoutUseCase),
         router = inject(Router),
       ) => ({
         login: login(events, loginUser),
-        logout: logout(events, router),
+        logout: logout(events, logoutUser),
+        logoutCompleted: logoutCompleted(events, router),
         error: error(events, errorHandler),
         authenticated: authenticated(events),
         cancel: cancel(events, router),

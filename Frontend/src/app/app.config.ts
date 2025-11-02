@@ -17,6 +17,8 @@ import { provideInstrumentation } from "./core/telemetry/otel-instrumentation";
 import { environment } from "../environments/environment";
 import { timeoutInterceptor } from "./core/interceptors/timeout/timeout-interceptor";
 import { DevelopmentErrorHandler } from "./core/error-handler/development-error-handler";
+import { developmentAppInitializer } from "./core/initializer/development-app-initializer";
+import { refreshInterceptor } from "./core/interceptors/refresh/refresh-interceptor";
 
 export const appConfig: ApplicationConfig = environment.is_production ? getProductionConfig() : getDevelopmentConfig();
 
@@ -53,13 +55,14 @@ function getDevelopmentConfig(): ApplicationConfig {
       provideZonelessChangeDetection(),
       provideRouter(routes, withViewTransitions()),
       provideHttpClient(
-        withInterceptors([authenticationInterceptor, baseUrlInterceptor, timeoutInterceptor]),
+        withInterceptors([baseUrlInterceptor, timeoutInterceptor, refreshInterceptor, authenticationInterceptor]),
         withFetch(),
       ),
       {
         provide: ErrorHandler,
         useClass: DevelopmentErrorHandler,
       },
+      provideAppInitializer(developmentAppInitializer),
     ],
   };
 }

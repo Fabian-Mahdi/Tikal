@@ -1,4 +1,4 @@
-import { signalStore, withState } from "@ngrx/signals";
+import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
 import { withTokenReducer } from "./token-reducers";
 import { withTokenEffects } from "./token-effects";
 import { withDevtools } from "@angular-architects/ngrx-toolkit";
@@ -25,6 +25,11 @@ export const TokenStore = signalStore(
   { providedIn: "root" },
   withDevtools("token"),
   withState(initialState),
+  withMethods((store) => ({
+    setToken(token: string): void {
+      patchState(store, () => ({ token: token, status: TokenStatus.success }));
+    },
+  })),
   withTokenReducer(),
   withTokenEffects(),
 );

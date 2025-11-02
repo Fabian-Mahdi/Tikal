@@ -29,6 +29,6 @@
   <app-button class="login-button" [style]="ButtonStyle.Error" (clicked)="onClosePressed()"> CLOSE </app-button>
 </app-menu>
 
-@if (tokenStore.status() === TokenStatus.loading) {
+@if (tokenStore.status() === TokenStatus.loading || accountStore.loadingStatus() === AccountLoadingStatus.loading) {
 <app-loading-overlay />
 }

@@ -11,10 +11,10 @@ import { catchError, map, Observable, throwError } from "rxjs";
 export class RefreshUseCase {
   private readonly httpClient: HttpClient = inject(HttpClient);
 
-  call(): Observable<Result<void, RefreshError>> {
+  call(): Observable<Result<string, RefreshError>> {
     const request = this.httpClient.post<TokenDto>("auth:/refresh", null).pipe(
-      map(() => {
-        return this.handleSuccess();
+      map((tokenDto: TokenDto) => {
+        return this.handleSuccess(tokenDto);
       }),
       catchError((error: unknown) => {
         if (error instanceof HttpErrorResponse) {
@@ -28,8 +28,8 @@ export class RefreshUseCase {
     return request;
   }
 
-  private handleSuccess(): Ok<void, never> {
-    return ok();
+  private handleSuccess(tokenDto: TokenDto): Ok<string, never> {
+    return ok(tokenDto.accessToken);
   }
 
   private handleFailure(error: HttpErrorResponse): Err<never, RefreshError> | Observable<never> {

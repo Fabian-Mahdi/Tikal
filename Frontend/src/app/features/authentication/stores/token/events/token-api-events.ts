@@ -7,5 +7,6 @@ export const tokenApiEvents = eventGroup({
     authenticated: type<string>(),
     authenticationFailed: type<void>(),
     error: type<unknown>(),
+    logoutCompleted: type<void>(),
   },
 });
