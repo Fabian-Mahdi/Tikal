@@ -14,9 +14,7 @@ if (environment.is_production) {
     // Tracing
     tracesSampleRate: 1, //  Capture 100% of the transactions
     // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
-    tracePropagationTargets: ["auth.tikalonline.com"],
-    // Enable sending logs to Sentry
-    enableLogs: true,
+    tracePropagationTargets: ["auth.tikalonline.com", "backend.tikalonline.com"],
   });
 }
 

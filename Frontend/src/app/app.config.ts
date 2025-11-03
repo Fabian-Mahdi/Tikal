@@ -1,7 +1,6 @@
 import {
   ApplicationConfig,
   ErrorHandler,
-  inject,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
@@ -19,6 +18,9 @@ import { timeoutInterceptor } from "./core/interceptors/timeout/timeout-intercep
 import { DevelopmentErrorHandler } from "./core/error-handler/development-error-handler";
 import { developmentAppInitializer } from "./core/initializer/development-app-initializer";
 import { refreshInterceptor } from "./core/interceptors/refresh/refresh-interceptor";
+import { ProductionErroHandler } from "./core/error-handler/production-error-handler";
+import { productionAppInitializer } from "./core/initializer/production-app-initializer";
+import { sentryInterceptor } from "./core/interceptors/sentry/sentry-interceptor";
 
 export const appConfig: ApplicationConfig = environment.is_production ? getProductionConfig() : getDevelopmentConfig();
 
@@ -27,22 +29,26 @@ function getProductionConfig(): ApplicationConfig {
     providers: [
       provideBrowserGlobalErrorListeners(),
       provideZonelessChangeDetection(),
-      provideRouter(routes),
+      provideRouter(routes, withViewTransitions()),
       provideHttpClient(
-        withInterceptors([baseUrlInterceptor, authenticationInterceptor, timeoutInterceptor]),
+        withInterceptors([
+          baseUrlInterceptor,
+          sentryInterceptor,
+          timeoutInterceptor,
+          refreshInterceptor,
+          authenticationInterceptor,
+        ]),
         withFetch(),
       ),
       {
         provide: ErrorHandler,
-        useValue: Sentry.createErrorHandler(),
+        useClass: ProductionErroHandler,
       },
       {
         provide: Sentry.TraceService,
         deps: [Router],
       },
-      provideAppInitializer(() => {
-        inject(Sentry.TraceService);
-      }),
+      provideAppInitializer(productionAppInitializer),
     ],
   };
 }
