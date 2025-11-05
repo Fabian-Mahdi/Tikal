@@ -5,9 +5,10 @@ import { catchError, Observable, switchMap, throwError } from "rxjs";
 import { TokenStore } from "../../../features/authentication/stores/token/token-store";
 import { Result } from "neverthrow";
 import { RefreshError } from "../../../features/authentication/usecases/refresh/refresh-error";
+import { environment } from "../../../../environments/environment";
 
 export const refreshInterceptor: HttpInterceptorFn = (req, next) => {
-  if (req.url.endsWith("refresh")) {
+  if (req.url.startsWith(environment.apis.auth)) {
     return next(req);
   }
 
