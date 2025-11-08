@@ -20,7 +20,6 @@ import { developmentAppInitializer } from "./core/initializer/development-app-in
 import { refreshInterceptor } from "./core/interceptors/refresh/refresh-interceptor";
 import { ProductionErroHandler } from "./core/error-handler/production-error-handler";
 import { productionAppInitializer } from "./core/initializer/production-app-initializer";
-import { sentryInterceptor } from "./core/interceptors/sentry/sentry-interceptor";
 
 export const appConfig: ApplicationConfig = environment.is_production ? getProductionConfig() : getDevelopmentConfig();
 
@@ -31,13 +30,7 @@ function getProductionConfig(): ApplicationConfig {
       provideZonelessChangeDetection(),
       provideRouter(routes, withViewTransitions()),
       provideHttpClient(
-        withInterceptors([
-          baseUrlInterceptor,
-          sentryInterceptor,
-          timeoutInterceptor,
-          refreshInterceptor,
-          authenticationInterceptor,
-        ]),
+        withInterceptors([baseUrlInterceptor, timeoutInterceptor, refreshInterceptor, authenticationInterceptor]),
         withFetch(),
       ),
       {

@@ -25,4 +25,3 @@ export const productionAppInitializer = (): Observable<unknown> | Promise<unknow
     ),
   );
 };
-
