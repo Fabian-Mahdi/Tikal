@@ -13,10 +13,7 @@ body {
   overflow: hidden;
 }
 
-h1 {
-  font-family: "Heading";
-}
-
+// Fonts
 @font-face {
   font-family: "Main";
   src: url("/fonts/main.ttf") format("truetype");
@@ -25,18 +22,49 @@ h1 {
 }
 
 @font-face {
-  font-family: "Heading";
-  src: url("/fonts/heading.ttf") format("truetype");
+  font-family: "Menu-Heading";
+  src: url("/fonts/menu-heading.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Page-Heading";
+  src: url("/fonts/page-heading.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 // Global styles
 
+// Page
+.page-header {
+  color: colors.$header-text;
+
+  border-bottom: 1px solid;
+  border-image: linear-gradient(to right, colors.$header-text, transparent 50%);
+  border-image-slice: 1;
+
+  background: linear-gradient(
+    to right,
+    colors.$header-gradient-start,
+    colors.$header-gradient-end 30%,
+    transparent 50%
+  );
+
+  font-size: 2rem;
+  font-family: "Page-Heading", sans-serif;
+
+  margin: 0;
+  padding: 1.5rem 0 1.5rem 2rem;
+}
+
 // Menu
 .menu-header {
   color: colors.$header-text;
+
   font-size: 2rem;
+  font-family: "Menu-Heading", sans-serif;
 
   margin-bottom: 0;
 }
