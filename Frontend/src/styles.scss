@@ -53,7 +53,7 @@ body {
   );
 
   font-size: 2rem;
-  font-family: "Page-Heading";
+  font-family: "Page-Heading", sans-serif;
 
   margin: 0;
   padding: 1.5rem 0 1.5rem 2rem;
@@ -64,7 +64,7 @@ body {
   color: colors.$header-text;
 
   font-size: 2rem;
-  font-family: "Menu-Heading";
+  font-family: "Menu-Heading", sans-serif;
 
   margin-bottom: 0;
 }
