@@ -13,10 +13,6 @@ body {
   overflow: hidden;
 }
 
-h1 {
-  font-family: "Heading";
-}
-
 @font-face {
   font-family: "Main";
   src: url("/fonts/main.ttf") format("truetype");
@@ -25,8 +21,8 @@ h1 {
 }
 
 @font-face {
-  font-family: "Heading";
-  src: url("/fonts/heading.ttf") format("truetype");
+  font-family: "Menu-Heading";
+  src: url("/fonts/menu-heading.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -36,7 +32,9 @@ h1 {
 // Menu
 .menu-header {
   color: colors.$header-text;
+
   font-size: 2rem;
+  font-family: "Menu-Heading";
 
   margin-bottom: 0;
 }
