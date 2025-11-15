@@ -28,7 +28,11 @@ export default function config(config) {
     coverageReporter: {
       dir: path.join(__dirname, "./coverage/frontend"),
       subdir: ".",
-      reporters: [{ type: "html" }, { type: "text-summary" }],
+      reporters: [
+        { type: "html" },
+        { type: "lcov" },
+        { type: "text-summary" }
+      ],
     },
     reporters: ["progress", "kjhtml"],
     browsers: ["Firefox"],
