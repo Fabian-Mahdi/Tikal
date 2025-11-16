@@ -1,23 +1,27 @@
 import { TestBed } from "@angular/core/testing";
-import { TokenStatus, TokenStore } from "../../../features/authentication/stores/token/token-store";
-import { provideZonelessChangeDetection, signal } from "@angular/core";
+import { TokenStore } from "../../../features/authentication/stores/token/token-store";
+import { provideZonelessChangeDetection, signal, WritableSignal } from "@angular/core";
 import { HttpClient, provideHttpClient, withInterceptors } from "@angular/common/http";
 import { authenticationInterceptor } from "./authentication-interceptor";
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { firstValueFrom } from "rxjs";
 
 describe("authenticationInterceptor", () => {
+  // data
   const testUrl = "testing";
 
-  const tokenStore = {
-    token: signal("token"),
-    status: signal(TokenStatus.success),
-  };
+  // dependencies
+  let tokenStore: { token: WritableSignal<string> };
 
+  // under test
   let httpClient: HttpClient;
   let httpTesting: HttpTestingController;
 
   beforeEach(() => {
+    tokenStore = {
+      token: signal("token"),
+    };
+
     TestBed.configureTestingModule({
       providers: [
         provideZonelessChangeDetection(),
