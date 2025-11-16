@@ -112,6 +112,8 @@ describe("refreshInterceptor", () => {
     req.flush("", unauthorizedResponse);
 
     httpTesting.expectOne(mainUrl);
+
+    expect().nothing();
   });
 
   it("should throw the original error if refresh is unsuccessfull", () => {
