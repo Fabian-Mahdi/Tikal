@@ -21,12 +21,8 @@ export class CreateAccountUseCase {
       map((accountDto: AccountDto) => {
         return this.handleSuccess(accountDto);
       }),
-      catchError((error: unknown) => {
-        if (error instanceof HttpErrorResponse) {
-          return this.handleFailure(error);
-        }
-
-        return throwError(() => error);
+      catchError((error: HttpErrorResponse) => {
+        return this.handleFailure(error);
       }),
     );
 
