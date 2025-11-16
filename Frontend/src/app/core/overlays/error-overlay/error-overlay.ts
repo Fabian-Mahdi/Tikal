@@ -12,6 +12,8 @@ import { ButtonStyle } from "../../components/button/button-type";
   styleUrl: "./error-overlay.scss",
 })
 export class ErrorOverlay {
+  readonly ButtonStyle = ButtonStyle;
+
   private readonly errorOverlayService: ErrorOverlayService = inject(ErrorOverlayService);
 
   readonly showErrorOverlay: Signal<boolean> = toSignal(this.errorOverlayService.errorOverlay, { initialValue: false });
@@ -20,9 +22,5 @@ export class ErrorOverlay {
 
   closePressed(): void {
     this.errorOverlayService.hideErrorOverlay();
-  }
-
-  get ButtonStyle(): typeof ButtonStyle {
-    return ButtonStyle;
   }
 }
