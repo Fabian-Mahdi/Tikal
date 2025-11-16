@@ -1,5 +1,3 @@
 {
-  "cSpell.words": ["devcontainers", "Tikal"],
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "coverage-gutters.lcovname": "coverage/frontend/lcov.info"
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
