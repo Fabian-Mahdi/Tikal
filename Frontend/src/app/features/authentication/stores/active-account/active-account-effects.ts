@@ -24,7 +24,6 @@ const createAccount = (
           if (result.isOk()) {
             return activeAccountApiEvents.accountCreated(result.value);
           }
-
           return activeAccountApiEvents.duplicateAccount();
         }),
         catchError((error) => of(activeAccountApiEvents.createError(error))),
