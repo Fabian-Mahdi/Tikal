@@ -4,16 +4,16 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <UserSecretsId>69c7f24e-5a5f-43c2-828c-0ab9dc8307e3</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.2"/>
-        <PackageReference Include="Aspire.Hosting.NodeJs" Version="9.4.2"/>
-        <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.4.2"/>
+        <PackageReference Include="Aspire.Hosting.AppHost" Version="13.0.0"/>
+        <PackageReference Include="Aspire.Hosting.NodeJs" Version="9.5.2"/>
+        <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
