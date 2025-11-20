@@ -9,7 +9,9 @@ import { ButtonStyle } from "./button-type";
   styleUrl: "./button.scss",
 })
 export class Button {
-  readonly style = input.required<ButtonStyle>();
+  readonly ButtonStyle = ButtonStyle;
+
+  readonly style = input<ButtonStyle>(ButtonStyle.Primary);
 
   readonly disabled = input<boolean>(false);
 
@@ -21,9 +23,5 @@ export class Button {
 
   onClicked(): void {
     this.clicked.emit();
-  }
-
-  get ButtonStyle(): typeof ButtonStyle {
-    return ButtonStyle;
   }
 }

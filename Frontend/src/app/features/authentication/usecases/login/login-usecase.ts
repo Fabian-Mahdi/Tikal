@@ -22,12 +22,8 @@ export class LoginUseCase {
       map((tokenDto: TokenDto) => {
         return this.handleSucces(tokenDto);
       }),
-      catchError((error: unknown) => {
-        if (error instanceof HttpErrorResponse) {
-          return this.handleFailure(error);
-        }
-
-        return throwError(() => error);
+      catchError((error: HttpErrorResponse) => {
+        return this.handleFailure(error);
       }),
     );
 

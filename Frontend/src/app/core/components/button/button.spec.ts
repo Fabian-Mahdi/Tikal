@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { Button } from "./button";
 import { provideZonelessChangeDetection } from "@angular/core";
 import { ButtonStyle } from "./button-type";
+import { By } from "@angular/platform-browser";
 
 describe("Button", () => {
   let component: Button;
@@ -22,5 +22,16 @@ describe("Button", () => {
 
   it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  it("should emit clicked event when clicked", () => {
+    let emitted = false;
+    component.clicked.subscribe(() => (emitted = true));
+
+    const buttonElement = fixture.debugElement.query(By.css("button"));
+
+    buttonElement.triggerEventHandler("click");
+
+    expect(emitted).toBeTrue();
   });
 });

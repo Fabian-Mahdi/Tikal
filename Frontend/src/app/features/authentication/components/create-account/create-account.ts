@@ -7,6 +7,7 @@ import { AccountCreationStatus, ActiveAccountStore } from "../../stores/active-a
 import { injectDispatch } from "@ngrx/signals/events";
 import { activeAccountCreateEvents } from "../../stores/active-account/events/active-account-create-events";
 import { LoadingOverlay } from "../../../../core/overlays/loading-overlay/loading-overlay";
+import { Router } from "@angular/router";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,6 +22,8 @@ export class CreateAccount {
   readonly AccountCreationStatus = AccountCreationStatus;
 
   readonly activeAccountStore = inject(ActiveAccountStore);
+
+  private readonly router = inject(Router);
 
   private readonly dispatch = injectDispatch(activeAccountCreateEvents);
 
@@ -42,6 +45,6 @@ export class CreateAccount {
   }
 
   onCancelPressed(): void {
-    this.dispatch.cancel();
+    this.router.navigate([{ outlets: { overlay: null } }]);
   }
 }

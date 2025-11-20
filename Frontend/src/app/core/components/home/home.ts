@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { NgOptimizedImage } from "@angular/common";
 import { Button } from "../button/button";
 import { LoadingOverlay } from "../../overlays/loading-overlay/loading-overlay";
-import { ButtonStyle } from "../button/button-type";
 import {
   AccountLoadingStatus,
   ActiveAccountStore,
@@ -18,15 +17,13 @@ import { activeAccountHomeEvents } from "../../../features/authentication/stores
   styleUrl: "./home.scss",
 })
 export class Home {
-  readonly ButtonStyle = ButtonStyle;
-
   readonly AccountLoadingStatus = AccountLoadingStatus;
 
   readonly accountStore = inject(ActiveAccountStore);
 
   private readonly dispatch = injectDispatch(activeAccountHomeEvents);
 
-  async onPlayOnlinePressed(): Promise<void> {
+  onPlayOnlinePressed(): void {
     this.dispatch.loadAccount();
   }
 }

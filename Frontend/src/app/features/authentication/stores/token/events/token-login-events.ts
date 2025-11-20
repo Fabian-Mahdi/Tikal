@@ -5,6 +5,5 @@ export const tokenLoginEvents = eventGroup({
   source: "Login Page",
   events: {
     login: type<{ username: string; password: string }>(),
-    cancel: type<void>(),
   },
 });
