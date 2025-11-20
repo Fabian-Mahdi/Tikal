@@ -64,9 +64,6 @@ const error = (events: Events, errorHandler: ErrorHandler): Observable<EventInst
     .on(activeAccountApiEvents.loadError, activeAccountApiEvents.createError)
     .pipe(tap((event) => errorHandler.handleError(event.payload)));
 
-const cancel = (events: Events, router: Router): Observable<EventInstance<string, void>> =>
-  events.on(activeAccountCreateEvents.cancel).pipe(tap(() => router.navigate([{ outlets: { overlay: null } }])));
-
 export function withActiveAccountEffects(): SignalStoreFeature {
   return signalStoreFeature(
     withEffects(
@@ -83,7 +80,6 @@ export function withActiveAccountEffects(): SignalStoreFeature {
         accountSet: accountSet(events, router),
         noAccount: noAccount(events, router),
         error: error(events, errorHandler),
-        cancel: cancel(events, router),
       }),
     ),
   );

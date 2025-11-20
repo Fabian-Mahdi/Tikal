@@ -8,6 +8,7 @@ import { tokenLoginEvents } from "../../stores/token/events/token-login-events";
 import { injectDispatch } from "@ngrx/signals/events";
 import { LoadingOverlay } from "../../../../core/overlays/loading-overlay/loading-overlay";
 import { AccountLoadingStatus, ActiveAccountStore } from "../../stores/active-account/active-account-store";
+import { Router } from "@angular/router";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,6 +27,8 @@ export class Login {
   readonly tokenStore = inject(TokenStore);
 
   readonly accountStore = inject(ActiveAccountStore);
+
+  private readonly router = inject(Router);
 
   private readonly dispatch = injectDispatch(tokenLoginEvents);
 
@@ -58,7 +61,7 @@ export class Login {
   }
 
   onClosePressed(): void {
-    this.dispatch.cancel();
+    this.router.navigate([{ outlets: { overlay: null } }]);
   }
 
   get password(): FormControl<string> {
