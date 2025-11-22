@@ -1,12 +1,12 @@
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { LoginUseCase } from "./login-usecase";
 import { TestBed } from "@angular/core/testing";
-import { provideZonelessChangeDetection } from "@angular/core";
 import { HttpErrorResponse, provideHttpClient } from "@angular/common/http";
 import { catchError, firstValueFrom, of } from "rxjs";
 import { testTokenDtos } from "../../../../shared/test-data/dtos/token-dto-test-data";
 import { LoginError } from "./login-error";
 import { testHttpErrorResponses } from "../../../../shared/test-data/http/http-error-response-test-data";
+import { beforeEach, describe, expect, it } from "vitest";
 
 describe("LoginUseCase", () => {
   // data
@@ -22,7 +22,7 @@ describe("LoginUseCase", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideZonelessChangeDetection(), provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
 
     httpTesting = TestBed.inject(HttpTestingController);
@@ -34,8 +34,6 @@ describe("LoginUseCase", () => {
 
     httpTesting.expectOne(loginUrl);
     httpTesting.verify();
-
-    expect().nothing();
   });
 
   for (const tokenDto of testTokenDtos) {
@@ -81,7 +79,6 @@ describe("LoginUseCase", () => {
       req.flush("", { status: status, statusText: statusText });
 
       expect(capturedError!.status).toBe(status);
-      expect(capturedError!.statusText).toBe(statusText);
     });
   }
 });

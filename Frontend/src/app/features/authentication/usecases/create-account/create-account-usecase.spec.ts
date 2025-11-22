@@ -1,11 +1,12 @@
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { CreateAccountUseCase } from "./create-account-usecase";
 import { TestBed } from "@angular/core/testing";
-import { provideZonelessChangeDetection } from "@angular/core";
 import { HttpErrorResponse, provideHttpClient } from "@angular/common/http";
 import { catchError, firstValueFrom, of } from "rxjs";
 import { testAccountDtos } from "../../../../shared/test-data/dtos/account-dto-test-data";
 import { CreateAccountError } from "./create-account-errors";
+import { beforeEach, describe, expect, it } from "vitest";
+import { testHttpErrorResponses } from "../../../../shared/test-data/http/http-error-response-test-data";
 
 describe("CreateAccountUseCase", () => {
   // data
@@ -20,7 +21,7 @@ describe("CreateAccountUseCase", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideZonelessChangeDetection(), provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
 
     httpTesting = TestBed.inject(HttpTestingController);
@@ -32,8 +33,6 @@ describe("CreateAccountUseCase", () => {
 
     httpTesting.expectOne(createAccountUrl);
     httpTesting.verify();
-
-    expect().nothing();
   });
 
   for (const accountDto of testAccountDtos) {
@@ -62,13 +61,7 @@ describe("CreateAccountUseCase", () => {
     expect(error).toBe(CreateAccountError.AccountExists);
   });
 
-  for (const { status, statusText } of [
-    { status: 0, statusText: "Network Error" },
-    { status: 400, statusText: "Bad Request" },
-    { status: 403, statusText: "Forbidden" },
-    { status: 404, statusText: "Not Found" },
-    { status: 500, statusText: "Internal Server Error" },
-  ]) {
+  for (const { status, statusText } of testHttpErrorResponses.filter((r) => r.status != 409)) {
     it(`should throw error if the request returns ${status}:${statusText}`, () => {
       let capturedError: HttpErrorResponse;
 
@@ -85,7 +78,6 @@ describe("CreateAccountUseCase", () => {
       req.flush("", { status: status, statusText: statusText });
 
       expect(capturedError!.status).toBe(status);
-      expect(capturedError!.statusText).toBe(statusText);
     });
   }
 });

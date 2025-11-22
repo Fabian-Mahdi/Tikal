@@ -5,10 +5,8 @@ import { GetCurrentAccountUseCase } from "../../features/authentication/usecases
 import { Result } from "neverthrow";
 import { Account } from "../../features/authentication/models/account";
 import { GetCurrentAccountError } from "../../features/authentication/usecases/get-current-account/get-current-account-errors";
-import { TraceService } from "@sentry/angular";
 
-export const productionAppInitializer = (): Observable<unknown> | Promise<unknown> => {
-  inject(TraceService);
+export const appInitializer = (): Observable<unknown> | Promise<unknown> => {
   const activeAccountStore = inject(ActiveAccountStore);
   const getAccount = inject(GetCurrentAccountUseCase);
 

@@ -1,4 +1,4 @@
-import { ErrorHandler, provideZonelessChangeDetection } from "@angular/core";
+import { ErrorHandler } from "@angular/core";
 import { GetCurrentAccountUseCase } from "../../usecases/get-current-account/get-current-account-usecase";
 import { CreateAccountUseCase } from "../../usecases/create-account/create-account-usecase";
 import { TestBed } from "@angular/core/testing";
@@ -13,24 +13,36 @@ import { errorTestData } from "../../../../shared/test-data/misc/error-test-data
 import { activeAccountHomeEvents } from "./events/active-account-home-events";
 import { GetCurrentAccountError } from "../../usecases/get-current-account/get-current-account-errors";
 import { globalEvents } from "../../../../core/events/global-events";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+class MockErrorHandler {
+  handleError = vi.fn();
+}
+
+class MockGetCurrentAccountUseCase {
+  call = vi.fn();
+}
+
+class MockCreateAccountUseCase {
+  call = vi.fn();
+}
 
 describe("ActiveAccountStore", () => {
   // dependencies
-  let errorHandler: jasmine.SpyObj<ErrorHandler>;
-  let getCurrentAccountUseCase: jasmine.SpyObj<GetCurrentAccountUseCase>;
-  let createAccountUseCase: jasmine.SpyObj<CreateAccountUseCase>;
+  let errorHandler: MockErrorHandler;
+  let getCurrentAccountUseCase: MockGetCurrentAccountUseCase;
+  let createAccountUseCase: MockCreateAccountUseCase;
 
   // under test
   let dispatch: Dispatcher;
 
   beforeEach(() => {
-    errorHandler = jasmine.createSpyObj("ErrorHandler", ["handleError"]);
-    getCurrentAccountUseCase = jasmine.createSpyObj("GetCurrentAccountUseCase", ["call"]);
-    createAccountUseCase = jasmine.createSpyObj("CreateAccountUseCase", ["call"]);
+    errorHandler = new MockErrorHandler();
+    getCurrentAccountUseCase = new MockGetCurrentAccountUseCase();
+    createAccountUseCase = new MockCreateAccountUseCase();
 
     TestBed.configureTestingModule({
       providers: [
-        provideZonelessChangeDetection(),
         {
           provide: ErrorHandler,
           useValue: errorHandler,
@@ -52,18 +64,19 @@ describe("ActiveAccountStore", () => {
   for (const account of accountTestData) {
     it("[CreateAccountEvent] should call createAccountUseCase", () => {
       TestBed.inject(ActiveAccountStore);
-      createAccountUseCase.call.withArgs(account.username).and.returnValue(of(ok(account)));
+      createAccountUseCase.call.mockReturnValue(of(ok(account)));
 
       dispatch.dispatch(activeAccountCreateEvents.createAccount(account.username));
 
-      expect(createAccountUseCase.call.calls.count()).toBe(1);
+      expect(createAccountUseCase.call.mock.calls.length).toBe(1);
+      expect(createAccountUseCase.call).toHaveBeenCalledWith(account.username);
     });
   }
 
   for (const account of accountTestData) {
     it("[CreateAccountEvent] should set the expected account if createAccountUseCase succeeds", () => {
       const store = TestBed.inject(ActiveAccountStore);
-      createAccountUseCase.call.withArgs(account.username).and.returnValue(of(ok(account)));
+      createAccountUseCase.call.mockReturnValue(of(ok(account)));
 
       dispatch.dispatch(activeAccountCreateEvents.createAccount(account.username));
 
@@ -75,7 +88,7 @@ describe("ActiveAccountStore", () => {
   for (const account of accountTestData) {
     it("[CreateAccountEvent] should set AccountCreationError if createAccountUseCase fails", () => {
       const store = TestBed.inject(ActiveAccountStore);
-      createAccountUseCase.call.withArgs(account.username).and.returnValue(of(err(CreateAccountError.AccountExists)));
+      createAccountUseCase.call.mockReturnValue(of(err(CreateAccountError.AccountExists)));
 
       dispatch.dispatch(activeAccountCreateEvents.createAccount(account.username));
 
@@ -86,31 +99,32 @@ describe("ActiveAccountStore", () => {
   for (const error of errorTestData) {
     it("[CreateAccountEvent] should call errorHandler if createAccountUseCase throws", () => {
       const store = TestBed.inject(ActiveAccountStore);
-      createAccountUseCase.call.and.returnValue(throwError(() => error));
-      errorHandler.handleError.withArgs(error);
+      createAccountUseCase.call.mockReturnValue(throwError(() => error));
 
       dispatch.dispatch(activeAccountCreateEvents.createAccount("name"));
 
       expect(store.creationStatus()).toBe(AccountCreationStatus.failure);
-      expect(errorHandler.handleError.calls.count()).toBe(1);
+      expect(errorHandler.handleError.mock.calls.length).toBe(1);
+      expect(errorHandler.handleError).toHaveBeenCalledWith(error);
     });
   }
 
   for (const account of accountTestData) {
     it("[LoadAccountEvent] should call getCurrentAccountUseCase", () => {
       TestBed.inject(ActiveAccountStore);
-      getCurrentAccountUseCase.call.withArgs().and.returnValue(of(ok(account)));
+      getCurrentAccountUseCase.call.mockReturnValue(of(ok(account)));
 
       dispatch.dispatch(activeAccountHomeEvents.loadAccount());
 
-      expect(getCurrentAccountUseCase.call.calls.count()).toBe(1);
+      expect(getCurrentAccountUseCase.call.mock.calls.length).toBe(1);
+      expect(getCurrentAccountUseCase.call).toHaveBeenCalledWith();
     });
   }
 
   for (const account of accountTestData) {
     it("[LoadAccountEvent] should set the expected account if getCurrentAccountUseCase succeeds", () => {
       const store = TestBed.inject(ActiveAccountStore);
-      getCurrentAccountUseCase.call.withArgs().and.returnValue(of(ok(account)));
+      getCurrentAccountUseCase.call.mockReturnValue(of(ok(account)));
 
       dispatch.dispatch(activeAccountHomeEvents.loadAccount());
 
@@ -121,7 +135,7 @@ describe("ActiveAccountStore", () => {
 
   it("[LoadAccountEvent] should set AccountLoadingError if getCurrentAccountUseCase fails", () => {
     const store = TestBed.inject(ActiveAccountStore);
-    getCurrentAccountUseCase.call.withArgs().and.returnValue(of(err(GetCurrentAccountError.NoAccount)));
+    getCurrentAccountUseCase.call.mockReturnValue(of(err(GetCurrentAccountError.NoAccount)));
 
     dispatch.dispatch(activeAccountHomeEvents.loadAccount());
 
@@ -131,13 +145,13 @@ describe("ActiveAccountStore", () => {
   for (const error of errorTestData) {
     it("[LoadAccountEvent] should call errorHandler if getCurrentAcountUseCase throws", () => {
       const store = TestBed.inject(ActiveAccountStore);
-      getCurrentAccountUseCase.call.withArgs().and.returnValue(throwError(() => error));
-      errorHandler.handleError.withArgs(error);
+      getCurrentAccountUseCase.call.mockReturnValue(throwError(() => error));
 
       dispatch.dispatch(activeAccountHomeEvents.loadAccount());
 
       expect(store.loadingStatus()).toBe(AccountLoadingStatus.failure);
-      expect(errorHandler.handleError.calls.count()).toBe(1);
+      expect(errorHandler.handleError.mock.calls.length).toBe(1);
+      expect(errorHandler.handleError).toBeCalledWith(error);
     });
   }
 
@@ -147,14 +161,14 @@ describe("ActiveAccountStore", () => {
 
       store.setAccount(account);
 
-      expect(store.isLoggedIn()).toBeTrue();
+      expect(store.isLoggedIn()).toBe(true);
     });
   }
 
   it("should return false for IsLoggedIn when account is not set", () => {
     const store = TestBed.inject(ActiveAccountStore);
 
-    expect(store.isLoggedIn()).toBeFalse();
+    expect(store.isLoggedIn()).toBe(false);
   });
 
   for (const account of accountTestData) {

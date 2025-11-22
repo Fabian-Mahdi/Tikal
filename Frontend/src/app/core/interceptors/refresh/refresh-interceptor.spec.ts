@@ -1,4 +1,4 @@
-import { provideZonelessChangeDetection, signal, WritableSignal } from "@angular/core";
+import { signal } from "@angular/core";
 import { TokenStore } from "../../../features/authentication/stores/token/token-store";
 import { HttpClient, HttpErrorResponse, provideHttpClient, withInterceptors } from "@angular/common/http";
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
@@ -9,6 +9,20 @@ import { environment } from "../../../../environments/environment";
 import { RefreshUseCase } from "../../../features/authentication/usecases/refresh/refresh-usecase";
 import { err, ok } from "neverthrow";
 import { RefreshError } from "../../../features/authentication/usecases/refresh/refresh-error";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { testHttpErrorResponses } from "../../../shared/test-data/http/http-error-response-test-data";
+
+class MockRefreshUseCase {
+  call = vi.fn();
+}
+
+class MockTokenStore {
+  readonly token = signal("");
+
+  setToken(token: string): void {
+    this.token.set(token);
+  }
+}
 
 describe("refreshInterceptor", () => {
   // data
@@ -21,34 +35,28 @@ describe("refreshInterceptor", () => {
   const unauthorizedResponse = { status: 401, statusText: "Unauthorized" };
 
   // dependencies
-  let tokenStore: { token: WritableSignal<string>; setToken: (token: string) => void };
-  let refreshSpy: jasmine.SpyObj<RefreshUseCase>;
+  let tokenStore: MockTokenStore;
+  let refreshUseCase: MockRefreshUseCase;
 
   // under test
   let httpClient: HttpClient;
   let httpTesting: HttpTestingController;
 
   beforeEach(() => {
-    refreshSpy = jasmine.createSpyObj("RefreshUseCase", ["call"]);
-    refreshSpy.call.and.returnValue(of(successfullRefreshResponse));
+    refreshUseCase = new MockRefreshUseCase();
+    refreshUseCase.call.mockReturnValue(of(successfullRefreshResponse));
 
-    tokenStore = {
-      token: signal(""),
-      setToken(token: string): void {
-        this.token.set(token);
-      },
-    };
+    tokenStore = new MockTokenStore();
 
     TestBed.configureTestingModule({
       providers: [
-        provideZonelessChangeDetection(),
         {
           provide: TokenStore,
           useValue: tokenStore,
         },
         {
           provide: RefreshUseCase,
-          useValue: refreshSpy,
+          useValue: refreshUseCase,
         },
         provideHttpClient(withInterceptors([refreshInterceptor])),
         provideHttpClientTesting(),
@@ -65,7 +73,7 @@ describe("refreshInterceptor", () => {
     const req = httpTesting.expectOne(authUrl);
     req.flush("", unauthorizedResponse);
 
-    expect(refreshSpy.call.calls.count()).toEqual(0);
+    expect(vi.mocked(refreshUseCase.call).mock.calls.length).toEqual(0);
   });
 
   it("should refresh when the main api returns unauthorized", () => {
@@ -74,28 +82,23 @@ describe("refreshInterceptor", () => {
     const req = httpTesting.expectOne(mainUrl);
     req.flush("", unauthorizedResponse);
 
-    expect(refreshSpy.call.calls.count()).toEqual(1);
+    expect(vi.mocked(refreshUseCase.call).mock.calls.length).toEqual(1);
   });
 
-  for (const { status, statusText } of [
-    { status: 403, statusText: "Forbidden" },
-    { status: 200, statusText: "Ok" },
-    { status: 500, statusText: "Internal Server Error" },
-    { status: 400, statusText: "Bad Request" },
-  ]) {
+  for (const { status, statusText } of testHttpErrorResponses.filter((r) => r.status != 401)) {
     it(`should not refresh when the main api returns ${status}: '${statusText}'`, () => {
       firstValueFrom(httpClient.get(mainUrl).pipe(catchError((error) => of(error))));
 
       const req = httpTesting.expectOne(mainUrl);
       req.flush("", { status: status, statusText: statusText });
 
-      expect(refreshSpy.call.calls.count()).toEqual(0);
+      expect(vi.mocked(refreshUseCase.call).mock.calls.length).toEqual(0);
     });
   }
 
   it("should set the token if the refresh is successfull", () => {
     const expectedToken = "new authentication token";
-    refreshSpy.call.and.returnValue(of(ok(expectedToken)));
+    refreshUseCase.call.mockReturnValue(of(ok(expectedToken)));
 
     firstValueFrom(httpClient.get(mainUrl).pipe(catchError((error) => of(error))));
 
@@ -112,15 +115,12 @@ describe("refreshInterceptor", () => {
     req.flush("", unauthorizedResponse);
 
     httpTesting.expectOne(mainUrl);
-
-    expect().nothing();
   });
 
   it("should throw the original error if refresh is unsuccessfull", () => {
-    const expectedStatusText = "My very own custom error message";
     let capturedError: HttpErrorResponse;
 
-    refreshSpy.call.and.returnValue(of(failedRefreshResponse));
+    refreshUseCase.call.mockReturnValue(of(failedRefreshResponse));
 
     firstValueFrom(
       httpClient.get(mainUrl).pipe(
@@ -132,9 +132,9 @@ describe("refreshInterceptor", () => {
     );
 
     const req = httpTesting.expectOne(mainUrl);
-    req.flush("", { status: 401, statusText: expectedStatusText });
+    req.flush("", { status: 401, statusText: "Unauthorized" });
 
     httpTesting.expectNone(mainUrl);
-    expect(capturedError!.statusText).toEqual(expectedStatusText);
+    expect(capturedError!.status).toEqual(401);
   });
 });

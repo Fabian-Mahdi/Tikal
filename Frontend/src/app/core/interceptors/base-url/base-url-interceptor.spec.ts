@@ -1,10 +1,10 @@
 import { HttpClient, provideHttpClient, withInterceptors } from "@angular/common/http";
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
-import { provideZonelessChangeDetection } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { baseUrlInterceptor } from "./base-url-interceptor";
 import { firstValueFrom } from "rxjs";
 import { environment } from "../../../../environments/environment";
+import { beforeEach, describe, expect, it } from "vitest";
 
 describe("baseUrlInterceptor", () => {
   // under test
@@ -13,11 +13,7 @@ describe("baseUrlInterceptor", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideZonelessChangeDetection(),
-        provideHttpClient(withInterceptors([baseUrlInterceptor])),
-        provideHttpClientTesting(),
-      ],
+      providers: [provideHttpClient(withInterceptors([baseUrlInterceptor])), provideHttpClientTesting()],
     });
 
     httpClient = TestBed.inject(HttpClient);
