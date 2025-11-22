@@ -6,11 +6,19 @@ import { RouterTestingHarness } from "@angular/router/testing";
 import { ActiveAccountStore } from "../../../features/authentication/stores/active-account/active-account-store";
 import { beforeEach, describe, expect, it } from "vitest";
 
-@Component({ changeDetection: ChangeDetectionStrategy.OnPush, template: "<h1>Protected Page</h1>" })
+@Component({
+  selector: "app-protected-component",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: "<h1>Protected Page</h1>",
+})
 class ProtectedComponent {}
 
-@Component({ changeDetection: ChangeDetectionStrategy.OnPush, template: "<h1>Home</h1>" })
-class HomeComponent {}
+@Component({
+  selector: "app-unprotected-component",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: "<h1>Home</h1>",
+})
+class UnprotectedComponent {}
 
 class MockActiveAccountStore {
   readonly isLoggedIn = signal(true);
@@ -38,7 +46,7 @@ describe("isAuthenticated guard", () => {
         },
         provideRouter([
           { path: protectedRoute, component: ProtectedComponent, canActivate: [isAuthenticated] },
-          { path: "", component: HomeComponent },
+          { path: "", component: UnprotectedComponent },
         ]),
       ],
     });
