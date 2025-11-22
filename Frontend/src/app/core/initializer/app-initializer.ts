@@ -6,7 +6,7 @@ import { Result } from "neverthrow";
 import { Account } from "../../features/authentication/models/account";
 import { GetCurrentAccountError } from "../../features/authentication/usecases/get-current-account/get-current-account-errors";
 
-export const developmentAppInitializer = (): Observable<unknown> | Promise<unknown> => {
+export const appInitializer = (): Observable<unknown> | Promise<unknown> => {
   const activeAccountStore = inject(ActiveAccountStore);
   const getAccount = inject(GetCurrentAccountUseCase);
 

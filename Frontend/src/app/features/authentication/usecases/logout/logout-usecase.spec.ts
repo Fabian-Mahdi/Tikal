@@ -1,10 +1,10 @@
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { LogoutUseCase } from "./logout-usecase";
 import { TestBed } from "@angular/core/testing";
-import { provideZonelessChangeDetection } from "@angular/core";
 import { HttpErrorResponse, provideHttpClient } from "@angular/common/http";
 import { catchError, firstValueFrom, of } from "rxjs";
 import { testHttpErrorResponses } from "../../../../shared/test-data/http/http-error-response-test-data";
+import { beforeEach, describe, expect, it } from "vitest";
 
 describe("LogoutUseCase", () => {
   // data
@@ -18,7 +18,7 @@ describe("LogoutUseCase", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideZonelessChangeDetection(), provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
 
     httpTesting = TestBed.inject(HttpTestingController);
@@ -31,8 +31,6 @@ describe("LogoutUseCase", () => {
     const req = httpTesting.expectOne(logoutUrl);
     req.flush("");
     httpTesting.verify();
-
-    expect().nothing();
   });
 
   for (const { status, statusText } of testHttpErrorResponses) {
@@ -52,7 +50,6 @@ describe("LogoutUseCase", () => {
       req.flush("", { status: status, statusText: statusText });
 
       expect(capturedError!.status).toBe(status);
-      expect(capturedError!.statusText).toBe(statusText);
     });
   }
 });

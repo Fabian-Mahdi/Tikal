@@ -1,15 +1,10 @@
-import {
-  Component,
-  provideZonelessChangeDetection,
-  signal,
-  WritableSignal,
-  ChangeDetectionStrategy,
-} from "@angular/core";
+import { Component, provideZonelessChangeDetection, signal, ChangeDetectionStrategy } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { provideRouter } from "@angular/router";
 import { isAuthenticated } from "./is-authenticated-guard";
 import { RouterTestingHarness } from "@angular/router/testing";
 import { ActiveAccountStore } from "../../../features/authentication/stores/active-account/active-account-store";
+import { beforeEach, describe, expect, it } from "vitest";
 
 @Component({ changeDetection: ChangeDetectionStrategy.OnPush, template: "<h1>Protected Page</h1>" })
 class ProtectedComponent {}
@@ -17,20 +12,22 @@ class ProtectedComponent {}
 @Component({ changeDetection: ChangeDetectionStrategy.OnPush, template: "<h1>Home</h1>" })
 class HomeComponent {}
 
+class MockActiveAccountStore {
+  readonly isLoggedIn = signal(true);
+}
+
 describe("isAuthenticated guard", () => {
   // data
   const protectedRoute = "protected";
 
   // dependencies
-  let activeAccountStore: { isLoggedIn: WritableSignal<boolean> };
+  let activeAccountStore: MockActiveAccountStore;
 
   // under test
   let harness: RouterTestingHarness;
 
   beforeEach(async () => {
-    activeAccountStore = {
-      isLoggedIn: signal(true),
-    };
+    activeAccountStore = new MockActiveAccountStore();
 
     TestBed.configureTestingModule({
       providers: [

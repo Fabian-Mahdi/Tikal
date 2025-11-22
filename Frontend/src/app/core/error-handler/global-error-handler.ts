@@ -2,7 +2,7 @@ import { ErrorHandler, inject } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Router } from "@angular/router";
 
-export class DevelopmentErrorHandler implements ErrorHandler {
+export class GlobalErrorHandler implements ErrorHandler {
   private readonly router: Router = inject(Router);
 
   handleError(error: unknown): void {

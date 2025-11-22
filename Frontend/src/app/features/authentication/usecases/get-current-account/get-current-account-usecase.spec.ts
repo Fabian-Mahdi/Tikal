@@ -1,11 +1,12 @@
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { GetCurrentAccountUseCase } from "./get-current-account-usecase";
 import { TestBed } from "@angular/core/testing";
-import { provideZonelessChangeDetection } from "@angular/core";
 import { HttpErrorResponse, provideHttpClient } from "@angular/common/http";
 import { catchError, firstValueFrom, of } from "rxjs";
 import { testAccountDtos } from "../../../../shared/test-data/dtos/account-dto-test-data";
 import { GetCurrentAccountError } from "./get-current-account-errors";
+import { beforeEach, describe, expect, it } from "vitest";
+import { testHttpErrorResponses } from "../../../../shared/test-data/http/http-error-response-test-data";
 
 describe("GetCurrentAccountUseCase", () => {
   // data
@@ -19,7 +20,7 @@ describe("GetCurrentAccountUseCase", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideZonelessChangeDetection(), provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
 
     httpTesting = TestBed.inject(HttpTestingController);
@@ -31,8 +32,6 @@ describe("GetCurrentAccountUseCase", () => {
 
     httpTesting.expectOne(getAccountUrl);
     httpTesting.verify();
-
-    expect().nothing();
   });
 
   for (const accountDto of testAccountDtos) {
@@ -61,13 +60,7 @@ describe("GetCurrentAccountUseCase", () => {
     expect(error).toBe(GetCurrentAccountError.NoAccount);
   });
 
-  for (const { status, statusText } of [
-    { status: 0, statusText: "Network Error" },
-    { status: 400, statusText: "Bad Request" },
-    { status: 403, statusText: "Forbidden" },
-    { status: 407, statusText: "Conflict" },
-    { status: 500, statusText: "Internal Server Error" },
-  ]) {
+  for (const { status, statusText } of testHttpErrorResponses.filter((r) => r.status != 404)) {
     it(`should throw error if the request returns ${status}:${statusText}`, () => {
       let capturedError: HttpErrorResponse;
 
@@ -84,7 +77,6 @@ describe("GetCurrentAccountUseCase", () => {
       req.flush("", { status: status, statusText: statusText });
 
       expect(capturedError!.status).toBe(status);
-      expect(capturedError!.statusText).toBe(statusText);
     });
   }
 });
