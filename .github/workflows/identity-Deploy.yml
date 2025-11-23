@@ -19,7 +19,7 @@ jobs:
     runs-on: tikal-azure-runner
     strategy:
       matrix:
-        dotnet-version: ["9.0.X"]
+        dotnet-version: ["10.0.X"]
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:

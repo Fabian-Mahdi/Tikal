@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        dotnet-version: ["9.0.X"]
+        dotnet-version: ["10.0.X"]
         project:
           [
             "Tikal/Tikal.App",
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        dotnet-version: ["9.0.X"]
+        dotnet-version: ["10.0.X"]
         project: ["Tikal.Application.Tests", "Tikal.Domain.Tests"]
       fail-fast: false
     steps:
@@ -90,7 +90,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        dotnet-version: ["9.0.X"]
+        dotnet-version: ["10.0.X"]
         project: ["Tikal.Integration"]
       fail-fast: false
     steps:
@@ -149,10 +149,10 @@ jobs:
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
 
-      - name: Setup dotnet 9.0.X
+      - name: Setup dotnet 10.0.X
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.X
+          dotnet-version: 10.0.X
           cache: true
           cache-dependency-path: ./Tikal.Tests/Tikal.Integration/packages.lock.json
 
