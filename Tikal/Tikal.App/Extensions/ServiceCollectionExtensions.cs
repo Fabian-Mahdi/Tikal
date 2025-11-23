@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Trace;
-using Sentry.OpenTelemetry;
 using Tikal.App.Configuration;
 using Tikal.Application;
 using Tikal.Application.Accounts.DataAccess;
@@ -21,7 +20,7 @@ namespace Tikal.App.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddDevOpenTelemetry(this IServiceCollection services)
+    public static void ConfigureOpenTelemetry(this IServiceCollection services)
     {
         services.AddOpenTelemetry()
             .WithTracing(tracing =>
@@ -151,18 +150,6 @@ public static class ServiceCollectionExtensions
                 $"Password={options.Password};"
             );
         });
-    }
-
-    public static void AddProdOpenTelemetry(this IServiceCollection services)
-    {
-        services.AddOpenTelemetry()
-            .WithTracing(tracing =>
-            {
-                tracing
-                    .AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    .AddSentry();
-            });
     }
 
     public static void AddDevMediatr(this IServiceCollection services)

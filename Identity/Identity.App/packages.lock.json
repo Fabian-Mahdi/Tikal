@@ -104,32 +104,6 @@
           "OpenTelemetry.Api.ProviderBuilderExtensions": "[1.12.0, 2.0.0)"
         }
       },
-      "Sentry": {
-        "type": "Direct",
-        "requested": "[5.15.1, )",
-        "resolved": "5.15.1",
-        "contentHash": "x3FZzvgn9u1Oa41qzGzfOIUvNCcYmDPHT+2LKYa09SxQE7mnhRVYt5UOWr6B9zi7n/RltnVh6X6zgZZKn5PoLw=="
-      },
-      "Sentry.AspNetCore": {
-        "type": "Direct",
-        "requested": "[5.15.1, )",
-        "resolved": "5.15.1",
-        "contentHash": "plUR+4QeRkel+oBCKpakf8hC7VyWYSaOC1zjALLGZKJquN/X7JElQcacl4bX5pTVsZ/UdO7gj+adqHUcCI8chg==",
-        "dependencies": {
-          "Microsoft.Extensions.Configuration.Binder": "9.0.0",
-          "Sentry.Extensions.Logging": "5.15.1"
-        }
-      },
-      "Sentry.OpenTelemetry": {
-        "type": "Direct",
-        "requested": "[5.15.1, )",
-        "resolved": "5.15.1",
-        "contentHash": "mlaH29pV+7PfBGx4SSMIygncDAFsvQZnBd61XSUB454qQTtvXxpti0aBW1nG6SKIcZV2/3zXBsngYos6w6Q14A==",
-        "dependencies": {
-          "OpenTelemetry": "1.6.0",
-          "Sentry": "5.15.1"
-        }
-      },
       "Azure.Core": {
         "type": "Transitive",
         "resolved": "1.47.3",
@@ -510,16 +484,6 @@
         "resolved": "9.0.9",
         "contentHash": "fNGvKct2De8ghm0Bpfq0iWthtzIWabgOTi+gJhNOPhNJIowXNEUE2eZNW/zNCzrHVA3PXg2yZ+3cWZndC2IqYA=="
       },
-      "Microsoft.Extensions.Diagnostics": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "0CF9ZrNw5RAlRfbZuVIvzzhP8QeWqHiUmMBU/2H7Nmit8/vwP3/SbHeEctth7D4Gz2fBnEbokPc1NU8/j/1ZLw==",
-        "dependencies": {
-          "Microsoft.Extensions.Configuration": "9.0.0",
-          "Microsoft.Extensions.Diagnostics.Abstractions": "9.0.0",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "9.0.0"
-        }
-      },
       "Microsoft.Extensions.Diagnostics.Abstractions": {
         "type": "Transitive",
         "resolved": "9.0.0",
@@ -547,19 +511,6 @@
           "Microsoft.Extensions.Diagnostics.Abstractions": "9.0.0",
           "Microsoft.Extensions.FileProviders.Abstractions": "9.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "9.0.0"
-        }
-      },
-      "Microsoft.Extensions.Http": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "DqI4q54U4hH7bIAq9M5a/hl5Odr/KBAoaZ0dcT4OgutD8dook34CbkvAfAIzkMVjYXiL+E5ul9etwwqiX4PHGw==",
-        "dependencies": {
-          "Microsoft.Extensions.Configuration.Abstractions": "9.0.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
-          "Microsoft.Extensions.Diagnostics": "9.0.0",
-          "Microsoft.Extensions.Logging": "9.0.0",
-          "Microsoft.Extensions.Logging.Abstractions": "9.0.0",
-          "Microsoft.Extensions.Options": "9.0.0"
         }
       },
       "Microsoft.Extensions.Identity.Core": {
@@ -782,17 +733,6 @@
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
           "OpenTelemetry.Api": "1.12.0"
-        }
-      },
-      "Sentry.Extensions.Logging": {
-        "type": "Transitive",
-        "resolved": "5.15.1",
-        "contentHash": "u+KbD5qaxZ2AR6ptUSX0ulzL4wcd3uuDvOBXOK5JzoWwdO6b5EXyqm89SHC0YWR7/IS/TbWA3YgiZIQatrqmWA==",
-        "dependencies": {
-          "Microsoft.Extensions.Configuration.Binder": "9.0.0",
-          "Microsoft.Extensions.Http": "9.0.0",
-          "Microsoft.Extensions.Logging.Configuration": "9.0.0",
-          "Sentry": "5.15.1"
         }
       },
       "System.Buffers": {
