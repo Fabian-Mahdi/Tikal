@@ -19,6 +19,15 @@ locals {
   tikal_backend_address_pool_name = "${var.global_prefix}-${local.gateway_prefix}-tikal-backend-address-pool"
   tikal_routing_rule_name         = "${var.global_prefix}-${local.gateway_prefix}-tikal-api-routing_rule"
   tikal_http_listener_name        = "${var.global_prefix}-${local.gateway_prefix}-tikal-api-http-listener"
+
+  otel_http_frontend_port_name    = "${var.global_prefix}-${local.gateway_prefix}-otel-http"
+  otel_http_listener_name         = "${var.global_prefix}-${local.gateway_prefix}-otel-http-listener"
+  otel_http_routing_rule_name     = "${var.global_prefix}-${local.gateway_prefix}-otel-http-routing_rule"
+  otel_backend_http_settings_name = "${var.global_prefix}-${local.gateway_prefix}-otel_backend-http-settings"
+
+  otel_backend_address_pool_name = "${var.global_prefix}-${local.gateway_prefix}-otel-backend-address-pool"
+
+  otel_probe_name = "${var.global_prefix}-${local.gateway_prefix}-otel_probe"
 }
 
 resource "azurerm_subnet" "application-gateway" {
@@ -99,6 +108,11 @@ resource "azurerm_application_gateway" "this" {
     port = 443
   }
 
+  frontend_port {
+    name = local.otel_http_frontend_port_name
+    port = 4318
+  }
+
   frontend_ip_configuration {
     name                 = local.frontend_ip_configuration_name
     public_ip_address_id = azurerm_public_ip.application-gateway.id
@@ -114,6 +128,20 @@ resource "azurerm_application_gateway" "this" {
     pick_host_name_from_backend_http_settings = true
     match {
       body        = "Healthy"
+      status_code = [200]
+    }
+  }
+
+  probe {
+    name                                      = local.otel_probe_name
+    protocol                                  = "Http"
+    path                                      = "/health/status"
+    interval                                  = 240
+    timeout                                   = 30
+    unhealthy_threshold                       = 3
+    pick_host_name_from_backend_http_settings = true
+    port                                      = 13133
+    match {
       status_code = [200]
     }
   }
@@ -197,5 +225,38 @@ resource "azurerm_application_gateway" "this" {
   backend_address_pool {
     name  = local.tikal_backend_address_pool_name
     fqdns = [azurerm_linux_web_app.tikal-backend.default_hostname]
+  }
+
+  # opentelemetry collector
+  backend_http_settings {
+    name                                = local.otel_backend_http_settings_name
+    cookie_based_affinity               = "Disabled"
+    port                                = 4318
+    protocol                            = "Http"
+    probe_name                          = local.otel_probe_name
+    pick_host_name_from_backend_address = true
+  }
+
+  http_listener {
+    name                           = local.otel_http_listener_name
+    frontend_ip_configuration_name = local.frontend_ip_configuration_name
+    frontend_port_name             = local.otel_http_frontend_port_name
+    protocol                       = "Https"
+    ssl_certificate_name           = local.certificate_name
+    host_name                      = "otel.${var.domain_name}"
+  }
+
+  request_routing_rule {
+    name                       = local.otel_http_routing_rule_name
+    priority                   = 6
+    rule_type                  = "Basic"
+    http_listener_name         = local.otel_http_listener_name
+    backend_address_pool_name  = local.otel_backend_address_pool_name
+    backend_http_settings_name = local.otel_backend_http_settings_name
+  }
+
+  backend_address_pool {
+    name         = local.otel_backend_address_pool_name
+    ip_addresses = [azurerm_container_group.otel-containergroup.ip_address]
   }
 }

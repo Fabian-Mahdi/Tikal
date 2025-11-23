@@ -38,3 +38,11 @@ resource "azurerm_dns_a_record" "application_gateway_backend" {
   ttl                 = 300
   records             = [azurerm_public_ip.application-gateway.ip_address]
 }
+
+resource "azurerm_dns_a_record" "application_gateway_otel" {
+  name                = "otel"
+  zone_name           = azurerm_dns_zone.dns_public.name
+  resource_group_name = azurerm_resource_group.current.name
+  ttl                 = 300
+  records             = [azurerm_public_ip.application-gateway.ip_address]
+}
