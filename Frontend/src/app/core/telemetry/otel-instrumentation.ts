@@ -30,7 +30,9 @@ export function provideInstrumentation(): EnvironmentProviders {
         getWebAutoInstrumentations({
           "@opentelemetry/instrumentation-document-load": {},
           "@opentelemetry/instrumentation-user-interaction": { enabled: false },
-          "@opentelemetry/instrumentation-fetch": {},
+          "@opentelemetry/instrumentation-fetch": {
+            propagateTraceHeaderCorsUrls: "https://*.tikalonline.com",
+          },
           "@opentelemetry/instrumentation-xml-http-request": {},
         }),
       ],
