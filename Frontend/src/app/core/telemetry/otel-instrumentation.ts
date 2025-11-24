@@ -31,7 +31,7 @@ export function provideInstrumentation(): EnvironmentProviders {
           "@opentelemetry/instrumentation-document-load": {},
           "@opentelemetry/instrumentation-user-interaction": { enabled: false },
           "@opentelemetry/instrumentation-fetch": {
-            propagateTraceHeaderCorsUrls: "https://*.tikalonline.com",
+            propagateTraceHeaderCorsUrls: /.*/,
           },
           "@opentelemetry/instrumentation-xml-http-request": {},
         }),
