@@ -52,8 +52,8 @@ resource "azurerm_container_group" "otel-containergroup" {
     name  = "otel-collector"
     image = "otel/opentelemetry-collector-contrib"
 
-    cpu    = "0.5"
-    memory = "1.5"
+    cpu    = "0.2"
+    memory = "0.5"
 
     ports {
       port     = 4317
