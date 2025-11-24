@@ -4,6 +4,7 @@ locals {
       subject = "CN=${var.domain_name}"
       alternative_dns_names = [
         "auth.${var.domain_name}",
+        "otel.${var.domain_name}",
         "backend.${var.domain_name}",
         "www.${var.domain_name}"
       ]

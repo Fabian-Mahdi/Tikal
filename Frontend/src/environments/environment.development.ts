@@ -4,4 +4,5 @@ export const environment = {
     auth: "http://localhost:4200/api/auth",
     main: "http://localhost:4200/api/main",
   },
+  otel_url: `${globalThis.origin}/v1/traces`,
 };

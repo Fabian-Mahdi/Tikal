@@ -72,3 +72,18 @@ variable "mediatr_license" {
   type        = string
   description = "The currently active license for the mediatr library"
 }
+
+variable "grafana_cloud_instance_id" {
+  type        = string
+  description = "The instance id for the grafana cloud account used to ingest exported otel"
+}
+
+variable "grafana_cloud_api_key" {
+  type        = string
+  description = "The api key for the grafana cloud account used to ingest exported otel"
+}
+
+variable "grafana_cloud_otlp_endpoint" {
+  type        = string
+  description = "The endpoint to which otel should be exported"
+}

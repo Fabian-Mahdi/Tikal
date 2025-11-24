@@ -6,17 +6,18 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 import { getWebAutoInstrumentations } from "@opentelemetry/auto-instrumentations-web";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
+import { environment } from "../../../environments/environment";
 
 export function provideInstrumentation(): EnvironmentProviders {
   return provideAppInitializer(() => {
     const provider = new WebTracerProvider({
       resource: resourceFromAttributes({
-        [ATTR_SERVICE_NAME]: "Frontend",
+        [ATTR_SERVICE_NAME]: "Tikal-Frontend",
       }),
       spanProcessors: [
         new BatchSpanProcessor(
           new OTLPTraceExporter({
-            url: `${globalThis.origin}/v1/traces`,
+            url: environment.otel_url,
           }),
         ),
       ],
@@ -29,7 +30,9 @@ export function provideInstrumentation(): EnvironmentProviders {
         getWebAutoInstrumentations({
           "@opentelemetry/instrumentation-document-load": {},
           "@opentelemetry/instrumentation-user-interaction": { enabled: false },
-          "@opentelemetry/instrumentation-fetch": {},
+          "@opentelemetry/instrumentation-fetch": {
+            propagateTraceHeaderCorsUrls: /.*/,
+          },
           "@opentelemetry/instrumentation-xml-http-request": {},
         }),
       ],

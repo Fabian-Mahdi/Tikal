@@ -1,6 +1,6 @@
 namespace Identity.Integration.Core;
 
-public class IntegrationTestFixture : TestContainerFixture
+public abstract class IntegrationTestFixture : TestContainerFixture
 {
     private CustomWebApplicationFactory factory;
 

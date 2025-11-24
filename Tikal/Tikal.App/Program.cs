@@ -24,15 +24,7 @@ builder.Services.AddHttpLogging(logging =>
     logging.CombineLogs = true;
 });
 
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddDevOpenTelemetry();
-}
-else
-{
-    builder.WebHost.AddSentry();
-    builder.Services.AddProdOpenTelemetry();
-}
+builder.Services.ConfigureOpenTelemetry();
 
 // Database
 if (builder.Environment.IsDevelopment())
