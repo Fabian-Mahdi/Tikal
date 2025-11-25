@@ -37,7 +37,7 @@ jobs:
         run: npm ci
 
       - name: Apply linter
-        run: npm run lint
+        run: npm run verify
 
   test:
     name: Unit tests
@@ -66,6 +66,13 @@ jobs:
       - name: Run unit tests
         run: npm run test:ci
 
+      - name: Upload unit test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-coverage
+          path: Frontend/coverage/Frontend/lcov.info
+        if: ${{ always() }}
+
   sonarqube:
     name: SonarQube scan
     needs: test
@@ -74,6 +81,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - uses: actions/download-artifact@v5
+        with:
+          Path: Frontend/TestResults
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
         with:
