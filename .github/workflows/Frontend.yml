@@ -2,7 +2,6 @@ name: Frontend
 on:
   push:
     paths:
-      - .github/**
       - Frontend/**
     branches:
       - master
@@ -38,7 +37,7 @@ jobs:
         run: npm ci
 
       - name: Apply linter
-        run: npm run lint
+        run: npm run verify
 
   test:
     name: Unit tests
