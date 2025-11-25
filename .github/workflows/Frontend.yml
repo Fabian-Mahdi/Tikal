@@ -2,6 +2,7 @@ name: Frontend
 on:
   push:
     paths:
+      - .github/**
       - Frontend/**
     branches:
       - master
@@ -65,6 +66,13 @@ jobs:
 
       - name: Run unit tests
         run: npm run test:ci
+
+      - name: Upload unit test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-coverage
+          path: Frontend/coverage/Frontend/lcov.info
+        if: ${{ always() }}
 
   sonarqube:
     name: SonarQube scan
